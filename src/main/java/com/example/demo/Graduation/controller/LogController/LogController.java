@@ -34,6 +34,7 @@ public class LogController {
     @RequestMapping(value = "/detailslog")
     public String detailslog(Model model, @Param("id") String id) {
         LogEntity logEntity = logService.IdFindLog(id);
+        System.out.println("aaaaa");
         model.addAttribute("loglist", logEntity);
         return "SysLog/detailslog";
     }
