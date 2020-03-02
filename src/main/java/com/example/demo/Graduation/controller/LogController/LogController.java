@@ -36,6 +36,7 @@ public class LogController {
         LogEntity logEntity = logService.IdFindLog(id);
         System.out.println("aaaaa");
         System.out.println("bbbbb");
+        System.out.println("ccccc");
         model.addAttribute("loglist", logEntity);
         return "SysLog/detailslog";
     }
