@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.MenuDao.MenuDao">
+    <resultMap id="menus" type="com.example.demo.Graduation.entity.MenuEntity.MenuEntity">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="parent_id" column="parent_id" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="permission" column="permission" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <association property="userRole" javaType="com.example.demo.Graduation.entity.UserRole.UserRole">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="userid" column="userid" jdbcType="VARCHAR"/>
+            <result property="roleid" column="roleid" jdbcType="VARCHAR"/>
+            <result property="createtime" column="createtime" jdbcType="DATE"/>
+            <result property="updatetime" column="updatetime"/>
+        </association>
+        <association property="roleEntity" javaType="com.example.demo.Graduation.entity.RoleEntity.RoleEntity">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="createtime" column="createtime" jdbcType="DATE"/>
+            <result property="updatetime" column="updatetime" jdbcType="DATE"/>
+        </association>
+        <association property="userEntity" javaType="com.example.demo.Graduation.entity.UserEntity.UserEntity">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+        </association>
+    </resultMap>
+    <!--查询一级菜单-->
+    <select resultMap="menus" id="FindMenusType1">
+        <if test="rolename=='超级管理员'">
+            SELECT * FROM sys_resources WHERE type='1'
+        </if>
+        <if test="rolename!='超级管理员'">
+            SELECT r.* FROM sys_resources as r
+            JOIN sys_user_resources as sr
+            on sr.resources=r.id
+            JOIN sys_user as u
+            ON u.id=sr.userid
+            WHERE r.type='1' AND sr.userid=#{userid}
+        </if>
+    </select>
+    <!--查询二级菜单-->
+    <select resultMap="menus" id="FindMenusParentId">
+            SELECT r.* FROM sys_resources as r
+            JOIN sys_user_resources as ur
+            on ur.resources=r.id
+            JOIN sys_user as u
+            on u.id=ur.userid
+            WHERE u.username=#{username} and r.type='2'
+    </select>
+    <!--根据用户名查询用户菜单的权限-->
+    <select resultMap="menus" id="UserNameFindPerssiom">
+        <if test="rolename=='超级管理员'">
+            SELECT * FROM sys_resources
+        </if>
+        <if test="rolename!='超级管理员'">
+            SELECT r.* FROM sys_resources as r
+            JOIN sys_user_resources as sr
+            on sr.resources=r.id
+            JOIN sys_user as u
+            ON u.id=sr.userid
+            WHERE u.username=#{username}
+        </if>
+    </select>
+    <!--查询三级菜单-->
+    <select resultMap="menus" id="RoleUsernameFindButton">
+  SELECT r.* FROM sys_resources as r
+            JOIN sys_user_resources as ur
+            on ur.resources=r.id
+            JOIN sys_user as u
+            on u.id=ur.userid
+            WHERE u.username=#{username} AND r.type='3'  AND r.parent_id=#{id}
+    </select>
+
+    <!--根据二级菜单的名字，查询二级菜单的ID-->
+    <select id="Menu2NameFindID" resultMap="menus">
+    SELECT * FROM sys_resources WHERE name=#{name}
+    </select>
+
+</mapper>

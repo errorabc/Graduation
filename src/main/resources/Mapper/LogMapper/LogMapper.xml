@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.LogDao.LogDao">
+    <resultMap id="logmap" type="com.example.demo.Graduation.entity.LogEntity.LogEntity">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="operation" column="operation" jdbcType="VARCHAR"/>
+        <result property="time" column="time" jdbcType="INTEGER"/>
+        <result property="method" column="method" jdbcType="VARCHAR"/>
+        <result property="params" column="params" jdbcType="VARCHAR"/>
+        <result property="ip" column="ip" jdbcType="VARCHAR"/>
+        <result property="create_time" column="create_time" jdbcType="DATE"/>
+    </resultMap>
+
+    <!--添加日志记录-->
+    <insert id="saveSysLog">
+     INSERT INTO  sys_log VALUES(#{id},#{username},#{operation},#{time},#{method},#{params},#{ip},#{create_time})
+    </insert>
+
+    <!--查询出所有的日志记录-->
+    <select id="FindAllSysLog" resultMap="logmap">
+      SELECT * FROM sys_log ORDER BY create_time DESC
+    </select>
+
+    <!--根据查询条件查询日志信息-->
+    <select id="FindSysLog" resultMap="logmap">
+        SELECT * FROM sys_log
+        <where>
+            <if test="starttime!=null and starttime!=''">
+                and create_time>=#{starttime}
+            </if>
+            <if test="endtime!=null and endtime!=''">
+                and create_time&lt;=#{endtime}    <!--&lt;等于<-->
+            </if>
+            <if test="username!=null and username!=''">
+                and username=#{username}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+    <!--根据id查询日志信息-->
+    <select id="IdFindLog" resultMap="logmap">
+        SELECT * FROM sys_log WHERE id=#{id}
+    </select>
+
+</mapper>

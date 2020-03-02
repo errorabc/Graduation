@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+</head>
+<body>
+<div>
+    <form class="form-horizontal" role="form" style="margin-top: 50px">
+        <div class="form-group">
+            <label for="inputUsername" class="col-sm-2 control-label">账号</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="inputUsername"
+                       placeholder="账号必须为6-10数字和字母">
+            </div>
+            <div>
+                <span id="VerificationUsername" style="font-size: 16px;margin-top: 20px"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-7">
+                <input type="password" class="form-control" id="inputPassword"
+                       placeholder="密码必须为6-10数字和字母">
+            </div>
+            <div>
+                <span id="VerificationPassword" style="font-size: 16px;margin-top: 20px"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="EnterPassword" class="col-sm-2 control-label">确认密码</label>
+            <div class="col-sm-7">
+                <input type="password" class="form-control" id="EnterPassword"
+                       placeholder="密码必须为6-10数字和字母">
+            </div>
+            <div>
+                <span id="VerificationEnterPassword" style="font-size: 16px;margin-top: 20px"></span>
+            </div>
+        </div>
+        <div class="form-group" style="margin-left: 80px">
+            <label>角色</label>
+            <label th:each="rolenamelist:${rolenamelist}" style="margin-left: 50px">
+                <input type="radio" name="optionsRadios" th:id="${rolenamelist.id}"
+                       th:text="${rolenamelist.description}" th:value="${rolenamelist.description}">
+            </label>
+        </div>
+        <br/>
+        <br/>
+        <button type="submit" class="btn btn-success" style="margin-left: 250px" id="adduser">添加</button>
+        <button type="button" class="btn btn-danger" style="margin-left: 50px" id="clean">重置</button>
+    </form>
+</div>
+</body>
+<script>
+    //添加新用户
+    $('#adduser').click(function () {
+        var username = $('#inputUsername').val().toString().trim();
+        var password = $('#inputPassword').val().toString().trim();
+        var enterpassword = $('#EnterPassword').val().toString().trim();
+        var optionsRadios =  $('input[name  ="optionsRadios"]').filter(':checked').val();
+       if (username != null || password != null || enterpassword != null) {
+            var reg = new RegExp(/^[a-zA-Z0-9]{6,10}$/);
+            if (reg.test(username) && reg.test(password) && reg.test(enterpassword) && password == enterpassword&&optionsRadios!=undefined) {
+                $.ajax({
+                    url: "/userinfo/AddUserInfo",
+                    async: false,
+                    type: 'post',
+                    data: {
+                        username: username,
+                        password: password,
+                        description:optionsRadios
+                    },
+                    success: function (result) {
+                        alert(result);
+                        if(result=='添加成功'){
+
+                        }else {
+
+                        }
+                    }
+                });
+
+            } else {
+                alert("账号,密码，角色格式不正确");
+                return false;
+            }
+
+        } else {
+            alert("账号密码都不能为空");
+            return false;
+        }
+    })
+
+    //输入账号验证
+    $('#inputUsername').blur(function () {
+        var username = $('#inputUsername').val().toString().trim();
+        var reg = new RegExp(/^[a-zA-Z0-9]{6,16}$/);
+        if (reg.test(username)) {
+            $.ajax({
+                url: "/userinfo/AccountRepetition",
+                async: false,
+                type: 'post',
+                data: {
+                    username: username
+                },
+                success: function (result) {
+                    if (result == '账号可以使用') {
+                        $('#VerificationUsername').css('color', 'green').text("验证通过");
+                    } else {
+                        $('#VerificationUsername').css('color', 'red').text("账号已存在");
+                        $('#inputUsername').val('');
+                    }
+
+                }
+            });
+
+        } else {
+            $('#VerificationUsername').css('color', 'red').text("验证未通过");
+            $('#inputUsername').val('');
+        }
+    })
+    //输入密码验证
+    $('#inputPassword').blur(function () {
+        var password = $('#inputPassword').val().toString().trim();
+        var reg = new RegExp(/^[a-zA-Z0-9]{6,16}$/);
+        if (reg.test(password)) {
+            $('#VerificationPassword').css('color', 'green').text("验证通过");
+        } else {
+            $('#VerificationPassword').css('color', 'red').text("验证未通过");
+            $('#inputPassword').val('');
+        }
+    })
+    //输入密码确认验证
+    $('#EnterPassword').blur(function () {
+        var enterpassword = $('#EnterPassword').val().toString().trim();
+        var password = $('#inputPassword').val().toString().trim();
+        var reg = new RegExp(/^[a-zA-Z0-9]{6,10}$/);
+        if (reg.test(enterpassword)) {
+            if (password == enterpassword) {
+                $('#VerificationEnterPassword').css('color', 'green').text("验证通过");
+            } else {
+                $('#VerificationEnterPassword').css('color', 'red').text("两次密码不一致");
+                $('#EnterPassword').val('');
+            }
+        } else {
+            $('#VerificationEnterPassword').css('color', 'red').text("验证未通过");
+            $('#EnterPassword').val('');
+        }
+    })
+
+    //重置
+    $('#clean').click(function () {
+        $('#inputUsername').val("");
+        $('#inputPassword').val("");
+        $('#EnterPassword').val("");
+    })
+</script>
+
+</html>

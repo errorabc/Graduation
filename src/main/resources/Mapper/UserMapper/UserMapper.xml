@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.UserDao.UserDao">
+
+    <resultMap id="usermap" type="com.example.demo.Graduation.entity.UserEntity.UserEntity">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <association property="userRole" javaType="com.example.demo.Graduation.entity.UserRole.UserRole">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="userid" column="userid" jdbcType="VARCHAR"/>
+            <result property="roleid" column="roleid" jdbcType="VARCHAR"/>
+            <result property="createtime" column="createtime" jdbcType="DATE"/>
+            <result property="updatetime" column="updatetime" jdbcType="DATE"/>
+        </association>
+        <association property="roleEntity" javaType="com.example.demo.Graduation.entity.RoleEntity.RoleEntity">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="createtime" column="createtime" jdbcType="DATE"/>
+            <result property="updatetime" column="updatetime" jdbcType="DATE"/>
+        </association>
+    </resultMap>
+
+    <!--查询用户的信息返回List-->
+    <select id="FindUserInfo" resultMap="usermap">
+ SELECT a.*,userrole.*,role.* FROM  sys_user a
+JOIN sys_user_role userrole  on userrole.userid=a.id
+JOIN sys_role role on role.id=userrole.roleid
+where  a.username=#{username}
+    </select>
+
+    <!--查询单个用户的信息-->
+    <select id="Finduserinfo2" resultMap="usermap">
+ SELECT a.*,userrole.*,role.* FROM  sys_user a
+JOIN sys_user_role userrole  on userrole.userid=a.id
+JOIN sys_role role on role.id=userrole.roleid
+where  a.username=#{username}
+    </select>
+
+    <!--不同权限的获取不同的用户信息-->
+    <select id="RoleFindUserinfo" resultMap="usermap">
+        <if test="rolename=='超级管理员'"><!--超级管理员查询所有账号的信息-->
+            SELECT u.*,ur.*,r.* FROM sys_user as u
+            JOIN sys_user_role as ur
+            ON ur.userid=u.id
+            JOIN sys_role as r
+            ON r.id=ur.roleid
+        </if>
+        <if test="rolename=='管理员'"><!--管理员查询所有用户的信息-->
+            SELECT u.*,ur.*,r.* FROM sys_user as u
+            JOIN sys_user_role as ur
+            ON ur.userid=u.id
+            JOIN sys_role as r
+            ON r.id=ur.roleid
+            WHERE r.description='用户'
+        </if>
+    </select>
+    <!--查询用户是否存在-->
+    <select id="UsernameFindUser" resultMap="usermap">
+     SELECT * FROM sys_user WHERE username=#{username}
+    </select>
+    <!--添加新用户-->
+    <insert id="AddUserInfo">
+      INSERT INTO sys_user(id,username,password) VALUES(#{id},#{username},#{password});
+    </insert>
+
+    <!--添加新用户-关联用户和角色表-->
+    <insert id="AddUserRoleInfo">
+        INSERT into sys_user_role(userid,roleid) VALUES(#{userid},#{roleid})
+    </insert>
+
+    <!--封停账号-->
+    <update id="SealUser">
+     UPDATE sys_user SET status=0  WHERE id=#{id}
+    </update>
+
+
+    <!--解封账号-->
+    <update id="RelieveSealUser">
+     UPDATE sys_user SET status=1  WHERE id=#{id}
+    </update>
+
+    <!--根据用户ID查询用户信息-->
+    <select id="UserIdFindUserinfo" resultMap="usermap">
+      SELECT a.*,userrole.*,role.* FROM  sys_user a
+      JOIN sys_user_role userrole  on userrole.userid=a.id
+      JOIN sys_role role on role.id=userrole.roleid
+      where  a.id=#{id}
+    </select>
+    <!--删除用户的信息-->
+    <delete id="DeleteUserInfo">
+    DELETE FROM sys_user WHERE id=#{id}
+    </delete>
+    <!--修改用户的角色-->
+    <update id="UpdateUserRole">
+     UPDATE sys_user_role SET roleid=#{roleid} WHERE userid=#{userid}
+    </update>
+
+    <!--修改用户的密码-->
+    <update id="UpdateUserPassword">
+    UPDATE sys_user SET password=#{password}  WHERE id=#{id}
+    </update>
+
+
+</mapper>
