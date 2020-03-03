@@ -18,7 +18,41 @@
 </head>
 <body>
 <div>
-    aaaaa
+    <form role="form">
+        <div class="form-group">
+            <label for="1">ID：</label>
+            <input type="text" class="form-control" id="1" th:placeholder="${loglist.id}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="2">操作人：</label>
+            <input type="text" class="form-control" id="2" th:placeholder="${loglist.username}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="3">功能：</label>
+            <input type="text" class="form-control" id="3" th:placeholder="${loglist.operation}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="4">响应时间：</label>
+            <input type="text" class="form-control" id="4" th:placeholder="${loglist.time}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="6">请求地址：</label>
+            <input type="text" class="form-control" id="6" th:placeholder="${loglist.method}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="7">请求参数：</label>
+            <input type="text" class="form-control" id="7" th:placeholder="${loglist.params}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="8">请求ip：</label>
+            <input type="text" class="form-control" id="8" th:placeholder="${loglist.ip}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="9">请求时间：</label>
+            <input type="text" class="form-control" id="9" th:placeholder="${#dates.format(loglist.create_time,'yyyy-MM-dd HH:mm:ss')}" readonly>
+        </div>
+
+    </form>
 </div>
 </body>
 </html>

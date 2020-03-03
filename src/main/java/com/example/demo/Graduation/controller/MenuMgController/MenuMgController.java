@@ -28,4 +28,7 @@ public class MenuMgController {
         model.addAttribute("userEntity", userEntity);
         return "welcome";
     }
+    
+
+
 }

@@ -19,4 +19,6 @@ public interface MenuDao {
     List<MenuEntity> RoleUsernameFindButton(@Param("username") String username, @Param("id") String id);
 
     MenuEntity Menu2NameFindID(@Param("name")String name);
+
+    List<MenuEntity> FindAllMenu();
 }

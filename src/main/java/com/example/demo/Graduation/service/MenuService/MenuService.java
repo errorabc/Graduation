@@ -46,4 +46,10 @@ public class MenuService {
         return menuEntityList;
     }
 
+    //查询所有菜单
+    public List<MenuEntity> FindAllMenu() {
+        List<MenuEntity> list = menuDao.FindAllMenu();
+        return list;
+    }
+
 }
