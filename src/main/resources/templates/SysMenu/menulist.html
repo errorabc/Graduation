@@ -9,6 +9,9 @@
     <meta name="description" content="bootstrap-treetable">
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/libs/v3/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/bootstrap/bootstrap-treetable.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/syslog.css}">
 </head>
 <body>
 <button type="button" class="btn btn-info">添加目录</button>
@@ -17,13 +20,16 @@
 <script type="text/javascript" th:src="@{/bootstrap/libs/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/bootstrap/libs/v3/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/bootstrap/bootstrap-treetable.js}"></script>
+<script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 <script type="text/javascript">
     var menuid = "";
+    var menutype = "";
     var treeTable = $('#demo').bootstrapTreeTable({
         toolbar: "#demo-toolbar",    //顶部工具条
         expandColumn: 1,          // 在哪一列上面显示展开按钮
         type: "GET",
-        height: 500,
+        height: 1000,
         expandFirst: false, //第一列是否展开
         url: "menuinfo/FindAllMenu",
         columns: [{
@@ -114,6 +120,7 @@
         onClickCell: function (field, value, row, $element) {
             console.log("onClickCell", row);
             menuid = row.id;
+            menutype = row.menuType;
             return false;
         },
         onDblClickCell: function (field, value, row, $element) {
@@ -134,7 +141,53 @@
 
     //删除菜单
     function deletemenu() {
-        alert(menuid);
+        if (menutype == '1') {
+            layer.confirm('您确定要删除目录及以下的所有的菜单?', function (index) {
+                $.ajax({
+                    url: "/menuinfo/deletemenu",
+                    type: 'post',
+                    sync: false,
+                    data: {
+                        id: menuid
+                    },
+                    success: function (result) {
+                        layer.msg('删除成功', {icon: 1});
+                    }
+                })
+
+            });
+        }
+        if (menutype == '2') {
+            layer.confirm('您确定要删除菜单及以下的所有按钮?', function (index) {
+                $.ajax({
+                    url: "/menuinfo/deletemenu",
+                    type: 'post',
+                    sync: false,
+                    data: {
+                        id: menuid
+                    },
+                    success: function (result) {
+                        layer.msg('删除成功', {icon: 1});
+                    }
+                })
+            });
+        }
+        if (menutype == '3') {
+            layer.confirm('您确定要删除此按钮?', function (index) {
+                $.ajax({
+                    url: "/menuinfo/deletemenu",
+                    type: 'post',
+                    sync: false,
+                    data: {
+                        id: menuid
+                    },
+                    success: function (result) {
+                        layer.msg('删除成功', {icon: 1});
+                    }
+                })
+            });
+        }
+
     }
 
     //添加菜单

@@ -18,7 +18,11 @@ public interface MenuDao {
 
     List<MenuEntity> RoleUsernameFindButton(@Param("username") String username, @Param("id") String id);
 
-    MenuEntity Menu2NameFindID(@Param("name")String name);
+    MenuEntity Menu2NameFindID(@Param("name") String name);
 
     List<MenuEntity> FindAllMenu();
+
+    boolean DeleteMenu(@Param("id") String id);
+
+    boolean DeleteMenuUser(@Param("id") String id);
 }

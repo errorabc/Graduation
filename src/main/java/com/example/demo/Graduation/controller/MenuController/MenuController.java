@@ -5,9 +5,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
 import com.example.demo.Graduation.service.MenuService.MenuService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,25 +28,21 @@ public class MenuController {
         return "SysMenu/menulist";
     }
 
+    //获取所有的菜单
     @RequestMapping(value = "/FindAllMenu")
     @ResponseBody
     public JSONArray FindAllMenu() {
-        List<MenuEntity> list = menuService.FindAllMenu();
-        JSONArray jsonArray = new JSONArray();
-        for (MenuEntity i : list) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("menuName", i.getName());
-            jsonObject.put("menuType", i.getType());
-            jsonObject.put("id", i.getId());
-            jsonObject.put("url", i.getUrl());
-            jsonObject.put("parentId", i.getParent_id());
-            jsonObject.put("perms", i.getPermission());
-            jsonObject.put("orderNum",i.getSort());
-            jsonObject.put("icon","#");
-            jsonArray.add(jsonObject);
-        }
+        JSONArray jsonArray = menuService.FindAllMenu();
         return jsonArray;
     }
 
+    //删除某个菜单
+    @PostMapping(value = "/deletemenu")
+    @ResponseBody
+    public String deletemenu(@Param("id") String id) {
+
+        String flag = null;
+        return flag;
+    }
 
 }

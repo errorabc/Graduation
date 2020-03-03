@@ -1,5 +1,7 @@
 package com.example.demo.Graduation.service.MenuService;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Graduation.Dao.MenuDao.MenuDao;
 import com.example.demo.Graduation.Dao.UserDao.UserDao;
 import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
@@ -47,9 +49,22 @@ public class MenuService {
     }
 
     //查询所有菜单
-    public List<MenuEntity> FindAllMenu() {
+    public JSONArray FindAllMenu() {
         List<MenuEntity> list = menuDao.FindAllMenu();
-        return list;
+        JSONArray jsonArray = new JSONArray();
+        for (MenuEntity i : list) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("menuName", i.getName());
+            jsonObject.put("menuType", i.getType());
+            jsonObject.put("id", i.getId());
+            jsonObject.put("url", i.getUrl());
+            jsonObject.put("parentId", i.getParent_id());
+            jsonObject.put("perms", i.getPermission());
+            jsonObject.put("orderNum", i.getSort());
+            jsonObject.put("icon", "#");
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
     }
 
 }

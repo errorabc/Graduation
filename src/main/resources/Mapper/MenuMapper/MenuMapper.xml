@@ -82,8 +82,18 @@
     SELECT * FROM sys_resources WHERE name=#{name}
     </select>
 
+    <!--查询出所有的菜单信息-->
     <select id="FindAllMenu" resultMap="menus">
     SELECT * FROM sys_resources
     </select>
+
+    <!--删除菜单信息-->
+    <delete id="DeleteMenu">
+     DELETE FROM sys_resources WHERE parent_id=#{id} or id=#{id}
+    </delete>
+    <!--删除菜单和用户之间的关联-->
+    <delete id="DeleteMenuUser">
+    DELETE FROM sys_user_resources WHERE resources=#{id}
+    </delete>
 
 </mapper>
