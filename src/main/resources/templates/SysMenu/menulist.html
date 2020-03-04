@@ -14,8 +14,25 @@
     <link rel="stylesheet" th:href="@{/css/syslog.css}">
 </head>
 <body>
-<button type="button" class="btn btn-info">添加目录</button>
-<table id="demo"></table>
+<br/>
+<br/>
+<table id="demo" border="1"></table>
+<!--模态框-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+            </div>
+            <div class="modal-body">在这里添加一些文本</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <!-- 全局js -->
 <script type="text/javascript" th:src="@{/bootstrap/libs/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/bootstrap/libs/v3/bootstrap.min.js}"></script>
@@ -142,7 +159,7 @@
     //删除菜单
     function deletemenu() {
         if (menutype == '1') {
-            layer.confirm('您确定要删除目录及以下的所有的菜单?', function (index) {
+            layer.confirm('您确定要删除此目录及以下的所有的菜单?', function (index) {
                 $.ajax({
                     url: "/menuinfo/deletemenu",
                     type: 'post',
@@ -158,7 +175,7 @@
             });
         }
         if (menutype == '2') {
-            layer.confirm('您确定要删除菜单及以下的所有按钮?', function (index) {
+            layer.confirm('您确定此删除菜单及以下的所有按钮?', function (index) {
                 $.ajax({
                     url: "/menuinfo/deletemenu",
                     type: 'post',
@@ -192,12 +209,25 @@
 
     //添加菜单
     function addmenu() {
-
+        alert("添加菜单");
     }
 
     //修改菜单
     function updatemenu() {
+        alert("修改菜单");
+    }
 
+    //打开添加目录界面
+    function AddContents() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['700px', '700px']
+            , title: '修改信息'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/menuinfo/AddContents'
+        });
     }
 </script>
 </body>

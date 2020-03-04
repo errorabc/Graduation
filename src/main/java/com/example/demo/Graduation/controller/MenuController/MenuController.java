@@ -45,4 +45,9 @@ public class MenuController {
         return flag;
     }
 
+    //跳转到添加目录界面
+    @RequestMapping(value = "/AddContents")
+    public String AddContents() {
+        return "SysMenu/AddContents";
+    }
 }
