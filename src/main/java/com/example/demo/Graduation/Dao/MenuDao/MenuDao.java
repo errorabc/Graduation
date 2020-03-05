@@ -25,4 +25,12 @@ public interface MenuDao {
     boolean DeleteMenu(@Param("id") String id);
 
     boolean DeleteMenuUser(@Param("id") String id);
+
+    MenuEntity VerificationMenuName(@Param("name") String name);
+
+    MenuEntity VerificationMenuUrl(@Param("url") String url);
+
+    MenuEntity VerificationMenuPermission(@Param("permission") String permission);
+
+
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -50,4 +51,29 @@ public class MenuController {
     public String AddContents() {
         return "SysMenu/AddContents";
     }
+
+    //查询菜单名是否存在
+    @PostMapping(value = "/VerificationMenuName")
+    @ResponseBody
+    public String VerificationMenuName(@RequestParam("name") String name) {
+        String flag = menuService.VerificationMenuName(name);
+        return flag;
+    }
+
+    //查询菜单地址是否存在
+    @PostMapping(value = "/VerificationMenuUrl")
+    @ResponseBody
+    public String VerificationMenuUrl(@RequestParam("url") String url) {
+        String flag = menuService.VerificationMenuUrl(url);
+        return flag;
+    }
+
+    //查询菜单权限是否存在
+    @PostMapping(value = "/VerificationMenuPermission")
+    @ResponseBody
+    public String VerificationMenuPermission(@RequestParam("permission") String permission) {
+        String flag = menuService.VerificationMenuPermission(permission);
+        return flag;
+    }
+
 }

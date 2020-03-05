@@ -96,4 +96,17 @@
     DELETE FROM sys_user_resources WHERE resources=#{id}
     </delete>
 
+    <!--查询菜单名是否重复-->
+    <select id="VerificationMenuName" resultMap="menus">
+   SELECT * FROM sys_resources  WHERE  name=#{name}
+    </select>
+    <!--查询菜单地址是否重复-->
+    <select id="VerificationMenuUrl" resultMap="menus">
+     SELECT * FROM sys_resources  WHERE  url=#{url}
+    </select>
+    <!--查询菜单权限是否重复-->
+    <select id="VerificationMenuPermission" resultMap="menus">
+    SELECT * FROM sys_resources  WHERE  permission=#{permission}
+    </select>
+
 </mapper>

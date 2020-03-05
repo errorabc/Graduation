@@ -8,30 +8,139 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="form-group">
-    <label for="menuname" class="col-sm-2 control-label">菜单名称</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" id="menuname"
-               placeholder="请输入菜单名称" style="width: 75%">
+<form class="form-horizontal" role="form" style="margin-top: 30px">
+
+    <div class="form-group" style="width: 800px">
+        <label for="menuname" class="col-sm-2 control-label">菜单名:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="menuname"
+                   placeholder="请输入菜单名">
+        </div>
+        <div>
+            <span id="VerificationMenuName" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
     </div>
-    <br/>
-    <label for="menuurl" class="col-sm-2 control-label">菜单地址</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" id="menuurl"
-               placeholder="请输入菜单地址" style="width: 75%">
+
+    <div class="form-group" style="width: 800px">
+        <label for="menuurl" class="col-sm-2 control-label">菜单地址:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="menuurl"
+                   placeholder="请输入菜单地址">
+        </div>
+        <div>
+            <span id="VerificationMenuUrl" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
     </div>
-    <br/>
-    <label for="menupermission" class="col-sm-2 control-label">权限</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" id="menupermission"
-               placeholder="请输入权限" style="width: 75%">
+
+    <div class="form-group" style="width: 800px">
+        <label for="menupermission" class="col-sm-2 control-label">菜单权限:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="menupermission"
+                   placeholder="请输入菜单权限名称">
+        </div>
+        <div>
+            <span id="VerificationMenupermission" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
     </div>
-    <br/>
-    <label for="menusort" class="col-sm-2 control-label">排序</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" id="menusort"
-               placeholder="请输入排序" style="width: 75%">
-    </div>
-</div>
+</form>
+
+<button type="button" class="btn btn-success" style="margin-left: 30%" onclick="addmenu()">添加</button>
+<button type="button" class="btn btn-danger" style="margin-left: 50px" onclick="">重置</button>
 </body>
+<script>
+    //添加目录
+
+
+
+    //菜单名验证
+    $("#menuname").blur(function () {
+        var menuname = $('#menuname').val().toString().trim();
+        if (menuname != null || menuname != "") {
+            if (menuname.indexOf(" ") == -1) {
+                $.ajax({
+                    url: "/menuinfo/VerificationMenuName",
+                    type: "post",
+                    sync: false,
+                    data: {
+                        name: menuname
+                    }, success: function (result) {
+                        if (result == '可以使用') {
+                            $('#VerificationMenuName').css('color', 'green').text("目录名可以使用");
+                        } else {
+                            $('#VerificationMenuName').css('color', 'red').text("目录名已经存在");
+                            $('#menuname').val("");
+                        }
+                    }
+                })
+
+            } else {
+                $('#VerificationMenuName').css('color', 'red').text("目录名不能存在空格");
+            }
+
+        } else {
+            $('#VerificationMenuName').css('color', 'red').text("目录名不能为空");
+        }
+    })
+
+    //菜单地址验证
+    $("#menuurl").blur(function () {
+        var menuurl = $('#menuurl').val().toString().trim();
+        if (menuurl != null || menuurl != "") {
+            if (menuurl.indexOf(" ") == -1) {
+                $.ajax({
+                    url: "/menuinfo/VerificationMenuUrl",
+                    type: "post",
+                    sync: false,
+                    data: {
+                        url: menuurl
+                    }, success: function (result) {
+                        if (result == '可以使用') {
+                            $('#VerificationMenuUrl').css('color', 'green').text("目录地址可以使用");
+                        } else {
+                            $('#VerificationMenuUrl').css('color', 'red').text("目录地址已经存在");
+                            $('#menuurl').val("");
+                        }
+                    }
+                })
+
+            } else {
+                $('#VerificationMenuUrl').css('color', 'red').text("目录地址不能存在空格");
+            }
+
+        } else {
+            $('#VerificationMenuUrl').css('color', 'red').text("目录地址不能为空");
+        }
+    })
+    //菜单权限验证
+    $("#menupermission").blur(function () {
+        var menupermission = $('#menupermission').val().toString().trim();
+        if (menupermission != null || menupermission != "") {
+            if (menupermission.indexOf(" ") == -1) {
+                $.ajax({
+                    url: "/menuinfo/VerificationMenuPermission",
+                    type: "post",
+                    sync: false,
+                    data: {
+                        permission: menupermission
+                    }, success: function (result) {
+                        if (result == '可以使用') {
+                            $('#VerificationMenupermission').css('color', 'green').text("目录权限可以使用");
+                        } else {
+                            $('#VerificationMenupermission').css('color', 'red').text("目录权限已经存在");
+                            $('#menupermission').val("");
+                        }
+                    }
+                })
+
+            } else {
+                $('#VerificationMenupermission').css('color', 'red').text("目录权限不能存在空格");
+            }
+
+        } else {
+            $('#VerificationMenupermission').css('color', 'red').text("目录权限不能为空");
+        }
+    })
+
+
+</script>
 </html>

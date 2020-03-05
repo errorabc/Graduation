@@ -67,4 +67,33 @@ public class MenuService {
         return jsonArray;
     }
 
+    //查询菜单名是否重复
+    public String VerificationMenuName(String name) {
+        MenuEntity menuEntity = menuDao.VerificationMenuName(name);
+        if (null != menuEntity) {
+            return "已存在";
+        } else {
+            return "可以使用";
+        }
+    }
+
+    //查询菜单地址是否重复
+    public String VerificationMenuUrl(String url) {
+        MenuEntity menuEntity = menuDao.VerificationMenuUrl(url);
+        if (null != menuEntity) {
+            return "已存在";
+        } else {
+            return "可以使用";
+        }
+    }
+
+    //查询菜单权限是否重复
+    public String VerificationMenuPermission(String permission) {
+        MenuEntity menuEntity = menuDao.VerificationMenuPermission(permission);
+        if (null != menuEntity) {
+            return "已存在";
+        } else {
+            return "可以使用";
+        }
+    }
 }
