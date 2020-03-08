@@ -32,5 +32,10 @@ public interface MenuDao {
 
     MenuEntity VerificationMenuPermission(@Param("permission") String permission);
 
+    boolean AddMenu(MenuEntity menuEntity);
+
+    MenuEntity IDFindResoucesinfo(@Param("id") String id);
+
+    List<MenuEntity> ParentIdFindResoucesinfo(@Param("id") String id);
 
 }

@@ -69,10 +69,10 @@
         var username = $('#inputUsername').val().toString().trim();
         var password = $('#inputPassword').val().toString().trim();
         var enterpassword = $('#EnterPassword').val().toString().trim();
-        var optionsRadios =  $('input[name  ="optionsRadios"]').filter(':checked').val();
-       if (username != null || password != null || enterpassword != null) {
+        var optionsRadios = $('input[name  ="optionsRadios"]').filter(':checked').val();
+        if (username != null && password != null && enterpassword != null) {
             var reg = new RegExp(/^[a-zA-Z0-9]{6,10}$/);
-            if (reg.test(username) && reg.test(password) && reg.test(enterpassword) && password == enterpassword&&optionsRadios!=undefined) {
+            if (reg.test(username) && reg.test(password) && reg.test(enterpassword) && password == enterpassword && optionsRadios != undefined) {
                 $.ajax({
                     url: "/userinfo/AddUserInfo",
                     async: false,
@@ -80,15 +80,10 @@
                     data: {
                         username: username,
                         password: password,
-                        description:optionsRadios
+                        description: optionsRadios
                     },
                     success: function (result) {
-                        alert(result);
-                        if(result=='添加成功'){
-
-                        }else {
-
-                        }
+                        alert(result)
                     }
                 });
 

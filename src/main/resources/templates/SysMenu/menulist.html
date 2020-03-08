@@ -40,8 +40,6 @@
 <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 <script type="text/javascript">
-    var menuid = "";
-    var menutype = "";
     var treeTable = $('#demo').bootstrapTreeTable({
         toolbar: "#demo-toolbar",    //顶部工具条
         expandColumn: 1,          // 在哪一列上面显示展开按钮
@@ -117,8 +115,8 @@
                 formatter: function (value, row, index) {
                     var actions = [];
                     actions.push('<a class="btn btn-success btn-xs "  onclick="updatemenu()"><i class="fa fa-edit"></i>编辑</a> ');
-                    actions.push('<a class="btn btn-info btn-xs "  onclick="addmenu()" href="#"><i class="fa fa-plus"></i>新增</a> ');
-                    actions.push('<a class="btn btn-danger btn-xs "   onclick="deletemenu()"   href="#"><i class="fa fa-remove" ></i>删除</a>');
+                    actions.push('<a class="btn btn-info btn-xs "  onclick="addmenu(\'' + row.id + '\',\'' + row.menuType + '\',\'' + row.menuName + '\')" href="#"><i class="fa fa-plus"></i>新增</a> ');
+                    actions.push('<a class="btn btn-danger btn-xs "   onclick="deletemenu(\'' + row.id + '\',\'' + row.menuType + '\')"   href="#"><i class="fa fa-remove" ></i>删除</a>');
                     return actions.join('');
                 }
             }],
@@ -136,8 +134,6 @@
         },
         onClickCell: function (field, value, row, $element) {
             console.log("onClickCell", row);
-            menuid = row.id;
-            menutype = row.menuType;
             return false;
         },
         onDblClickCell: function (field, value, row, $element) {
@@ -157,7 +153,7 @@
     });
 
     //删除菜单
-    function deletemenu() {
+    function deletemenu(id, menutype) {
         if (menutype == '1') {
             layer.confirm('您确定要删除此目录及以下的所有的菜单?', function (index) {
                 $.ajax({
@@ -165,10 +161,14 @@
                     type: 'post',
                     sync: false,
                     data: {
-                        id: menuid
+                        id: id
                     },
                     success: function (result) {
-                        layer.msg('删除成功', {icon: 1});
+                        if (result == "目录删除成功") {
+                            layer.msg('删除成功', {icon: 1});
+                        } else {
+                            layer.msg('删除失败', {icon: 1});
+                        }
                     }
                 })
 
@@ -181,10 +181,14 @@
                     type: 'post',
                     sync: false,
                     data: {
-                        id: menuid
+                        id: id
                     },
                     success: function (result) {
-                        layer.msg('删除成功', {icon: 1});
+                        if (result == "菜单删除成功") {
+                            layer.msg('删除成功', {icon: 1});
+                        } else {
+                            layer.msg('删除失败', {icon: 1});
+                        }
                     }
                 })
             });
@@ -196,20 +200,51 @@
                     type: 'post',
                     sync: false,
                     data: {
-                        id: menuid
+                        id: id
                     },
                     success: function (result) {
-                        layer.msg('删除成功', {icon: 1});
+                        if (result == "按钮删除成功") {
+                            layer.msg('删除成功', {icon: 1});
+                        } else {
+                            layer.msg('删除失败', {icon: 1});
+                        }
+
                     }
                 })
             });
         }
-
     }
 
-    //添加菜单
-    function addmenu() {
-        alert("添加菜单");
+    //添加或者按钮
+    function addmenu(id, menutype, name) {
+        if (menutype == "1") {
+            //添加菜单
+            layer.open({
+                type: 2 //Page层类型
+                , area: ['800px', '450px']
+                , title: name + '中添加菜单'
+                , shade: 0.6 //遮罩透明度
+                , maxmin: true //允许全屏最小化
+                , anim: 1 //0-6的动画形式，-1不开启
+                , content: '/menuinfo/GetAddMenu?id=' + id
+            })
+            ;
+        }
+        if (menutype == "2") {
+            //添加按钮
+            layer.open({
+                type: 2 //Page层类型
+                , area: ['800px', '450px']
+                , title: name + '中添加按钮'
+                , shade: 0.6 //遮罩透明度
+                , maxmin: true //允许全屏最小化
+                , anim: 1 //0-6的动画形式，-1不开启
+                , content: '/menuinfo/GetAddButton?id=' + id
+            });
+        }
+        if (menutype == "3") {
+            alert("按钮下不能添加下属");
+        }
     }
 
     //修改菜单
@@ -222,7 +257,7 @@
         layer.open({
             type: 2 //Page层类型
             , area: ['800px', '450px']
-            , title: '修改信息'
+            , title: '添加目录'
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启

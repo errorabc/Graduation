@@ -84,7 +84,7 @@
 
     <!--查询出所有的菜单信息-->
     <select id="FindAllMenu" resultMap="menus">
-    SELECT * FROM sys_resources
+    SELECT * FROM sys_resources ORDER BY  sort DESC
     </select>
 
     <!--删除菜单信息-->
@@ -109,4 +109,18 @@
     SELECT * FROM sys_resources  WHERE  permission=#{permission}
     </select>
 
+    <!--添加目录-->
+    <insert id="AddMenu">
+    INSERT into sys_resources(id,name,parent_id,url,type,permission,sort) VALUES(#{id},#{name},#{parent_id},#{url},#{type},#{permission},#{sort})
+    </insert>
+
+    <!--根据菜单ID查询菜单信息-->
+    <select id="IDFindResoucesinfo" resultMap="menus">
+     SELECT * FROM sys_resources WHERE id=#{id}
+    </select>
+
+    <!--根据上级菜单ID查询子菜单信息-->
+    <select id="ParentIdFindResoucesinfo" resultMap="menus">
+     SELECT * FROM sys_resources WHERE parent_id=#{id}
+    </select>
 </mapper>

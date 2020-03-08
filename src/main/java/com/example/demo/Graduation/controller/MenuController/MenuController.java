@@ -3,6 +3,7 @@ package com.example.demo.Graduation.controller.MenuController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 import org.apache.ibatis.annotations.Param;
@@ -22,11 +23,32 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
+    //跳转到菜单管理界面
     @RequestMapping(value = "")
     public String menulist(Model model) {
 
-
         return "SysMenu/menulist";
+    }
+
+
+    //跳转到添加目录界面
+    @RequestMapping(value = "/AddContents")
+    public String AddContents() {
+        return "SysMenu/AddContents";
+    }
+
+    //跳转到添加菜单界面
+    @RequestMapping(value = "/GetAddMenu")
+    public String GetAddMenu(@RequestParam("id") String id, Model model) {
+        model.addAttribute("id", id);
+        return "SysMenu/AddMenu";
+    }
+
+    //跳转到添加按钮界面
+    @RequestMapping(value = "/GetAddButton")
+    public String GetAddButton(@RequestParam("id") String id, Model model) {
+        model.addAttribute("id", id);
+        return "SysMenu/AddBuuton";
     }
 
     //获取所有的菜单
@@ -37,20 +59,16 @@ public class MenuController {
         return jsonArray;
     }
 
-    //删除某个菜单
+    //删除菜单,按钮,或者目录
+    @LogAop("删除菜单")
     @PostMapping(value = "/deletemenu")
     @ResponseBody
     public String deletemenu(@Param("id") String id) {
-
-        String flag = null;
+        System.out.println(id);
+        String flag = menuService.DeleteMenu(id);
         return flag;
     }
 
-    //跳转到添加目录界面
-    @RequestMapping(value = "/AddContents")
-    public String AddContents() {
-        return "SysMenu/AddContents";
-    }
 
     //查询菜单名是否存在
     @PostMapping(value = "/VerificationMenuName")
@@ -76,4 +94,30 @@ public class MenuController {
         return flag;
     }
 
+    //添加菜单
+    @LogAop("添加目录")
+    @PostMapping(value = "/AddCatalog")
+    @ResponseBody
+    public String AddCatalog(MenuEntity menuEntity) {
+        String flag = menuService.AddCatalog(menuEntity);
+        return flag;
+    }
+
+    //添加菜单
+    @LogAop("添加菜单")
+    @PostMapping(value = "/AddMenu")
+    @ResponseBody
+    public String AddMenu(MenuEntity menuEntity) {
+        String flag = menuService.AddMenu(menuEntity);
+        return flag;
+    }
+
+    //添加菜单
+    @LogAop("添加按钮")
+    @PostMapping(value = "/AddButton")
+    @ResponseBody
+    public String AddButton(MenuEntity menuEntity) {
+        String flag = menuService.AddButton(menuEntity);
+        return flag;
+    }
 }

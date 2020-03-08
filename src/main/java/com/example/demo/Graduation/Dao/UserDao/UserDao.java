@@ -1,5 +1,6 @@
 package com.example.demo.Graduation.Dao.UserDao;
 
+import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
 import com.example.demo.Graduation.entity.UserEntity.UserEntity;
 import com.example.demo.Graduation.entity.UserRole.UserRole;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,5 +34,7 @@ public interface UserDao {
     boolean UpdateUserRole(@Param("userid") String userid, @Param("roleid") String roleid);
 
     boolean UpdateUserPassword(@Param("password") String password, @Param("id") String id);
+
+
 
 }

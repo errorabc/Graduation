@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>添加目录</title>
+    <title>添加菜单</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -11,7 +11,16 @@
 <form class="form-horizontal" role="form" style="margin-top: 30px">
 
     <div class="form-group" style="width: 800px">
-        <label for="menuname" class="col-sm-2 control-label">目录名:</label>
+        <label for="parentid" class="col-sm-2 control-label">上级ID:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="parentid" th:value="${id}" readonly="readonly">
+        </div>
+        <div>
+            <span id="VerificationParentId" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
+    </div>
+    <div class="form-group" style="width: 800px">
+        <label for="menuname" class="col-sm-2 control-label">菜单名:</label>
         <div class="col-sm-7">
             <input type="text" class="form-control" id="menuname"
                    placeholder="请输入菜单名">
@@ -22,7 +31,7 @@
     </div>
 
     <div class="form-group" style="width: 800px">
-        <label for="menuurl" class="col-sm-2 control-label">目录地址:</label>
+        <label for="menuurl" class="col-sm-2 control-label">菜单地址:</label>
         <div class="col-sm-7">
             <input type="text" class="form-control" id="menuurl"
                    placeholder="请输入菜单地址">
@@ -33,7 +42,7 @@
     </div>
 
     <div class="form-group" style="width: 800px">
-        <label for="menupermission" class="col-sm-2 control-label">目录权限:</label>
+        <label for="menupermission" class="col-sm-2 control-label">菜单权限:</label>
         <div class="col-sm-7">
             <input type="text" class="form-control" id="menupermission"
                    placeholder="请输入菜单权限名称">
@@ -45,7 +54,7 @@
 
 
     <div class="form-group" style="width: 800px">
-        <label for="menupersort" class="col-sm-2 control-label">目录排序:</label>
+        <label for="menupersort" class="col-sm-2 control-label">菜单排序:</label>
         <div class="col-sm-7">
             <input type="text" class="form-control" id="menupersort"
                    placeholder="请输入菜单排序">
@@ -56,12 +65,13 @@
     </div>
 </form>
 
-<button type="button" class="btn btn-success" style="margin-left: 30%" id="AddCatalog">添加</button>
+<button type="button" class="btn btn-success" style="margin-left: 30%" id="AddMenu">添加</button>
 <button type="button" class="btn btn-danger" style="margin-left: 50px" onclick="">重置</button>
 </body>
 <script>
-    //添加目录
-    $('#AddCatalog').click(function () {
+    //添加菜单
+    $('#AddMenu').click(function () {
+        var parentid = $('#parentid').val().toString().trim();
         var menuname = $('#menuname').val().toString().trim();
         var menuurl = $('#menuurl').val().toString().trim();
         var menupermission = $('#menupermission').val().toString().trim();
@@ -71,14 +81,15 @@
         } else {
             if (menuname.indexOf(" ") == -1 && menuurl.indexOf(" ") == -1 && menupermission.indexOf("  ") == -1 && menusort.indexOf(" ") == -1) {
                 $.ajax({
-                    url: "/menuinfo/AddCatalog",
+                    url: "/menuinfo/AddMenu",
                     type: 'post',
                     sync: false,
                     data: {
                         name: menuname,
                         url: menuurl,
                         permission: menupermission,
-                        sort: menusort
+                        sort: menusort,
+                        parent_id: parentid
                     },
                     success: function (result) {
                         alert(result)
