@@ -30,6 +30,7 @@
             <result property="status" column="status" jdbcType="INTEGER"/>
         </association>
     </resultMap>
+
     <!--查询一级菜单-->
     <select resultMap="menus" id="FindMenusType1">
         <if test="rolename=='超级管理员'">
@@ -123,4 +124,11 @@
     <select id="ParentIdFindResoucesinfo" resultMap="menus">
      SELECT * FROM sys_resources WHERE parent_id=#{id}
     </select>
+
+    <!--修改菜单信息-->
+    <update id="updateMenuinfo">
+     UPDATE sys_resources SET name=#{name},url=#{url},permission=#{permission}  WHERE id=#{id}
+    </update>
+
+
 </mapper>

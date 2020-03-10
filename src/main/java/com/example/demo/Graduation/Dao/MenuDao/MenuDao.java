@@ -38,4 +38,6 @@ public interface MenuDao {
 
     List<MenuEntity> ParentIdFindResoucesinfo(@Param("id") String id);
 
+    boolean updateMenuinfo(MenuEntity menuEntity);
+
 }

@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>添加按钮</title>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/syslog.css}">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -77,7 +83,7 @@
         var menupermission = $('#menupermission').val().toString().trim();
         var menusort = $('#menupersort').val().toString().trim();
         if (menuname == null || menuurl == null || menupermission == null || menusort == null) {
-            alert("有必填项为空");
+            layer.msg("有必填项为空", {icon: 2});
         } else {
             if (menuname.indexOf(" ") == -1 && menuurl.indexOf(" ") == -1 && menupermission.indexOf("  ") == -1 && menusort.indexOf(" ") == -1) {
                 $.ajax({
@@ -97,7 +103,7 @@
                 })
 
             } else {
-                alert("有必填项带有空格");
+                layer.msg("有必填项带有空格", {icon: 2});
             }
         }
     })
@@ -115,7 +121,7 @@
                     data: {
                         name: menuname
                     }, success: function (result) {
-                        if (result == '可以使用') {
+                        if (result.code == "1") {
                             $('#VerificationMenuName').css('color', 'green').text("目录名可以使用");
                         } else {
                             $('#VerificationMenuName').css('color', 'red').text("目录名已经存在");
@@ -146,7 +152,7 @@
                     data: {
                         url: menuurl
                     }, success: function (result) {
-                        if (result == '可以使用') {
+                        if (result.code == "1") {
                             $('#VerificationMenuUrl').css('color', 'green').text("目录地址可以使用");
                         } else {
                             $('#VerificationMenuUrl').css('color', 'red').text("目录地址已经存在");
@@ -176,7 +182,7 @@
                     data: {
                         permission: menupermission
                     }, success: function (result) {
-                        if (result == '可以使用') {
+                        if (result.code == "1") {
                             $('#VerificationMenupermission').css('color', 'green').text("目录权限可以使用");
                         } else {
                             $('#VerificationMenupermission').css('color', 'red').text("目录权限已经存在");

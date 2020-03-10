@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加菜单</title>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/syslog.css}">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<form class="form-horizontal" role="form" style="margin-top: 30px">
+    <div class="form-group" style="width: 800px">
+        <label for="mid" class="col-sm-2 control-label">上级ID:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="mid" th:value="${menuinfo.id}" readonly="readonly">
+        </div>
+        <div>
+            <span id="VerificationMId" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
+    </div>
+    <div class="form-group" style="width: 800px">
+        <label for="parentid" class="col-sm-2 control-label">上级ID:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="parentid" th:value="${menuinfo.parent_id}" readonly="readonly">
+        </div>
+        <div>
+            <span id="VerificationParentId" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
+    </div>
+    <div class="form-group" style="width: 800px">
+        <label for="menuname" class="col-sm-2 control-label">菜单名:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="menuname"
+                   placeholder="请输入菜单名" th:value="${menuinfo.name}">
+        </div>
+        <div>
+            <span id="VerificationMenuName" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
+    </div>
+
+    <div class="form-group" style="width: 800px">
+        <label for="menuurl" class="col-sm-2 control-label">菜单地址:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="menuurl"
+                   placeholder="请输入菜单地址" th:value="${menuinfo.url}">
+        </div>
+        <div>
+            <span id="VerificationMenuUrl" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
+    </div>
+
+    <div class="form-group" style="width: 800px">
+        <label for="menupermission" class="col-sm-2 control-label">菜单权限:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="menupermission"
+                   placeholder="请输入菜单权限名称" th:value="${menuinfo.permission}">
+        </div>
+        <div>
+            <span id="VerificationMenupermission" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
+    </div>
+    <div class="form-group" style="width: 800px">
+        <label for="menupersort" class="col-sm-2 control-label">菜单排序:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="menupersort"
+                   placeholder="请输入菜单排序" th:value="${menuinfo.sort}">
+        </div>
+        <div>
+            <span id="VerificationMenuSort" style="font-size: 16px;margin-left: 20px"></span>
+        </div>
+    </div>
+</form>
+<button type="button" class="btn btn-success" style="margin-left: 30%" id="updateMenu">修改</button>
+</body>
+<script>
+    //修改按钮
+    $('#updateMenu').click(function () {
+        var mid = $('#mid').val().toString().trim()
+        var parentid = $('#parentid').val().toString().trim();
+        var menuname = $('#menuname').val().toString().trim();
+        var menuurl = $('#menuurl').val().toString().trim();
+        var menupermission = $('#menupermission').val().toString().trim();
+        var menusort = $('#menupersort').val().toString().trim();
+        if (menuname == null || menuurl == null || menupermission == null || menusort == null) {
+            layer.msg("有必填项为空", {icon: 2});
+        } else {
+            if (menuname.indexOf(" ") == -1 && menuurl.indexOf(" ") == -1 && menupermission.indexOf("  ") == -1 && menusort.indexOf(" ") == -1) {
+                $.ajax({
+                    url: "/menuinfo/UpdateMenus",
+                    type: 'post',
+                    sync: false,
+                    data: {
+                        id: mid,
+                        name: menuname,
+                        url: menuurl,
+                        permission: menupermission,
+                        sort: menusort,
+                        parent_id: parentid
+                    },
+                    success: function (result) {
+                        if (result.code == "1") {
+                            layer.msg(result.content, {icon: 1});
+                            x_admin_close();
+                        } else {
+                            layer.msg(result.content, {icon: 2});
+                            x_admin_close();
+                        }
+                    }
+                })
+
+            } else {
+                layer.msg("不能带有空格", {icon: 2});
+            }
+        }
+    })
+</script>
+</html>

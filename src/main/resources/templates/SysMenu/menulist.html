@@ -114,7 +114,7 @@
                 align: "center",
                 formatter: function (value, row, index) {
                     var actions = [];
-                    actions.push('<a class="btn btn-success btn-xs "  onclick="updatemenu()"><i class="fa fa-edit"></i>编辑</a> ');
+                    actions.push('<a class="btn btn-success btn-xs "  onclick="updatemenu(\'' + row.id + '\',\'' + row.menuType + '\',\'' + row.menuName + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                     actions.push('<a class="btn btn-info btn-xs "  onclick="addmenu(\'' + row.id + '\',\'' + row.menuType + '\',\'' + row.menuName + '\')" href="#"><i class="fa fa-plus"></i>新增</a> ');
                     actions.push('<a class="btn btn-danger btn-xs "   onclick="deletemenu(\'' + row.id + '\',\'' + row.menuType + '\')"   href="#"><i class="fa fa-remove" ></i>删除</a>');
                     return actions.join('');
@@ -164,10 +164,12 @@
                         id: id
                     },
                     success: function (result) {
-                        if (result == "目录删除成功") {
-                            layer.msg('删除成功', {icon: 1});
+                        if (result.code == "1") {
+                            layer.msg(result.content, {icon: 1});
+                            x_admin_close();
                         } else {
-                            layer.msg('删除失败', {icon: 1});
+                            layer.msg(result.content, {icon: 2});
+                            x_admin_close();
                         }
                     }
                 })
@@ -184,10 +186,12 @@
                         id: id
                     },
                     success: function (result) {
-                        if (result == "菜单删除成功") {
-                            layer.msg('删除成功', {icon: 1});
+                        if (result.code == "1") {
+                            layer.msg(result.content, {icon: 1});
+                            x_admin_close();
                         } else {
-                            layer.msg('删除失败', {icon: 1});
+                            layer.msg(result.content, {icon: 2});
+                            x_admin_close();
                         }
                     }
                 })
@@ -203,12 +207,13 @@
                         id: id
                     },
                     success: function (result) {
-                        if (result == "按钮删除成功") {
-                            layer.msg('删除成功', {icon: 1});
+                        if (result.code == "1") {
+                            layer.msg(result.content, {icon: 1});
+                            x_admin_close();
                         } else {
-                            layer.msg('删除失败', {icon: 1});
+                            layer.msg(result.content, {icon: 2});
+                            x_admin_close();
                         }
-
                     }
                 })
             });
@@ -243,13 +248,21 @@
             });
         }
         if (menutype == "3") {
-            alert("按钮下不能添加下属");
+            layer.msg('按钮下不能在添加', {icon: 2});
         }
     }
 
     //修改菜单
-    function updatemenu() {
-        alert("修改菜单");
+    function updatemenu(id, menutype, name) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '修改' + name + '信息'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/menuinfo/GetUpdateResouces?id=' + id
+        });
     }
 
     //打开添加目录界面

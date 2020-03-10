@@ -18,4 +18,5 @@ public interface LogDao {
 
     LogEntity IdFindLog(@Param("id") String id);
 
+
 }

@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
+import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.service.MenuService.MenuService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +28,6 @@ public class MenuController {
     //跳转到菜单管理界面
     @RequestMapping(value = "")
     public String menulist(Model model) {
-
         return "SysMenu/menulist";
     }
 
@@ -51,6 +52,16 @@ public class MenuController {
         return "SysMenu/AddBuuton";
     }
 
+    /*
+    跳转到修改界面
+     */
+    @RequestMapping(value = "/GetUpdateResouces")
+    public String GetUpdateResouces(Model model, @RequestParam("id") String id) {
+        MenuEntity menuEntity = menuService.IDFindResoucesinfo(id);
+        model.addAttribute("menuinfo", menuEntity);
+        return "SysMenu/UpdateMenus";
+    }
+
     //获取所有的菜单
     @RequestMapping(value = "/FindAllMenu")
     @ResponseBody
@@ -63,61 +74,68 @@ public class MenuController {
     @LogAop("删除菜单")
     @PostMapping(value = "/deletemenu")
     @ResponseBody
-    public String deletemenu(@Param("id") String id) {
-        System.out.println(id);
-        String flag = menuService.DeleteMenu(id);
-        return flag;
+    public Result deletemenu(@Param("id") String id) {
+        Result result = menuService.DeleteMenu(id);
+        return result;
     }
 
 
-    //查询菜单名是否存在
+    //查询菜单名是否重复
     @PostMapping(value = "/VerificationMenuName")
     @ResponseBody
-    public String VerificationMenuName(@RequestParam("name") String name) {
-        String flag = menuService.VerificationMenuName(name);
-        return flag;
+    public Result VerificationMenuName(@RequestParam("name") String name) {
+        Result result = menuService.VerificationMenuName(name);
+        return result;
     }
 
-    //查询菜单地址是否存在
+    //查询菜单地址是否重复
     @PostMapping(value = "/VerificationMenuUrl")
     @ResponseBody
-    public String VerificationMenuUrl(@RequestParam("url") String url) {
-        String flag = menuService.VerificationMenuUrl(url);
-        return flag;
+    public Result VerificationMenuUrl(@RequestParam("url") String url) {
+        Result result = menuService.VerificationMenuUrl(url);
+        return result;
     }
 
-    //查询菜单权限是否存在
+    //查询菜单权限是否重复
     @PostMapping(value = "/VerificationMenuPermission")
     @ResponseBody
-    public String VerificationMenuPermission(@RequestParam("permission") String permission) {
-        String flag = menuService.VerificationMenuPermission(permission);
-        return flag;
+    public Result VerificationMenuPermission(@RequestParam("permission") String permission) {
+        Result result = menuService.VerificationMenuPermission(permission);
+        return result;
     }
 
     //添加菜单
     @LogAop("添加目录")
     @PostMapping(value = "/AddCatalog")
     @ResponseBody
-    public String AddCatalog(MenuEntity menuEntity) {
-        String flag = menuService.AddCatalog(menuEntity);
-        return flag;
+    public Result AddCatalog(MenuEntity menuEntity) {
+        Result result = menuService.AddCatalog(menuEntity);
+        return result;
     }
 
     //添加菜单
     @LogAop("添加菜单")
     @PostMapping(value = "/AddMenu")
     @ResponseBody
-    public String AddMenu(MenuEntity menuEntity) {
-        String flag = menuService.AddMenu(menuEntity);
-        return flag;
+    public Result AddMenu(MenuEntity menuEntity) {
+        Result result = menuService.AddMenu(menuEntity);
+        return result;
     }
 
     //添加菜单
     @LogAop("添加按钮")
     @PostMapping(value = "/AddButton")
     @ResponseBody
-    public String AddButton(MenuEntity menuEntity) {
-        String flag = menuService.AddButton(menuEntity);
-        return flag;
+    public Result AddButton(MenuEntity menuEntity) {
+        Result result = menuService.AddButton(menuEntity);
+        return result;
+    }
+
+    @LogAop("修改菜单")
+    @PostMapping(value = "/UpdateMenus")
+    @ResponseBody
+    public Result UpdateMenus(MenuEntity menuEntity) throws Exception {
+        Result result = menuService.UpdateMenus(menuEntity);
+        return result;
     }
 }
