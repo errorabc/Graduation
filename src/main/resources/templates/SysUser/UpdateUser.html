@@ -60,7 +60,7 @@
             <label>新角色</label>
             <label th:each="rolenamelist:${rolenamelist}" style="margin-left: 50px">
                 <input type="radio" name="optionsRadios" th:id="${rolenamelist.id}"
-                       th:text="${rolenamelist.description}" th:value="${rolenamelist.description}">
+                       th:text="${rolenamelist.name}" th:value="${rolenamelist.name}">
             </label>
         </div>
         <br/>
@@ -77,10 +77,10 @@
         var id = $('#inputid').val().toString().trim();
         var password = $('#inputPassword').val().toString().trim();
         var enterpassword = $('#EnterPassword').val().toString().trim();
-        var optionsRadios = $('input[name  ="optionsRadios"]').filter(':checked').val();
+        var rolename = $('input[name  ="optionsRadios"]').filter(':checked').val();
         if (password != null || enterpassword != null) {
             var reg = new RegExp(/^[a-zA-Z0-9]{6,10}$/);
-            if (reg.test(password) && reg.test(enterpassword) && password == enterpassword && optionsRadios != undefined) {
+            if (reg.test(password) && reg.test(enterpassword) && password == enterpassword && rolename != undefined) {
                 $.ajax({
                     url: "/userinfo/UpdateUser",
                     async: false,
@@ -88,7 +88,7 @@
                     data: {
                         id: id,
                         password: password,
-                        description: optionsRadios
+                        name: rolename
                     },
                     success: function (result) {
                         if (result == "修改成功") {

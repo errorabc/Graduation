@@ -16,4 +16,6 @@ public interface RoleDao {
 
     boolean DeleteUserRole(@Param("id") String id);
 
+    List<RoleEntity> FindRoleInfo(@Param("name")String name);
+
 }

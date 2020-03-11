@@ -54,7 +54,7 @@ where  a.username=#{username}
             ON ur.userid=u.id
             JOIN sys_role as r
             ON r.id=ur.roleid
-            WHERE r.description='用户'
+            WHERE r.name='用户'
         </if>
     </select>
     <!--查询用户是否存在-->

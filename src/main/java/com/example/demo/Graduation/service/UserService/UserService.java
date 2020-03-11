@@ -35,10 +35,9 @@ public class UserService {
 
 
     //不同权限的获取不同的用户信息
-
     public List<UserEntity> RoleFindUserinfo(String username) {
         UserEntity userEntity = userDao.Finduserinfo2(username);//根据用户的账号查询用户的信息
-        String userrolename = userEntity.getRoleEntity().getDescription();//当前登录用户的账号的权限
+        String userrolename = userEntity.getRoleEntity().getName();//当前登录用户的账号的权限
         List<UserEntity> userEntityList = userDao.RoleFindUserinfo(userrolename);
         return userEntityList;
     }
@@ -60,8 +59,8 @@ public class UserService {
     /*
     添加用户
      */
-    public String AddUserInfo(UserEntity userEntity, String description) throws Exception {
-        RoleEntity roleEntity = roleDao.RoleNameFindRoleInfo(description);
+    public String AddUserInfo(UserEntity userEntity, String name) throws Exception {
+        RoleEntity roleEntity = roleDao.RoleNameFindRoleInfo(name);
         String ConfidentialPassword = PasswordUtil.PasswordConfidential(userEntity.getUsername(), userEntity.getPassword());
         String uuid = UUID.randomUUID().toString();
         userEntity.setId(uuid);
@@ -80,7 +79,7 @@ public class UserService {
     //封停用户
     public String SealUser(String id) {
         UserEntity userEntity = userDao.UserIdFindUserinfo(id);
-        if (userEntity.getRoleEntity().getDescription().equals("超级管理员")) {
+        if (userEntity.getRoleEntity().getName().equals("超级管理员")) {
             return "超级管理员不可被封停";
         } else {
             if (userDao.SealUser(id)) {
@@ -105,7 +104,7 @@ public class UserService {
      */
     public String DeleteUserInfo(String id) {
         UserEntity userEntity = userDao.UserIdFindUserinfo(id);
-        if (userEntity.getRoleEntity().getDescription().equals("超级管理员")) {
+        if (userEntity.getRoleEntity().getName().equals("超级管理员")) {
             return "超级管理员不可被删除";
         } else {
             if (roleDao.DeleteUserRole(id)) {
@@ -129,8 +128,8 @@ public class UserService {
     /*
     修改用户信息
      */
-    public String UpdateUser(UserEntity userEntity, String description) throws Exception {
-        RoleEntity roleEntity = roleDao.RoleNameFindRoleInfo(description);//查询角色名称的id
+    public String UpdateUser(UserEntity userEntity, String name) throws Exception {
+        RoleEntity roleEntity = roleDao.RoleNameFindRoleInfo(name);//查询角色名称的id
         UserEntity user = userDao.UserIdFindUserinfo(userEntity.getId());//获取用户的信息
         String ConfidentialPassword = PasswordUtil.PasswordConfidential(user.getUsername(), userEntity.getPassword());//根据密码和盐值生成加密生成新密码
 

@@ -17,10 +17,6 @@
      INSERT INTO  sys_log VALUES(#{id},#{username},#{operation},#{time},#{method},#{params},#{ip},#{create_time})
     </insert>
 
-    <!--查询出所有的日志记录-->
-    <select id="FindAllSysLog" resultMap="logmap">
-      SELECT * FROM sys_log ORDER BY create_time DESC
-    </select>
 
     <!--根据查询条件查询日志信息-->
     <select id="FindSysLog" resultMap="logmap">

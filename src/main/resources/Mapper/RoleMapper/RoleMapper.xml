@@ -17,17 +17,28 @@
         </if>
         <!--管理员-->
         <if test="rolename!='超级管理员'">
-            SELECT * FROM sys_role  where description !='超级管理员'
+            SELECT * FROM sys_role where description !='超级管理员'
         </if>
 
     </select>
     <!--根据角色的名称查询角色的信息-->
     <select id="RoleNameFindRoleInfo" resultMap="rolemap">
-        SELECT * FROM sys_role WHERE description=#{rolename}
+        SELECT * FROM sys_role WHERE name=#{rolename}
+    </select>
+
+    <!--查询角色信息-->
+    <select id="FindRoleInfo" resultMap="rolemap">
+        SELECT * FROM sys_role
+        <where>
+            <if test="name!=null and name!=''">
+                name=#{name}
+            </if>
+        </where>
     </select>
 
     <delete id="DeleteUserRole">
- DELETE FROM sys_user_role WHERE userid=#{id}
+     DELETE FROM sys_user_role WHERE userid=#{id}
     </delete>
+
 
 </mapper>

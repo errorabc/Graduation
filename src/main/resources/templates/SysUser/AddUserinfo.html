@@ -53,7 +53,7 @@
             <label>角色</label>
             <label th:each="rolenamelist:${rolenamelist}" style="margin-left: 50px">
                 <input type="radio" name="optionsRadios" th:id="${rolenamelist.id}"
-                       th:text="${rolenamelist.description}" th:value="${rolenamelist.description}">
+                       th:text="${rolenamelist.name}" th:value="${rolenamelist.name}">
             </label>
         </div>
         <br/>
@@ -80,7 +80,7 @@
                     data: {
                         username: username,
                         password: password,
-                        description: optionsRadios
+                        name: optionsRadios
                     },
                     success: function (result) {
                         alert(result)

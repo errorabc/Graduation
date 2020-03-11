@@ -11,7 +11,7 @@
     <link rel="stylesheet" th:href="@{/bootstrap/bootstrap-treetable.css}"/>
     <link rel="stylesheet" th:href="@{/css/font.css}">
     <link rel="stylesheet" th:href="@{/css/xadmin.css}">
-    <link rel="stylesheet" th:href="@{/css/syslog.css}">
+    <link rel="stylesheet" th:href="@{/static/css/page.css}">
 </head>
 <body>
 <br/>
@@ -209,10 +209,8 @@
                     success: function (result) {
                         if (result.code == "1") {
                             layer.msg(result.content, {icon: 1});
-                            x_admin_close();
                         } else {
                             layer.msg(result.content, {icon: 2});
-                            x_admin_close();
                         }
                     }
                 })

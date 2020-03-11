@@ -9,7 +9,7 @@
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <link rel="stylesheet" th:href="@{/css/font.css}">
     <link rel="stylesheet" th:href="@{/css/xadmin.css}">
-    <link rel="stylesheet" th:href="@{/css/syslog.css}">
+    <link rel="stylesheet" th:href="@{/css/page.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
@@ -33,7 +33,8 @@
 <div class="x-body">
     <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so" th:action="@{'/syslog'}" method="post">
-            <input class="layui-input" placeholder="开始日" name="starttime" id="timestart" th:value="${logEntity.starttime}">
+            <input class="layui-input" placeholder="开始日" name="starttime" id="timestart"
+                   th:value="${logEntity.starttime}">
             <input class="layui-input" placeholder="截止日" name="endtime" id="timeend" th:value="${logEntity.endtime}">
             <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input"
                    id="username" th:value="${logEntity.username}">
@@ -118,6 +119,7 @@
         }
     });
 
+    //详情
     function details(id) {
         layer.open({
             type: 2 //Page层类型

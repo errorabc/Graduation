@@ -73,8 +73,8 @@ public class UserController {
     @LogAop("添加用户")
     @PostMapping(value = "/AddUserInfo")
     @ResponseBody
-    public String AddUserInfo(UserEntity userEntity, @RequestParam("description") String description) throws Exception {
-        String flag = userService.AddUserInfo(userEntity, description);
+    public String AddUserInfo(UserEntity userEntity, @RequestParam("description") String name) throws Exception {
+        String flag = userService.AddUserInfo(userEntity, name);
         return flag;
     }
 
@@ -97,7 +97,7 @@ public class UserController {
     }
 
     /*
-    解封账号
+    删除
      */
     @PostMapping(value = "/DeleteUserInfo")
     @ResponseBody
@@ -124,8 +124,8 @@ public class UserController {
     //修改用户信息
     @PostMapping(value = "/UpdateUser")
     @ResponseBody
-    public String UpdateUser(UserEntity userEntity, String description) throws Exception {
-        String flag = userService.UpdateUser(userEntity, description);
+    public String UpdateUser(UserEntity userEntity, String name) throws Exception {
+        String flag = userService.UpdateUser(userEntity, name);
         return flag;
     }
 

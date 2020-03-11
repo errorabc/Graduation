@@ -12,7 +12,6 @@ public interface LogDao {
 
     void saveSysLog(LogEntity logEntity);
 
-    List<LogEntity> FindAllSysLog();
 
     List<LogEntity> FindSysLog(@Param("starttime") String starttime, @Param("endtime") String endtime, @Param("username") String username);
 

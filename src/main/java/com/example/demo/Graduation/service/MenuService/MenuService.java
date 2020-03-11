@@ -203,9 +203,9 @@ public class MenuService {
             menuDao.DeleteMenu(id);
             menuDao.DeleteMenuUser(id);
             if (null != menuDao.IDFindResoucesinfo(id)) {
-                Result.error(0, "目录删除失败");
+                return Result.error(0, "目录删除失败");
             } else {
-                Result.success(1, "目录删除成功");
+                return Result.success(1, "目录删除成功");
             }
         }
 
@@ -213,9 +213,9 @@ public class MenuService {
         if (menuEntity.getType() == 2) {
             if (menuDao.DeleteMenu(id)) {//删除按钮信息
                 menuDao.DeleteMenuUser(id); //删除按钮和用户的绑定
-                Result.success(1, "菜单删除成功");
+                return Result.success(1, "菜单删除成功");
             } else {
-                Result.error(0, "菜单删除失败");
+                return Result.error(0, "菜单删除失败");
             }
         }
 
@@ -223,12 +223,13 @@ public class MenuService {
         if (menuEntity.getType() == 3) {
             if (menuDao.DeleteMenu(id)) {//删除按钮信息
                 menuDao.DeleteMenuUser(id); //删除按钮和用户的绑定
-                Result.success(1, "按钮删除成功");
+                return Result.success(1, "按钮删除成功");
             } else {
-                Result.error(0, "按钮删除失败");
+                return Result.error(0, "按钮删除失败");
             }
+        } else {
+            return Result.error(0, "服务器异常");
         }
-        return Result.error(0, "");
     }
 
 
@@ -278,8 +279,8 @@ public class MenuService {
                 return Result.error(0, "修改失败");
             }
 
+        } else {
+            return Result.error(0, "服务器异常");
         }
-
-        return Result.error(1, "");
     }
 }
