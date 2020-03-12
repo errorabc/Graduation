@@ -9,7 +9,7 @@
         <result property="method" column="method" jdbcType="VARCHAR"/>
         <result property="params" column="params" jdbcType="VARCHAR"/>
         <result property="ip" column="ip" jdbcType="VARCHAR"/>
-        <result property="create_time" column="create_time" jdbcType="DATE"/>
+        <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--添加日志记录-->

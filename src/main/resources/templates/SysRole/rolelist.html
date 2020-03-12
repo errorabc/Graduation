@@ -36,8 +36,9 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','role-add.html')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <button class="layui-btn" onclick="x_admin_show('添加用户','/roleinfo/GetRoleAdd',800,600)"><i
+                class="layui-icon"></i>添加
+        </button>
     </xblock>
     <table class="layui-table">
         <thead>
@@ -57,10 +58,10 @@
             <td th:text="${#dates.format(role.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${#dates.format(role.updatetime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td class="td-manage">
-                <a title="编辑" href="javascript:;">
+                <a title="编辑" href="javascript:;" th:onclick="updaterole([[${role.id}]])">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" th:onclick="" href="javascript:;">
+                <a title="删除" href="javascript:;" th:onclick="deleterole([[${role.id}]])">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>
@@ -75,6 +76,7 @@
 <script th:src="@{/js/pageMe.js}"></script>
 <script th:inline="javascript">
     var rolelist = [[${rolelist}]];
+    console.log([[${rolelist.list}]])
     var name = $('#name').val().toString().trim();
     $("#page").paging({
         pageNum: rolelist.pageNum, // 当前页面
@@ -100,6 +102,42 @@
             //捉到所有被选中的，发异步进行删除
             layer.msg('删除成功', {icon: 1});
             $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+    }
+
+    function updaterole(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '600px']
+            , title: '修改信息'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/roleinfo/GetRoleUpdate?id=' + id
+        });
+    }
+
+    //删除
+    function deleterole(id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                url: "/roleinfo/DeleteRoleInfo",
+                type: "post",
+                anys: false,
+                data: {
+                    id: id,
+                }, success: function (result) {
+                    if (result.code == '1') {
+                        layer.msg(result.content, {icon: 1});
+                        x_admin_close();
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                        x_admin_close();
+                    }
+                }
+            })
+
+
         });
     }
 </script>

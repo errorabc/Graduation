@@ -1,5 +1,7 @@
 package com.example.demo.Graduation.entity.RoleEntity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class RoleEntity {

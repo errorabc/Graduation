@@ -5,9 +5,10 @@
         <id property="id" column="id" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
-        <result property="createtime" column="createtime" jdbcType="DATE"/>
-        <result property="updatetime" column="updatetime" jdbcType="DATE"/>
+        <result property="createtime" column="createtime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updatetime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
 
     <!--不同角色查询权限信息-->
     <select id="DifferentRoleFindRoleInfo" resultMap="rolemap">
@@ -36,9 +37,22 @@
         </where>
     </select>
 
+    <!--删除用户和角色的信息-->
     <delete id="DeleteUserRole">
      DELETE FROM sys_user_role WHERE userid=#{id}
     </delete>
+    <!--添加角色信息-->
+    <insert id="AddRoleinfo">
+            INSERT INTO  sys_role VALUES(#{id},#{name},#{description},#{createtime},#{updatetime})
+    </insert>
+    <!--ID查询角色信息-->
+    <select id="IdFindRoleInfo" resultMap="rolemap">
+    SELECT * FROM sys_role WHERE id=#{id}
+    </select>
+    <!--修改角色信息 -->
+    <update id="UpdateRoleInfo">
+        UPDATE sys_role SET name=#{name},description=#{description},updatetime=#{updatetime}  WHERE id=#{id}
+    </update>
 
 
 </mapper>
