@@ -34,18 +34,18 @@ CREATE TABLE `sys_log` (
 -- ----------------------------
 -- Records of sys_log
 -- ----------------------------
-INSERT INTO `sys_log` VALUES ('0b880e1b-5990-4747-a7f7-30235edb3f4c', 'admin', '添加用户', '195', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity.UserEntity@88a4c9description: 用户', '0:0:0:0:0:0:0:1', '2020-02-28 16:50:00');
+INSERT INTO `sys_log` VALUES ('0b880e1b-5990-4747-a7f7-30235edb3f4c', 'admin', '添加用户', '195', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity@88a4c9description: 用户', '0:0:0:0:0:0:0:1', '2020-02-28 16:50:00');
 INSERT INTO `sys_log` VALUES ('1', 'root', '添加用户', '111', '11111', '11111', '11111', '2020-03-01 22:56:58');
 INSERT INTO `sys_log` VALUES ('2', 'admin', '添加用户', '1111', '11111', '1111', '1111', '2020-03-27 22:57:54');
 INSERT INTO `sys_log` VALUES ('333', 'admin', '添加用户', '111', '111', '111', '111', '2020-03-12 22:58:12');
 INSERT INTO `sys_log` VALUES ('4444', 'admin', '添加用户', '1111', '1111', '111', '111', '2020-03-19 22:58:28');
 INSERT INTO `sys_log` VALUES ('555', 'admin', '添加用户', '111', '1111', '1111', '111', '2020-03-06 22:58:50');
 INSERT INTO `sys_log` VALUES ('6666', 'admin', '添加用户', '1111', '2222', '2222', '22', '2020-03-06 22:59:12');
-INSERT INTO `sys_log` VALUES ('6dc1862c-e385-4c3a-9be0-b8f15d2297ef', 'admin', '添加用户', '142', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity.UserEntity@4e5a8852description: 用户', '0:0:0:0:0:0:0:1', '2020-02-28 16:48:34');
+INSERT INTO `sys_log` VALUES ('6dc1862c-e385-4c3a-9be0-b8f15d2297ef', 'admin', '添加用户', '142', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity@4e5a8852description: 用户', '0:0:0:0:0:0:0:1', '2020-02-28 16:48:34');
 INSERT INTO `sys_log` VALUES ('777', 'admin', '添加用户', '111', '2222', '333', '444', '2020-03-07 22:59:25');
-INSERT INTO `sys_log` VALUES ('7d3b9d7d-ecf2-4abd-8f5c-da9cb773b0d7', 'admin', '添加用户', '336', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity.UserEntity@2d3b66fdescription: 用户', '0:0:0:0:0:0:0:1', '2020-02-28 16:47:04');
-INSERT INTO `sys_log` VALUES ('9d041d2f-ea49-46c7-9d1f-e140a1990cfe', 'admin', '添加用户', '248', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity.UserEntity@712bc222description: 用户', '0:0:0:0:0:0:0:1', '2020-02-28 16:48:19');
-INSERT INTO `sys_log` VALUES ('aa7cf812-386d-4492-89f2-8296bfe47613', 'admin', '添加用户', '173', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity.UserEntity@52857b7fdescription: 用户', '0:0:0:0:0:0:0:1', '2020-02-25 14:09:06');
+INSERT INTO `sys_log` VALUES ('7d3b9d7d-ecf2-4abd-8f5c-da9cb773b0d7', 'admin', '添加用户', '336', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity@2d3b66fdescription: 用户', '0:0:0:0:0:0:0:1', '2020-02-28 16:47:04');
+INSERT INTO `sys_log` VALUES ('9d041d2f-ea49-46c7-9d1f-e140a1990cfe', 'admin', '添加用户', '248', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity@712bc222description: 用户', '0:0:0:0:0:0:0:1', '2020-02-28 16:48:19');
+INSERT INTO `sys_log` VALUES ('aa7cf812-386d-4492-89f2-8296bfe47613', 'admin', '添加用户', '173', 'com.example.demo.Graduation.controller.UserController.UserController.AddUserInfo()', 'userEntity: com.example.demo.Graduation.entity.UserEntity@52857b7fdescription: 用户', '0:0:0:0:0:0:0:1', '2020-02-25 14:09:06');
 
 -- ----------------------------
 -- Table structure for `sys_resources`

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/page.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="layui-anim layui-anim-up">
+<div class="x-nav">
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so" th:action="@{/userinfo}">
+            <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input"
+                   id="username" th:value="${username}">
+            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+    <xblock>
+        <button class="layui-btn" onclick="x_admin_show('添加用户','/userinfo/addusers',800,450)"><i
+                class="layui-icon"></i>添加
+        </button>
+    </xblock>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>账号</th>
+            <th>角色</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${userinfo.list}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.roleEntity.name}"></td>
+            <td class="td-status" th:if="${user.status} eq  1">
+                <button type="button" class="layui-btn layui-btn-normal">正常</button>
+            </td>
+            <td class="td-status" th:if="${user.status} eq  0">
+                <button type="button" class="layui-btn layui-btn-disabled">禁用</button>
+            </td>
+            <td class="td-manage">
+                <button type="button" class="btn btn-danger" th:if="${user.status} eq  1"
+                        th:onclick="StopUser([[${user.id}]])">停用
+                </button>
+                <button type="button" class="btn btn-success" th:if="${user.status} eq  0"
+                        th:onclick="EnableUser([[${user.id}]])">启用
+                </button>
+                <button type="button" class="btn btn-info" th:onclick="UpdateUser([[${user.id}]])"
+                        title="修改" href="javascript:;">修改
+                </button>
+                <button type="button" class="btn btn-danger" th:onclick="member_del(this,[[${user.id}]])"
+                        href="javascript:;">删除
+                </button>
+
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(userinfo.list)}">
+            <td colspan="9" style="color: red;font-size: 32px;">暂无数据</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page">
+        <div id="page" class="page_div"></div>
+    </div>
+</div>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script th:src="@{/js/pageMe.js}"></script>
+<script th:inline="javascript">
+    var userlist = [[${userinfo}]];
+    var username = $('#username').val().toString().trim();
+    //翻页
+    $("#page").paging({
+        pageNum: userlist.pageNum, // 当前页面
+        totalNum: userlist.pages, // 总页码
+        totalList: userlist.total, // 记录总数量
+        callback: function (num) { //回调函数
+            window.location.href = "/userinfo?pageNo=" + num + "&username=" + username;
+        }
+    });
+
+    /*用户-删除*/
+    function member_del(obj, id) {
+        var data = tableCheck.getData();
+        layer.confirm('确认要删除吗？' + data, function (index) {
+            $.ajax({
+                url: "/userinfo/DeleteUserInfo",
+                async: false,
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        x_admin_close();
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                        x_admin_close();
+                    }
+                }
+
+            });
+        });
+    }
+
+
+    //账号停用
+    function StopUser(id) {
+        var data = tableCheck.getData();
+        layer.confirm('确认要停用吗？' + data, function (index) {
+            $.ajax({
+                url: "/userinfo/SealUser",
+                async: false,
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        x_admin_close();
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                        x_admin_close();
+                    }
+                }
+            });
+        });
+
+    }
+
+    //账号恢复使用
+    function EnableUser(id) {
+        var data = tableCheck.getData();
+        layer.confirm('确认要解封吗？' + data, function (index) {
+            $.ajax({
+                url: "/userinfo/RelieveSealUser",
+                async: false,
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        x_admin_close();
+                        refresh();
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                        x_admin_close();
+                    }
+                }
+            });
+        });
+    }
+
+    //修改
+    function UpdateUser(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '修改信息'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/userinfo/UpdateUserInfo?id=' + id
+        });
+    }
+</script>
+</body>
+
+</html>

@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
-        interceptorRegistry.addInterceptor(myInterceptorConfig).addPathPatterns("/**").excludePathPatterns("/login", "/loginin", "/css/**", "/fonts/**", "/images/**", "/js/**", "/lib/**","/bootstrap/**");
+        interceptorRegistry.addInterceptor(myInterceptorConfig).addPathPatterns("/**").excludePathPatterns("/login", "/loginin", "/css/**", "/fonts/**", "/images/**", "/js/**", "/lib/**","/bootstrap/**","/layui2.5/**");
     }
 
 

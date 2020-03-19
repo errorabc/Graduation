@@ -1,30 +1,33 @@
 package com.example.demo.Graduation.controller.RoleController;
 
-import com.example.demo.Graduation.Dao.RoleDao.RoleDao;
-import com.example.demo.Graduation.Tool.PasswordUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Graduation.entity.Result;
-import com.example.demo.Graduation.entity.RoleEntity.RoleEntity;
+import com.example.demo.Graduation.entity.RoleEntity;
+import com.example.demo.Graduation.entity.RoleResourcesEntity;
+import com.example.demo.Graduation.service.MenuService.MenuService;
 import com.example.demo.Graduation.service.RoleService.RoleService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/roleinfo")
 public class RoleController {
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private MenuService menuService;
 
     //跳转到角色管理
     @RequestMapping(value = "")
     public String rolelist(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize, RoleEntity roleEntity) {
         PageInfo<RoleEntity> pageInfolist = roleService.FindRoleInfo(pageNo, pageSize, roleEntity.getName());
-        System.out.println(pageInfolist.getSize());
         model.addAttribute("rolelist", pageInfolist);
         model.addAttribute("rolename", roleEntity.getName());
         return "SysRole/rolelist";
@@ -33,14 +36,16 @@ public class RoleController {
     //跳转到添加角色界面
     @RequestMapping(value = "/GetRoleAdd")
     public String GetRoleAdd(Model model) {
+        JSONArray jsonArray = menuService.FindAllMenuZtree();
+        model.addAttribute("ztree", jsonArray);
         return "SysRole/roleadd";
     }
 
     //添加角色
     @PostMapping(value = "/AddRoleinfo")
     @ResponseBody
-    public Result AddRoleinfo(RoleEntity roleEntity) {
-        Result result = roleService.AddRoleinfo(roleEntity);
+    public Result AddRoleinfo(RoleEntity roleEntity, @RequestParam("ztree") String ztree) {
+        Result result = roleService.AddRoleinfo(roleEntity, ztree);
         return result;
     }
 
@@ -55,8 +60,13 @@ public class RoleController {
     //跳转到修改角色界面
     @RequestMapping(value = "/GetRoleUpdate")
     public String GetRoleUpdate(@RequestParam("id") String id, Model model) {
-        RoleEntity roleEntity = roleService.IdFindRoleInfo(id);
+        RoleEntity roleEntity = roleService.IdFindRoleInfo(id);//查询用户的信息
+        JSONArray jsonArray = menuService.FindAllMenuZtree();
+        List<RoleResourcesEntity> roleResourcesLists = roleService.FindRoleAllResources(id);
+        System.out.println(roleResourcesLists.size()+"条");
+        model.addAttribute("ztree", jsonArray);
         model.addAttribute("role", roleEntity);
+        model.addAttribute("roleresources", roleResourcesLists);
         return "SysRole/roleupdate";
     }
 
@@ -71,7 +81,8 @@ public class RoleController {
     //删除角色信息
     @PostMapping(value = "/DeleteRoleInfo")
     @ResponseBody
-    public String DeleteRoleInfo(@RequestParam("id") String id) {
-        return "";
+    public Result DeleteRoleInfo(@RequestParam("id") String id) {
+        Result result = roleService.DeleteRoleInfo(id);
+        return result;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.Graduation.controller.MenuMgController;
 
-import com.example.demo.Graduation.entity.UserEntity.UserEntity;
+import com.example.demo.Graduation.entity.RoleEntity;
+import com.example.demo.Graduation.entity.UserEntity;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 import com.example.demo.Graduation.service.UserService.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -24,11 +25,11 @@ public class MenuMgController {
     @RequestMapping(value = "/Welcome")
     public String Test2(Model model) {
         String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//已经登录的用户
-        UserEntity userEntity = userService.Finduserinfo2(LoginUsername);
-        model.addAttribute("userEntity", userEntity);
+        RoleEntity roleEntity = userService.Finduserinfo2(LoginUsername);
+        model.addAttribute("roleEntity", roleEntity);
+        model.addAttribute("username",LoginUsername);
         return "welcome";
     }
-    
 
 
 }

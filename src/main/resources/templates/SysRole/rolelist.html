@@ -6,7 +6,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
-          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+          content="width=device-width,user-scalable=yes, minimum-scale=a0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <link rel="stylesheet" th:href="@{/css/font.css}">
     <link rel="stylesheet" th:href="@{/css/xadmin.css}">
     <script src=".." th:src="@{/js/jquery.min.js}"></script>
@@ -36,7 +36,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','/roleinfo/GetRoleAdd',800,600)"><i
+        <button class="layui-btn" onclick="x_admin_show('添加用户','/roleinfo/GetRoleAdd',1000,800)"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -76,7 +76,6 @@
 <script th:src="@{/js/pageMe.js}"></script>
 <script th:inline="javascript">
     var rolelist = [[${rolelist}]];
-    console.log([[${rolelist.list}]])
     var name = $('#name').val().toString().trim();
     $("#page").paging({
         pageNum: rolelist.pageNum, // 当前页面
@@ -87,14 +86,6 @@
         }
     });
 
-    /*用户-删除*/
-    function member_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {icon: 1, time: 1000});
-        });
-    }
 
     function delAll(argument) {
         var data = tableCheck.getData();
@@ -108,7 +99,7 @@
     function updaterole(id) {
         layer.open({
             type: 2 //Page层类型
-            , area: ['800px', '600px']
+            , area: ['1000px', '800px']
             , title: '修改信息'
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
@@ -129,10 +120,10 @@
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});
-                        x_admin_close();
+                        resh();
                     } else {
                         layer.msg(result.content, {icon: 2});
-                        x_admin_close();
+                        resh();
                     }
                 }
             })

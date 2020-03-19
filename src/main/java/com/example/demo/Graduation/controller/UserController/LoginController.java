@@ -1,13 +1,9 @@
 package com.example.demo.Graduation.controller.UserController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Graduation.Dao.UserDao.UserDao;
-import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
-import com.example.demo.Graduation.entity.Until.JstreeVO;
-import com.example.demo.Graduation.entity.UserEntity.UserEntity;
+import com.example.demo.Graduation.entity.MenuEntity;
+import com.example.demo.Graduation.entity.JstreeVO;
 import com.example.demo.Graduation.service.MenuService.MenuService;
-import javafx.scene.chart.ValueAxis;
-import org.apache.ibatis.annotations.Param;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -15,12 +11,10 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,10 +93,10 @@ public class LoginController {
     public String index(Model model) {
         String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//已经登录的用户
         if (null != LoginUsername) {
-            List<MenuEntity> menuEntityList1 = menuService.FindeMenus(LoginUsername);  //获取一级菜单
+            List<MenuEntity> menuEntityList1 = menuService.FindMenusType1(LoginUsername);  //获取一级菜单
             List<MenuEntity> menuEntityList2 = null;
             List<MenuEntity> menuEntityList3 = new ArrayList<MenuEntity>();
-            menuEntityList2 = menuService.FindMenusParentId(LoginUsername);  //查询二级菜单
+            menuEntityList2 = menuService.FindMenusType2(LoginUsername);  //查询二级菜单
             for (MenuEntity p2 : menuEntityList2) {
                 MenuEntity menuEntity = new MenuEntity();
                 menuEntity.setName(p2.getName());
@@ -111,6 +105,8 @@ public class LoginController {
                 menuEntity.setUrl(p2.getUrl());
                 menuEntityList3.add(menuEntity);
             }
+            System.out.println(menuEntityList1.size() + "一级菜单");
+            System.out.println(menuEntityList2.size() + "二级菜单");
             model.addAttribute("menus", menuEntityList1);
             model.addAttribute("menus2", menuEntityList3);
             model.addAttribute("username", LoginUsername);

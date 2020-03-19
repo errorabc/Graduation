@@ -1,6 +1,6 @@
 package com.example.demo.Graduation.Dao.MenuDao;
 
-import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
+import com.example.demo.Graduation.entity.MenuEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,13 +10,17 @@ import java.util.List;
 @Mapper
 public interface MenuDao {
 
-    List<MenuEntity> FindMenusType1(@Param("rolename") String rolename, @Param("userid") String userid);
+    List<MenuEntity> FindMenusType1(@Param("roleid") String roleid);
 
-    List<MenuEntity> FindMenusParentId(@Param("username") String username);
+    List<MenuEntity> FindMenusType2(@Param("roleid") String roleid);
 
-    List<MenuEntity> UserNameFindPerssiom(@Param("username") String username, @Param("rolename") String rolename);
 
-    List<MenuEntity> RoleUsernameFindButton(@Param("username") String username, @Param("id") String id);
+    List<MenuEntity> FindMenusType11();
+
+    List<MenuEntity> FindMenusType22();
+
+
+    List<MenuEntity> UserNameFindPerssiom(@Param("roleid") String roleid);
 
     MenuEntity Menu2NameFindID(@Param("name") String name);
 
@@ -39,5 +43,7 @@ public interface MenuDao {
     List<MenuEntity> ParentIdFindResoucesinfo(@Param("id") String id);
 
     boolean updateMenuinfo(MenuEntity menuEntity);
+
+    List<MenuEntity> FindAllsMenu();
 
 }

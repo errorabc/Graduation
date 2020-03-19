@@ -9,9 +9,13 @@
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <link rel="stylesheet" th:href="@{/css/font.css}">
     <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/ztree/demo.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/ztree/zTreeStyle/zTreeStyle.css}" type="text/css">
     <script th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ztree/jquery.ztree.core.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ztree/jquery.ztree.excheck.js}"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -46,6 +50,14 @@
                           lay-verify="description" th:text="${role.description}"></textarea>
             </div>
         </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">角色权限</label>
+            <br/>
+            <br/>
+            <div class="zTreeDemoBackground left" style="margin-left: 100px">
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+        </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button type="submit" class="layui-btn" lay-submit="" lay-filter="update">修改</button>
@@ -53,7 +65,10 @@
         </div>
     </form>
 </div>
-<script>
+<script th:inline="javascript">
+    var zNodes = [[${ztree}]];
+    var roleresources = [[${roleresources}]];
+    console.log(roleresources);
     layui.use(['form', 'layer'], function () {
         $ = layui.jquery;
         var form = layui.form
@@ -101,6 +116,57 @@
         });
 
     });
+
+
+    var setting = {
+        check: {
+            enable: true
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        }
+    };
+
+    var code;
+
+    function setCheck() {
+        var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+            type = {"Y": "ps", "N": "ps"};
+        zTree.setting.check.chkboxType = type;
+    }
+
+    function showCode(str) {
+        if (!code) code = $("#code");
+        code.empty();
+        code.append("<li>" + str + "</li>");
+    }
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        setCheck();
+        Checklist();
+    });
+
+
+    function jsonztree() {
+        var treeObj = $.fn.zTree.getZTreeObj("treeDemo"), nodes = treeObj.getCheckedNodes(true), v = "";
+        for (var i = 0; i < nodes.length; i++) {
+            v += nodes[i].name + ",";
+            console.log("节点id:" + nodes[i].id + "节点名称" + v); //获取选中节点的值
+        }
+    }
+
+    function Checklist() {
+        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+        for (var index in roleresources) {
+            var node = zTree.getNodeByParam("id",roleresources[index].resourcesid);
+            if(node!=null) {
+                zTree.checkNode(node, true);//指定选中ID的节点
+            }
+        }
+    }
 
 </script>
 </body>

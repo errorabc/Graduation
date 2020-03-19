@@ -2,12 +2,14 @@ package com.example.demo.Graduation.controller.UserController;
 
 
 import com.example.demo.Graduation.Annotation.LogAop;
-import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
-import com.example.demo.Graduation.entity.RoleEntity.RoleEntity;
-import com.example.demo.Graduation.entity.UserEntity.UserEntity;
+import com.example.demo.Graduation.entity.MenuEntity;
+import com.example.demo.Graduation.entity.Result;
+import com.example.demo.Graduation.entity.RoleEntity;
+import com.example.demo.Graduation.entity.UserEntity;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 import com.example.demo.Graduation.service.RoleService.RoleService;
 import com.example.demo.Graduation.service.UserService.UserService;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -33,15 +35,11 @@ public class UserController {
     //跳转到用户管理界面
     @RequiresPermissions("user:user")
     @RequestMapping("")
-    public String UserInfo(Model model) {
-        String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
-        List<UserEntity> userEntityList = userService.RoleFindUserinfo(LoginUsername);//查询用户的信息
-        List<MenuEntity> menuEntityListButton = menuService.RoleFindMenuButton(LoginUsername);
-        //查询当前用户在用户管理界面拥有的界面
-        model.addAttribute("userinfo", userEntityList);
-        model.addAttribute("menubutton", menuEntityListButton);
-        model.addAttribute("btton", menuEntityListButton);
-        return "SysUser/userinfo";
+    public String UserInfo(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestParam(value = "pageSize", defaultValue = "5") int pageSize, UserEntity userEntity) {
+        PageInfo<UserEntity> userEntityPageInfo = userService.RoleFindUserinfo(pageNo, pageSize, userEntity.getUsername());
+        model.addAttribute("username", userEntity.getUsername());
+        model.addAttribute("userinfo", userEntityPageInfo);
+        return "SysUser/userlist";
     }
 
     //跳转到添加用户界面
@@ -51,20 +49,19 @@ public class UserController {
         String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
         List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);
         model.addAttribute("rolenamelist", roleEntityList);
-        return "SysUser/AddUserinfo";
+        List<MenuEntity> menuEntityList = menuService.FindAllsMenu();
+        model.addAttribute("menualllist", menuEntityList);
+        return "SysUser/useradd";
     }
 
 
     //查询账号是否重复
-    @PostMapping(value = "/AccountRepetition")
+    @PostMapping(value = "/VerificationUsername")
     @ResponseBody
-    public String AccountRepetition(String username) {
-        try {
-            String flag = userService.UsernameFindUser(username);
-            return flag;
-        } catch (Exception e) {
-            return "服务器异常";
-        }
+    public Result VerificationUsername(String username) throws Exception {
+
+        Result result = userService.UsernameFindUser(username);
+        return result;
     }
 
     /*
@@ -73,17 +70,18 @@ public class UserController {
     @LogAop("添加用户")
     @PostMapping(value = "/AddUserInfo")
     @ResponseBody
-    public String AddUserInfo(UserEntity userEntity, @RequestParam("description") String name) throws Exception {
-        String flag = userService.AddUserInfo(userEntity, name);
-        return flag;
+    public Result AddUserInfo(UserEntity userEntity, @RequestParam("name") String name) throws Exception {
+        System.out.println("进来了");
+        Result result = userService.AddUserInfo(userEntity, name);
+        return result;
     }
 
     //封停账号
     @PostMapping(value = "/SealUser")
     @ResponseBody
-    public String SealUser(String id) {
-        String flag = userService.SealUser(id);
-        return flag;
+    public Result SealUser(String id) {
+        Result result = userService.SealUser(id);
+        return result;
     }
 
     /*
@@ -91,9 +89,9 @@ public class UserController {
      */
     @PostMapping(value = "/RelieveSealUser")
     @ResponseBody
-    public String RelieveSealUser(String id) {
-        String flag = userService.RelieveSealUser(id);
-        return flag;
+    public Result RelieveSealUser(String id) {
+        Result result = userService.RelieveSealUser(id);
+        return result;
     }
 
     /*
@@ -101,9 +99,9 @@ public class UserController {
      */
     @PostMapping(value = "/DeleteUserInfo")
     @ResponseBody
-    public String DeleteUserInfo(String id) {
-        String flag = userService.DeleteUserInfo(id);
-        return flag;
+    public Result DeleteUserInfo(String id) {
+        Result result = userService.DeleteUserInfo(id);
+        return result;
     }
 
     /*
@@ -111,22 +109,22 @@ public class UserController {
      */
     @RequestMapping(value = "/UpdateUserInfo")
     public String GetUpdateUser(String id, Model model) {
-        logger.info("测试");
         String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
         UserEntity userEntity = userService.UserIdFindUserinfo(id);//用户id查询用户信息
         List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);//查询用户的可以修改的权限
         model.addAttribute("rolenamelist", roleEntityList);
         model.addAttribute("user", userEntity);
         model.addAttribute("id", id);
-        return "SysUser/UpdateUser";
+        return "SysUser/userupdate";
     }
 
     //修改用户信息
     @PostMapping(value = "/UpdateUser")
     @ResponseBody
-    public String UpdateUser(UserEntity userEntity, String name) throws Exception {
-        String flag = userService.UpdateUser(userEntity, name);
-        return flag;
+    public Result UpdateUser(UserEntity userEntity, String name) throws Exception {
+        Result result = userService.UpdateUser(userEntity, name);
+        return result;
     }
+
 
 }

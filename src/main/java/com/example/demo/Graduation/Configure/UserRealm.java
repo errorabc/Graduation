@@ -1,17 +1,14 @@
 package com.example.demo.Graduation.Configure;
 
-import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
-import com.example.demo.Graduation.entity.RoleEntity.RoleEntity;
-import com.example.demo.Graduation.entity.UserEntity.UserEntity;
+import com.example.demo.Graduation.entity.MenuEntity;
+import com.example.demo.Graduation.entity.UserEntity;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 import com.example.demo.Graduation.service.UserService.UserService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -30,12 +27,13 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private MenuService menuService;
 
+
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         String loginusernname = (String) principalCollection.getPrimaryPrincipal();
-        List<MenuEntity> menuEntityList = menuService.UserNameFindPerssiom(loginusernname);  //赋予权限
+        List<MenuEntity> menuEntityList = menuService.UserNameFindPerssiom(loginusernname);
         for (MenuEntity menu : menuEntityList) {
             if (!StringUtils.isEmpty(menu.getPermission())) {
                 info.addStringPermission(menu.getPermission());

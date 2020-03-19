@@ -5,7 +5,7 @@ import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.Dao.LogDao.LogDao;
 import com.example.demo.Graduation.Tool.DateTime;
 import com.example.demo.Graduation.Tool.IpUntil;
-import com.example.demo.Graduation.entity.LogEntity.LogEntity;
+import com.example.demo.Graduation.entity.LogEntity;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

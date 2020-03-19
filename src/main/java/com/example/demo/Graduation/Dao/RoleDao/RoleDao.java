@@ -1,6 +1,7 @@
 package com.example.demo.Graduation.Dao.RoleDao;
 
-import com.example.demo.Graduation.entity.RoleEntity.RoleEntity;
+import com.example.demo.Graduation.entity.RoleEntity;
+import com.example.demo.Graduation.entity.RoleResourcesEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,5 +25,13 @@ public interface RoleDao {
 
 
     boolean UpdateRoleInfo(RoleEntity roleEntity);
+
+    boolean DeleteRoleinfo(@Param("id") String id);
+
+    List<RoleEntity> RoleIdFindUserRole(@Param("id") String id);
+
+    boolean AddRoleResources(@Param("roleid") String roleid, @Param("resourcesid") String resourcesid);
+
+    List<RoleResourcesEntity> FindRoleAllResources(@Param("roleid") String roleid);
 
 }

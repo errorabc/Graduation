@@ -1,8 +1,7 @@
 package com.example.demo.Graduation.Dao.UserDao;
 
-import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
-import com.example.demo.Graduation.entity.UserEntity.UserEntity;
-import com.example.demo.Graduation.entity.UserRole.UserRole;
+import com.example.demo.Graduation.entity.RoleEntity;
+import com.example.demo.Graduation.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,9 +12,9 @@ public interface UserDao {
 
     List<UserEntity> FindUserInfo(@Param("username") String username);
 
-    UserEntity Finduserinfo2(@Param("username") String username);
+    RoleEntity Finduserinfo2(@Param("username") String username);
 
-    List<UserEntity> RoleFindUserinfo(@Param("rolename") String rolename);
+    List<UserEntity> UserNameFindUserInfo(@Param("username")String username);
 
     UserEntity UsernameFindUser(@Param("username") String username);
 
@@ -34,7 +33,6 @@ public interface UserDao {
     boolean UpdateUserRole(@Param("userid") String userid, @Param("roleid") String roleid);
 
     boolean UpdateUserPassword(@Param("password") String password, @Param("id") String id);
-
 
 
 }

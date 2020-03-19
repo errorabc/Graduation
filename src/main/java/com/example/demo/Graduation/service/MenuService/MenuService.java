@@ -4,11 +4,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Graduation.Dao.MenuDao.MenuDao;
 import com.example.demo.Graduation.Dao.UserDao.UserDao;
-import com.example.demo.Graduation.entity.MenuEntity.MenuEntity;
+import com.example.demo.Graduation.entity.MenuEntity;
 import com.example.demo.Graduation.entity.Result;
-import com.example.demo.Graduation.entity.UserEntity.UserEntity;
-import com.sun.org.apache.regexp.internal.RE;
-import org.apache.shiro.SecurityUtils;
+import com.example.demo.Graduation.entity.RoleEntity;
+import com.example.demo.Graduation.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,32 +21,24 @@ public class MenuService {
     @Autowired
     private UserDao userDao;
 
-    public List<MenuEntity> FindeMenus(String Username) {
-        UserEntity userEntity = userDao.Finduserinfo2(Username);//根据用户的账号查询用户的信息
-        String userrolename = userEntity.getRoleEntity().getDescription();//当前登录用户的账号的权限
-        String userid = userEntity.getId();//当前登录用户的账号的id
-        List<MenuEntity> menuEntityList = menuDao.FindMenusType1(userrolename, userid);
+    //查询一级菜单
+    public List<MenuEntity> FindMenusType1(String username) {
+        RoleEntity roleEntity = userDao.Finduserinfo2(username);//根据用户的账号查询用户的信息
+        List<MenuEntity> menuEntityList = menuDao.FindMenusType1(roleEntity.getId());//获取一级菜单
         return menuEntityList;
     }
 
-    public List<MenuEntity> FindMenusParentId(String username) {
-        List<MenuEntity> menuEntityList = menuDao.FindMenusParentId(username);
+    //查询二级菜单
+    public List<MenuEntity> FindMenusType2(String username) {
+        RoleEntity roleEntity = userDao.Finduserinfo2(username);//根据用户的账号查询用户的信息
+        List<MenuEntity> menuEntityList = menuDao.FindMenusType2(roleEntity.getId());
         return menuEntityList;
     }
 
+    //根据用户名字查询菜单权限
     public List<MenuEntity> UserNameFindPerssiom(String username) {
-        UserEntity userEntity = userDao.Finduserinfo2(username);
-        String userrolename = userEntity.getRoleEntity().getDescription();//当前登录用户的账号的权限
-        List<MenuEntity> menuEntityList = menuDao.UserNameFindPerssiom(username, userrolename);
-        return menuEntityList;
-    }
-
-    /*
-    获取当前用户所拥有的三级按钮权限
-     */
-    public List<MenuEntity> RoleFindMenuButton(String username) {
-        MenuEntity menuEntity = menuDao.Menu2NameFindID("用户管理");
-        List<MenuEntity> menuEntityList = menuDao.RoleUsernameFindButton(username, menuEntity.getId());
+        RoleEntity roleEntity = userDao.Finduserinfo2(username);//根据用户的账号查询用户的信息
+        List<MenuEntity> menuEntityList = menuDao.UserNameFindPerssiom(roleEntity.getId());
         return menuEntityList;
     }
 
@@ -65,6 +56,22 @@ public class MenuService {
             jsonObject.put("perms", i.getPermission());
             jsonObject.put("orderNum", i.getSort());
             jsonObject.put("icon", "#");
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
+
+
+
+    //查询所有菜单封装成ztree
+    public JSONArray FindAllMenuZtree() {
+        List<MenuEntity> list = menuDao.FindAllMenu();
+        JSONArray jsonArray = new JSONArray();
+        for (MenuEntity i : list) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", i.getId());
+            jsonObject.put("name", i.getName());
+            jsonObject.put("pId", i.getParent_id());
             jsonArray.add(jsonObject);
         }
         return jsonArray;
@@ -283,4 +290,11 @@ public class MenuService {
             return Result.error(0, "服务器异常");
         }
     }
+
+    public List<MenuEntity> FindAllsMenu() {
+        List<MenuEntity> menuEntityList = menuDao.FindAllsMenu();
+        return menuEntityList;
+    }
+
+
 }

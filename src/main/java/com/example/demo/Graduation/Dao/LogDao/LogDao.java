@@ -1,7 +1,6 @@
 package com.example.demo.Graduation.Dao.LogDao;
 
-import com.example.demo.Graduation.entity.LogEntity.LogEntity;
-import com.github.pagehelper.PageInfo;
+import com.example.demo.Graduation.entity.LogEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

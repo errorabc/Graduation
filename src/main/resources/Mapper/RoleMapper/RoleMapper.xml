@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.Graduation.Dao.RoleDao.RoleDao">
-    <resultMap id="rolemap" type="com.example.demo.Graduation.entity.RoleEntity.RoleEntity">
+    <resultMap id="rolemap" type="com.example.demo.Graduation.entity.RoleEntity">
         <id property="id" column="id" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
@@ -41,18 +41,44 @@
     <delete id="DeleteUserRole">
      DELETE FROM sys_user_role WHERE userid=#{id}
     </delete>
+
+    <!--删除角色信息-->
+    <delete id="DeleteRoleinfo">
+        DELETE  FROM sys_role WHERE id=#{id}
+    </delete>
+
     <!--添加角色信息-->
     <insert id="AddRoleinfo">
             INSERT INTO  sys_role VALUES(#{id},#{name},#{description},#{createtime},#{updatetime})
     </insert>
+
     <!--ID查询角色信息-->
     <select id="IdFindRoleInfo" resultMap="rolemap">
     SELECT * FROM sys_role WHERE id=#{id}
     </select>
+
     <!--修改角色信息 -->
     <update id="UpdateRoleInfo">
         UPDATE sys_role SET name=#{name},description=#{description},updatetime=#{updatetime}  WHERE id=#{id}
     </update>
+
+    <!--根据角色id查询用户角色表-->
+    <select id="RoleIdFindUserRole" resultMap="rolemap">
+      SELECT * FROM sys_role as role
+      JOIN sys_user_role as userrole
+      ON userrole.roleid=role.id
+      WHERE role.id=#{id}
+    </select>
+
+    <!--查询角色的所有菜单-->
+    <select id="FindRoleAllResources" resultType="com.example.demo.Graduation.entity.RoleResourcesEntity">
+     SELECT  * FROM sys_role_resources WHERE  roleid=#{roleid}
+    </select>
+
+    <!--添加菜单和角色权限关联-->
+    <insert id="AddRoleResources">
+     INSERT INTO sys_role_resources(roleid,resourcesid) VALUES(#{roleid},#{resourcesid})
+    </insert>
 
 
 </mapper>

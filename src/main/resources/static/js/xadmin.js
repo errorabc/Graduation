@@ -210,13 +210,18 @@ function x_admin_show(title, url, w, h) {
     console.log(url);
 }
 
-/*关闭弹出框口*/
+/*关闭父类窗口在刷新*/
 function x_admin_close() {
     setTimeout(function () {
-        var index = parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
-    }, 1000)
+        layer.close(layer.index);//关闭当前界面
+        window.parent.location.reload();  //刷新父类窗口
+    }, 500);
 }
 
-
+/*刷新当前界面*/
+function resh() {
+    setTimeout(function () {
+        window.location.reload();
+    }, 500);
+}
 

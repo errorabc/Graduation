@@ -1,7 +1,7 @@
 package com.example.demo.Graduation.service.LogService;
 
 import com.example.demo.Graduation.Dao.LogDao.LogDao;
-import com.example.demo.Graduation.entity.LogEntity.LogEntity;
+import com.example.demo.Graduation.entity.LogEntity;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
