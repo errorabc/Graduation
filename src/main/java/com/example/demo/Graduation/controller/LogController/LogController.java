@@ -26,6 +26,7 @@ public class LogController {
         return "SysLog/syslog";
     }
 
+    //日志详情
     @RequestMapping(value = "/detailslog")
     public String detailslog(Model model, @Param("id") String id) {
         LogEntity logEntity = logService.IdFindLog(id);

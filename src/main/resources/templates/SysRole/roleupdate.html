@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>修改角色</title>
@@ -93,6 +93,7 @@
 
         //监听提交
         form.on('submit(update)', function (data) {
+            var treeObj = $.fn.zTree.getZTreeObj("treeDemo"), nodes = treeObj.getCheckedNodes(true);
             $.ajax({
                 url: "/roleinfo/UpdateRoleInfo",
                 type: "post",
@@ -100,7 +101,8 @@
                 data: {
                     id: data.field.roleid,
                     name: data.field.rolename,
-                    description: data.field.description
+                    description: data.field.description,
+                    ztree: JSON.stringify(nodes)
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});
@@ -158,11 +160,12 @@
         }
     }
 
+    //勾选ID
     function Checklist() {
         var zTree = $.fn.zTree.getZTreeObj("treeDemo");
         for (var index in roleresources) {
-            var node = zTree.getNodeByParam("id",roleresources[index].resourcesid);
-            if(node!=null) {
+            var node = zTree.getNodeByParam("id", roleresources[index].resourcesid);
+            if (node != null) {
                 zTree.checkNode(node, true);//指定选中ID的节点
             }
         }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>用户管理</title>
@@ -120,10 +120,9 @@
                 success: function (result) {
                     if (result.code == "1") {
                         layer.msg(result.content, {icon: 1});
-                        x_admin_close();
+                        resh()
                     } else {
                         layer.msg(result.content, {icon: 2});
-                        x_admin_close();
                     }
                 }
 
@@ -146,10 +145,9 @@
                 success: function (result) {
                     if (result.code == "1") {
                         layer.msg(result.content, {icon: 1});
-                        x_admin_close();
+                        resh()
                     } else {
                         layer.msg(result.content, {icon: 2});
-                        x_admin_close();
                     }
                 }
             });
@@ -171,11 +169,9 @@
                 success: function (result) {
                     if (result.code == "1") {
                         layer.msg(result.content, {icon: 1});
-                        x_admin_close();
-                        refresh();
+                        resh()
                     } else {
                         layer.msg(result.content, {icon: 2});
-                        x_admin_close();
                     }
                 }
             });

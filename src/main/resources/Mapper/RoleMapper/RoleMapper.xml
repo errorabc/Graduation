@@ -18,7 +18,7 @@
         </if>
         <!--管理员-->
         <if test="rolename!='超级管理员'">
-            SELECT * FROM sys_role where description !='超级管理员'
+            SELECT * FROM sys_role where name !='超级管理员'
         </if>
 
     </select>
@@ -46,6 +46,7 @@
     <delete id="DeleteRoleinfo">
         DELETE  FROM sys_role WHERE id=#{id}
     </delete>
+
 
     <!--添加角色信息-->
     <insert id="AddRoleinfo">
@@ -79,6 +80,12 @@
     <insert id="AddRoleResources">
      INSERT INTO sys_role_resources(roleid,resourcesid) VALUES(#{roleid},#{resourcesid})
     </insert>
+
+    <!--删除角色和菜单之间的关联-->
+    <delete id="DeleteRoleResources">
+      DELETE FROM sys_role_resources WHERE roleid=#{roleid}
+    </delete>
+
 
 
 </mapper>

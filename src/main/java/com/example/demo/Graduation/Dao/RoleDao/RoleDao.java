@@ -34,4 +34,6 @@ public interface RoleDao {
 
     List<RoleResourcesEntity> FindRoleAllResources(@Param("roleid") String roleid);
 
+    boolean DeleteRoleResources(@Param("roleid") String roleid);
+
 }

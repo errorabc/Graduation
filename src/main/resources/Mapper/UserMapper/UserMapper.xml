@@ -25,10 +25,10 @@
 
     <!--查询用户的信息返回List-->
     <select id="FindUserInfo" resultMap="usermap">
- SELECT a.*,userrole.*,role.* FROM  sys_user a
-JOIN sys_user_role userrole  on userrole.userid=a.id
-JOIN sys_role role on role.id=userrole.roleid
-where  a.username=#{username}
+     SELECT a.*,userrole.*,role.* FROM  sys_user a
+     JOIN sys_user_role userrole  on userrole.userid=a.id
+     JOIN sys_role role on role.id=userrole.roleid
+    where  a.username=#{username}
     </select>
 
     <!--查询单个用户的信息-->

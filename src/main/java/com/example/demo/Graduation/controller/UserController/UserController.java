@@ -77,6 +77,7 @@ public class UserController {
     }
 
     //封停账号
+    @LogAop("封停账号")
     @PostMapping(value = "/SealUser")
     @ResponseBody
     public Result SealUser(String id) {
@@ -87,6 +88,7 @@ public class UserController {
     /*
     解封账号
      */
+    @LogAop("解封账号")
     @PostMapping(value = "/RelieveSealUser")
     @ResponseBody
     public Result RelieveSealUser(String id) {
@@ -97,6 +99,7 @@ public class UserController {
     /*
     删除
      */
+    @LogAop("解封用户")
     @PostMapping(value = "/DeleteUserInfo")
     @ResponseBody
     public Result DeleteUserInfo(String id) {
@@ -112,13 +115,13 @@ public class UserController {
         String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
         UserEntity userEntity = userService.UserIdFindUserinfo(id);//用户id查询用户信息
         List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);//查询用户的可以修改的权限
-        model.addAttribute("rolenamelist", roleEntityList);
+        model.addAttribute("rolenamelist",roleEntityList);
         model.addAttribute("user", userEntity);
-        model.addAttribute("id", id);
-        return "SysUser/userupdate";
+        return "SysUser/userupdattest";
     }
 
     //修改用户信息
+    @LogAop("修改用户信息")
     @PostMapping(value = "/UpdateUser")
     @ResponseBody
     public Result UpdateUser(UserEntity userEntity, String name) throws Exception {

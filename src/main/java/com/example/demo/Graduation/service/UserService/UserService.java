@@ -111,8 +111,8 @@ public class UserService {
         if (userEntity.getRoleEntity().getName().equals("超级管理员")) {
             return Result.error(0, "超级管理员不可被删除");
         } else {
-            if (roleDao.DeleteUserRole(id)) {
-                if (userDao.DeleteUserInfo(id)) {
+            if (roleDao.DeleteUserRole(id)) {   //删除用户和角色之间的关联
+                if (userDao.DeleteUserInfo(id)) {  //删除用户的信息
                     return Result.success(1, "删除成功");
                 } else {
                     return Result.error(0, "删除失败");

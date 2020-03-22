@@ -126,6 +126,7 @@ public class MenuController {
         return result;
     }
 
+    //修改菜单
     @LogAop("修改菜单")
     @PostMapping(value = "/UpdateMenus")
     @ResponseBody

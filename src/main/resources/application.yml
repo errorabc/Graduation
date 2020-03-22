@@ -35,8 +35,8 @@ spring:
 mybatis:
     mapper-locations: classpath:Mapper/**/*.xml
     type-aliases-package: com.example.demo.Graduation.entity
-    configuration:
-      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #configuration:
+      #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:
   config: classpath:log4j2.xml

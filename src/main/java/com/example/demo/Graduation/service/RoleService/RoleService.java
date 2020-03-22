@@ -34,6 +34,7 @@ public class RoleService {
 
     public List<RoleEntity> DifferentRoleFindRoleInfo(String username) {
         RoleEntity roleEntity = userDao.Finduserinfo2(username);//根据用户的账号查询用户的信息
+        System.out.println(roleEntity.getName() + "    权限");
         List<RoleEntity> roleEntityList = roleDao.DifferentRoleFindRoleInfo(roleEntity.getName());
         return roleEntityList;
     }
@@ -75,6 +76,7 @@ public class RoleService {
             return Result.success(1, "可以使用");
         }
 
+
     }
 
     public RoleEntity IdFindRoleInfo(String id) {
@@ -82,16 +84,17 @@ public class RoleService {
         return roleEntity;
     }
 
-    public Result UpdateRoleInfo(RoleEntity roleEntity) {
+
+    //修改角色信息
+    public Result UpdateRoleInfo(RoleEntity roleEntity, String ztree) {
+        JSONArray jsonztree = JSONArray.parseArray(ztree);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         RoleEntity roleEntity1 = roleDao.RoleNameFindRoleInfo(roleEntity.getName());
         roleEntity.setUpdatetime(DateTime.strToDateLong(df.format(new Date())));
         int flag = 0;
-
         if (!roleEntity1.getName().equals("超级管理员")) {
             if (null != roleEntity1) {
                 if (roleEntity1.getId().equals(roleEntity.getId())) {
-
                 } else {
                     flag = 1;
                     return Result.error(0, "角色名已经存在");
@@ -100,6 +103,10 @@ public class RoleService {
             //继续操作下去
             if (flag == 0) {
                 if (roleDao.UpdateRoleInfo(roleEntity)) {
+                    roleDao.DeleteRoleResources(roleEntity.getId()); //删除原有的菜单信息
+                    for (int i = 0; i < jsonztree.size(); i++) {
+                        roleDao.AddRoleResources(roleEntity.getId(), jsonztree.getJSONObject(i).getString("id"));//重新添加菜单信息
+                    }
                     return Result.success(1, "修改成功");
                 } else {
                     return Result.error(0, "修改失败");
@@ -122,8 +129,12 @@ public class RoleService {
             if (roleEntity1.size() > 0) {
                 return Result.error(0, "有用户为当前角色，请先更改用户的角色信息");
             } else {
-                if (roleDao.DeleteRoleinfo(id)) {
-                    return Result.error(1, "删除成功");
+                if (roleDao.DeleteRoleinfo(id)) { //删除角色信息
+                    if (roleDao.DeleteRoleResources(id)) {//删除角色菜单关联
+                        return Result.error(1, "删除成功");
+                    } else {
+                        return Result.error(0, "角色菜单关联删除失败");
+                    }
                 } else {
                     return Result.error(0, "删除失败");
                 }

@@ -1,7 +1,6 @@
-package com.example.demo.Graduation.controller.MenuMgController;
+package com.example.demo.Graduation.controller.WeComeController;
 
 import com.example.demo.Graduation.entity.RoleEntity;
-import com.example.demo.Graduation.entity.UserEntity;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 import com.example.demo.Graduation.service.UserService.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/menu")
-public class MenuMgController {
+public class WeComeController {
     @Autowired
     private MenuService menuService;
     @Autowired

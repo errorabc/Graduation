@@ -2,6 +2,7 @@ package com.example.demo.Graduation.controller.RoleController;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.entity.RoleEntity;
 import com.example.demo.Graduation.entity.RoleResourcesEntity;
@@ -42,6 +43,7 @@ public class RoleController {
     }
 
     //添加角色
+    @LogAop("添加角色信息")
     @PostMapping(value = "/AddRoleinfo")
     @ResponseBody
     public Result AddRoleinfo(RoleEntity roleEntity, @RequestParam("ztree") String ztree) {
@@ -63,7 +65,7 @@ public class RoleController {
         RoleEntity roleEntity = roleService.IdFindRoleInfo(id);//查询用户的信息
         JSONArray jsonArray = menuService.FindAllMenuZtree();
         List<RoleResourcesEntity> roleResourcesLists = roleService.FindRoleAllResources(id);
-        System.out.println(roleResourcesLists.size()+"条");
+        System.out.println(roleResourcesLists.size() + "条");
         model.addAttribute("ztree", jsonArray);
         model.addAttribute("role", roleEntity);
         model.addAttribute("roleresources", roleResourcesLists);
@@ -71,14 +73,16 @@ public class RoleController {
     }
 
     //修改角色信息
+    @LogAop("修改角色信息")
     @PostMapping(value = "/UpdateRoleInfo")
     @ResponseBody
-    public Result UpdateRoleInfo(RoleEntity roleEntity) {
-        Result result = roleService.UpdateRoleInfo(roleEntity);
+    public Result UpdateRoleInfo(RoleEntity roleEntity, @RequestParam("ztree") String ztree) {
+        Result result = roleService.UpdateRoleInfo(roleEntity, ztree);
         return result;
     }
 
     //删除角色信息
+    @LogAop("删除角色信息")
     @PostMapping(value = "/DeleteRoleInfo")
     @ResponseBody
     public Result DeleteRoleInfo(@RequestParam("id") String id) {

@@ -33,7 +33,7 @@ public class LoginController {
         return "login";
     }
 
-
+    //登录
     @PostMapping(value = "/loginin")
     public String loginin(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -51,33 +51,6 @@ public class LoginController {
             logger.trace("登录失败");
         }
         return "login";
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/QueryJsTree", method = RequestMethod.GET)
-    public List<JstreeVO> QueryJsTree() {
-        List<JstreeVO> list = new ArrayList<JstreeVO>();
-        JstreeVO jstreeVO = new JstreeVO();
-        jstreeVO.setId("1");
-        jstreeVO.setText("菜单1");
-        jstreeVO.setParent("#");
-        list.add(jstreeVO);
-        JstreeVO jstreeVO2 = new JstreeVO();
-        jstreeVO2.setId("2");
-        jstreeVO2.setText("菜单2");
-        jstreeVO2.setParent("#");
-        list.add(jstreeVO2);
-        JstreeVO jstreeVO3 = new JstreeVO();
-        jstreeVO3.setId("3");
-        jstreeVO3.setText("菜单1-1");
-        jstreeVO3.setParent("1");
-        list.add(jstreeVO3);
-        JstreeVO jstreeVO4 = new JstreeVO();
-        jstreeVO4.setId("4");
-        jstreeVO4.setText("菜单2-1");
-        jstreeVO4.setParent("2");
-        list.add(jstreeVO4);
-        return list;
     }
 
     //注销
@@ -105,8 +78,6 @@ public class LoginController {
                 menuEntity.setUrl(p2.getUrl());
                 menuEntityList3.add(menuEntity);
             }
-            System.out.println(menuEntityList1.size() + "一级菜单");
-            System.out.println(menuEntityList2.size() + "二级菜单");
             model.addAttribute("menus", menuEntityList1);
             model.addAttribute("menus2", menuEntityList3);
             model.addAttribute("username", LoginUsername);
@@ -114,7 +85,6 @@ public class LoginController {
         } else {
             return "login";
         }
-
     }
 
 

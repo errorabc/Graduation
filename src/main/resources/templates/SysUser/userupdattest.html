@@ -20,17 +20,25 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
 <div class="x-body">
     <form class="layui-form">
+        <div class="layui-form-item">
+            <label for="userid" class="layui-form-label">
+                <span class="x-red">*</span>ID
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="userid" name="userid" readonly="readonly"
+                       autocomplete="off" class="layui-input" th:value="${user.id}">
+            </div>
+        </div>
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">
                 <span class="x-red">*</span>账号
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="username" name="username" required lay-verify="username"
-                       autocomplete="off" class="layui-input">
+                <input type="text" id="username" name="username" readonly="readonly"
+                       autocomplete="off" class="layui-input" th:value="${user.username}">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 <span id="VerificationUsername"></span>
@@ -66,20 +74,22 @@
             </div>
         </div>
         <div class="layui-form-item" style="margin-left: 100px">
-            <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn" lay-filter="update" lay-submit="">修改</button>
         </div>
     </form>
 </div>
 </body>
 <script th:inline="javascript">
     var rolenamelist = [[${rolenamelist}]];
-    var menualllist = [[${menualllist}]];
+    var user = [[${user}]];
+    var rolenamea = user.roleEntity.name;
     $.each(rolenamelist, function (index, item) {
         $('#radiolist').append(" <input type='radio' name='role' value=" + item['name'] + " title=" + item['name'] + ">")
     });
+    $("input[name='role'][value=" + rolenamea + "]").attr("checked", true);
 </script>
 <script>
+
     layui.use(['form', 'layer'], function () {
         $ = layui.jquery;
         var form = layui.form
@@ -96,7 +106,7 @@
         });
 
         //监听提交
-        form.on('submit(add)', function (data) {
+        form.on('submit(update)', function (data) {
             $.ajax({
                 url: "/userinfo/AddUserInfo",
                 type: "post",
@@ -121,39 +131,39 @@
 
     });
 
-
-    //输入账号验证
-    $('#username').blur(function () {
-        var username = $('#username').val().toString().trim();
-        var reg = new RegExp(/^[a-zA-Z0-9]{6,16}$/);
-        if (username == null || username == '') {
-            $('#VerificationUsername').css('color', 'red').text("账号不能为空");
-        } else {
-            if (reg.test(username)) {
-                $.ajax({
-                    url: "/userinfo/VerificationUsername",
-                    async: false,
-                    type: 'post',
-                    data: {
-                        username: username
-                    },
-                    success: function (result) {
-                        if (result.code == "1") {
-                            $('#VerificationUsername').css('color', 'green').text("验证通过");
-                        } else {
-                            $('#VerificationUsername').css('color', 'red').text("账号已存在");
-                        }
-                    }
-                });
-
+    /*
+        //输入账号验证
+        $('#username').blur(function () {
+            var username = $('#username').val().toString().trim();
+            var reg = new RegExp(/^[a-zA-Z0-9]{6,16}$/);
+            if (username == null || username == '') {
+                $('#VerificationUsername').css('color', 'red').text("账号不能为空");
             } else {
-                $('#VerificationUsername').css('color', 'red').text("账号必须6到12位数字和字母");
-                $('#username').val('');
+                if (reg.test(username)) {
+                    $.ajax({
+                        url: "/userinfo/VerificationUsername",
+                        async: false,
+                        type: 'post',
+                        data: {
+                            username: username
+                        },
+                        success: function (result) {
+                            if (result.code == "1") {
+                                $('#VerificationUsername').css('color', 'green').text("验证通过");
+                            } else {
+                                $('#VerificationUsername').css('color', 'red').text("账号已存在");
+                            }
+                        }
+                    });
+
+                } else {
+                    $('#VerificationUsername').css('color', 'red').text("账号必须6到12位数字和字母");
+                    $('#username').val('');
+                }
             }
-        }
 
-    })
-
+        })
+    */
 
 </script>
 </html>
