@@ -8,6 +8,7 @@ import com.example.demo.Graduation.entity.RoleEntity;
 import com.example.demo.Graduation.entity.UserEntity;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +40,9 @@ public class UserService {
 
     //不同权限的获取不同的用户信息
     public PageInfo RoleFindUserinfo(int PageNo, int PageSzie, String username) {
+        String rolename = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
         PageHelper.startPage(PageNo, PageSzie);
-        List<UserEntity> userEntityList = userDao.UserNameFindUserInfo(username);
+        List<UserEntity> userEntityList = userDao.UserNameFindUserInfo(username, rolename);
         PageInfo<UserEntity> pagelist = new PageInfo<UserEntity>(userEntityList);
         return pagelist;
     }

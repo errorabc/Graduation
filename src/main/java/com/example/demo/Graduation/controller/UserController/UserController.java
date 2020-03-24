@@ -48,8 +48,8 @@ public class UserController {
     public String AddUsers(Model model) {
         String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
         List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);
-        model.addAttribute("rolenamelist", roleEntityList);
         List<MenuEntity> menuEntityList = menuService.FindAllsMenu();
+        model.addAttribute("rolenamelist", roleEntityList);
         model.addAttribute("menualllist", menuEntityList);
         return "SysUser/useradd";
     }
@@ -115,7 +115,7 @@ public class UserController {
         String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
         UserEntity userEntity = userService.UserIdFindUserinfo(id);//用户id查询用户信息
         List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);//查询用户的可以修改的权限
-        model.addAttribute("rolenamelist",roleEntityList);
+        model.addAttribute("rolenamelist", roleEntityList);
         model.addAttribute("user", userEntity);
         return "SysUser/userupdattest";
     }

@@ -32,7 +32,7 @@
     </select>
 
     <!--查询单个用户的信息-->
-    <select id="Finduserinfo2"  resultType="com.example.demo.Graduation.entity.RoleEntity">
+    <select id="Finduserinfo2" resultType="com.example.demo.Graduation.entity.RoleEntity">
  SELECT role.* FROM  sys_user as   a
 JOIN sys_user_role  as  userrole
 on userrole.userid=a.id
@@ -51,6 +51,9 @@ where  a.username=#{username}
         <where>
             <if test="username!=null and username!=''">
                 AND u.username=#{username}
+            </if>
+            <if test="rolename!='超级管理员'">
+                AND r.name!='超级管理员'
             </if>
         </where>
     </select>

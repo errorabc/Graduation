@@ -14,7 +14,7 @@ public interface UserDao {
 
     RoleEntity Finduserinfo2(@Param("username") String username);
 
-    List<UserEntity> UserNameFindUserInfo(@Param("username")String username);
+    List<UserEntity> UserNameFindUserInfo(@Param("username") String username, @Param("rolename") String rolename);
 
     UserEntity UsernameFindUser(@Param("username") String username);
 
