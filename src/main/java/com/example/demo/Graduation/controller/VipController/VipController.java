@@ -4,6 +4,7 @@ import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.entity.VipinfoEntity;
 import com.example.demo.Graduation.service.VipService.VipService;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,9 +34,12 @@ public class VipController {
         return "Vip/vipadd";
     }
 
-    //跳转到添加VIP界面
-    @RequestMapping("/GetAddVip")
-    public String GetUpdateVip() {
+    //跳转到修改VIP界面
+    @RequestMapping("/GetUpdateVip")
+    public String GetUpdateVip(@Param("id") String id, Model model) {
+        VipinfoEntity vipinfoEntity = vipService.IdFindVipInfo(id);
+        System.out.println(vipinfoEntity.getName());
+        model.addAttribute("vipinfo", vipinfoEntity);
         return "Vip/vipupdate";
     }
 
@@ -43,7 +47,18 @@ public class VipController {
     @PostMapping(value = "/AddVip")
     @ResponseBody
     public Result AddVip(VipinfoEntity vipinfoEntity) {
-        Result result = null;
+        Result result = vipService.AddVip(vipinfoEntity);
         return result;
     }
+
+
+    //查询vip名字是否重复
+    @PostMapping(value = "/VerificationVipName")
+    @ResponseBody
+    public Result VerificationVipName(@RequestParam("name") String name) {
+        Result result = vipService.VerificationVipName(name);
+        return result;
+    }
+
+
 }

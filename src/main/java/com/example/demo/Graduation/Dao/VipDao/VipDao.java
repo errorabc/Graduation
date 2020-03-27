@@ -11,4 +11,10 @@ public interface VipDao {
 
     List<VipinfoEntity> FindAllVipInfo(@Param("name") String name);
 
+    VipinfoEntity VerificationVipName(@Param("name") String name);
+
+    boolean AddVip(VipinfoEntity vipinfoEntity);
+
+    VipinfoEntity IdFindVipInfo(@Param("id") String id);
+
 }
