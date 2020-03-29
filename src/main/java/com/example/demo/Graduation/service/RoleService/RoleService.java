@@ -91,17 +91,22 @@ public class RoleService {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         RoleEntity roleEntity1 = roleDao.RoleNameFindRoleInfo(roleEntity.getName());
         roleEntity.setUpdatetime(DateTime.strToDateLong(df.format(new Date())));
-        int flag = 0;
         if (!roleEntity1.getName().equals("超级管理员")) {
-            if (null != roleEntity1) {
-                if (roleEntity1.getId().equals(roleEntity.getId())) {
+            if (null != roleEntity1) { //判断角色名字是否重复了
+                if (roleEntity1.getId().equals(roleEntity.getId())) {//名字虽然重复了,但是修改的是自己的
+                    if (roleDao.UpdateRoleInfo(roleEntity)) {
+                        roleDao.DeleteRoleResources(roleEntity.getId()); //删除原有的菜单信息
+                        for (int i = 0; i < jsonztree.size(); i++) {
+                            roleDao.AddRoleResources(roleEntity.getId(), jsonztree.getJSONObject(i).getString("id"));//重新添加菜单信息
+                        }
+                        return Result.success(1, "修改成功");
+                    } else {
+                        return Result.error(0, "修改失败");
+                    }
                 } else {
-                    flag = 1;
                     return Result.error(0, "角色名已经存在");
                 }
-            }
-            //继续操作下去
-            if (flag == 0) {
+            } else {//没有重复,可以使用,直接修改
                 if (roleDao.UpdateRoleInfo(roleEntity)) {
                     roleDao.DeleteRoleResources(roleEntity.getId()); //删除原有的菜单信息
                     for (int i = 0; i < jsonztree.size(); i++) {
@@ -111,8 +116,6 @@ public class RoleService {
                 } else {
                     return Result.error(0, "修改失败");
                 }
-            } else {
-                return Result.error(0, "服务器异常");
             }
         } else {
             return Result.error(0, "超级管理员不可被修改");

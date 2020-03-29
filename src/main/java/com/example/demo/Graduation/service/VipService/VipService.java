@@ -42,11 +42,16 @@ public class VipService {
     //添加VIP
     public Result AddVip(VipinfoEntity vipinfoEntity) {
         vipinfoEntity.setId(UUID.randomUUID().toString());
+        VipinfoEntity vip = vipDao.VerificationVipName(vipinfoEntity.getName());
         if (null != vipinfoEntity) {
-            if (vipDao.AddVip(vipinfoEntity)) {
-                return Result.success(1, "添加成功");
+            if (null != vip) {
+                return Result.error(0, "此VIP已存在");
             } else {
-                return Result.error(0, "添加失败");
+                if (vipDao.AddVip(vipinfoEntity)) {
+                    return Result.success(1, "添加成功");
+                } else {
+                    return Result.error(0, "添加失败");
+                }
             }
         } else {
             return Result.error(0, "VIP信息为空,提交无效");
@@ -58,4 +63,32 @@ public class VipService {
         VipinfoEntity vipinfoEntity = vipDao.IdFindVipInfo(id);
         return vipinfoEntity;
     }
+
+
+    public Result UpdateVip(VipinfoEntity vipinfoEntity) {
+        VipinfoEntity VerficationEntity = vipDao.VerificationVipName(vipinfoEntity.getName());
+        if (null != vipinfoEntity) {
+            if (null != VerficationEntity) {
+                if (VerficationEntity.getId().equals(vipinfoEntity.getId())) {
+                    if (vipDao.UpdateVip(vipinfoEntity)) {
+                        return Result.success(1, "修改成功");
+                    } else {
+                        return Result.error(0, "修改失败");
+                    }
+                } else {
+                    return Result.error(0, "修改失败,该VIP名字已被使用");
+                }
+            } else {
+                if (vipDao.UpdateVip(vipinfoEntity)) {
+                    return Result.success(1, "修改成功");
+                } else {
+                    return Result.error(0, "修改失败");
+                }
+            }
+        } else {
+            return Result.error(0, "VIP信息为空,修改无效");
+        }
+    }
+
+
 }

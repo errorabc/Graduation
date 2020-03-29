@@ -38,7 +38,6 @@ public class VipController {
     @RequestMapping("/GetUpdateVip")
     public String GetUpdateVip(@Param("id") String id, Model model) {
         VipinfoEntity vipinfoEntity = vipService.IdFindVipInfo(id);
-        System.out.println(vipinfoEntity.getName());
         model.addAttribute("vipinfo", vipinfoEntity);
         return "Vip/vipupdate";
     }
@@ -48,6 +47,14 @@ public class VipController {
     @ResponseBody
     public Result AddVip(VipinfoEntity vipinfoEntity) {
         Result result = vipService.AddVip(vipinfoEntity);
+        return result;
+    }
+
+    //修改VIP信息
+    @PostMapping(value = "/UpdateVip")
+    @ResponseBody
+    public Result UpdateVip(VipinfoEntity vipinfoEntity) {
+        Result result = vipService.UpdateVip(vipinfoEntity);
         return result;
     }
 

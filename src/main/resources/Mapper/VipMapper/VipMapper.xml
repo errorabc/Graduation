@@ -25,9 +25,14 @@
     </insert>
 
 
-    <!--修改VIP信息-->
+    <!--根据ID查询VIP信息-->
     <select id="IdFindVipInfo" resultType="com.example.demo.Graduation.entity.VipinfoEntity">
         SELECT * FROM vipinfo  WHERE  id=#{id}
     </select>
+
+    <!--修改VIP信息-->
+    <update id="UpdateVip">
+    UPDATE  vipinfo SET name=#{name},lowestconsumption=#{lowestconsumption},discount=#{discount}  WHERE id=#{id}
+    </update>
 
 </mapper>

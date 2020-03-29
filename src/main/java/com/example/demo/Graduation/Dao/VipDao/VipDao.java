@@ -17,4 +17,6 @@ public interface VipDao {
 
     VipinfoEntity IdFindVipInfo(@Param("id") String id);
 
+    boolean UpdateVip(VipinfoEntity vipinfoEntity);
+
 }
