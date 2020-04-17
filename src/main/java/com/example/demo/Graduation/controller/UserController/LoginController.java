@@ -87,5 +87,11 @@ public class LoginController {
         }
     }
 
+    //被踢出后跳转的页面
+    @RequestMapping(value = "/kickout", method = RequestMethod.GET)
+    public String kickOut() {
+        return "kickout";
+    }
+
 
 }

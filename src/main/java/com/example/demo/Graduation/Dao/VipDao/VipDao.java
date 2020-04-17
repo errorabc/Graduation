@@ -19,4 +19,11 @@ public interface VipDao {
 
     boolean UpdateVip(VipinfoEntity vipinfoEntity);
 
+    //查询VIP的会员的关联
+    int IdFindVipMemberinfo(@Param("vipid") String vipid);
+
+    //删除VIP信息
+    boolean DeleteVip(@Param("id") String id);
+
+
 }

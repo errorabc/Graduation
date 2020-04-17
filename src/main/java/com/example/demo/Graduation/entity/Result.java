@@ -8,29 +8,35 @@ public class Result<T> {
     public Result() {
     }
 
+    //状态+内容
     public Result(int code, String content) {
         this.code = code;
         this.content = content;
     }
 
+    //状态+数据
     public Result(int code, T data) {
         this.code = code;
         this.data = data;
     }
 
+    //状态+内容+数据
     public Result(int code, String content, T data) {
         this.code = code;
         this.content = content;
         this.data = data;
     }
 
+    //成功
     public static Result success(int code, String content) {
         return new Result(code, content);
     }
 
+    //失败
     public static Result error(int code, String content) {
         return new Result(code, content);
     }
+
 
     public int getCode() {
         return code;
@@ -47,4 +53,5 @@ public class Result<T> {
     public void setContent(String content) {
         this.content = content;
     }
+
 }

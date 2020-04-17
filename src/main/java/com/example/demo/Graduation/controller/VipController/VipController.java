@@ -67,5 +67,12 @@ public class VipController {
         return result;
     }
 
+    //删除VIP信息
+    @PostMapping(value = "/DeleteVip")
+    @ResponseBody
+    public Result DeleteVip(@RequestParam("id") String id) {
+        Result result = vipService.DeleteVip(id);
+        return result;
+    }
 
 }

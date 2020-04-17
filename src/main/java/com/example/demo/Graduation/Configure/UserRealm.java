@@ -32,8 +32,8 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        String loginusernname = (String) principalCollection.getPrimaryPrincipal();
-        List<MenuEntity> menuEntityList = menuService.UserNameFindPerssiom(loginusernname);
+        String loginusernname = (String) principalCollection.getPrimaryPrincipal();  //获取当前登录的用户名
+        List<MenuEntity> menuEntityList = menuService.UserNameFindPerssiom(loginusernname);//根据登录的用户名查询他的权限
         for (MenuEntity menu : menuEntityList) {
             if (!StringUtils.isEmpty(menu.getPermission())) {
                 info.addStringPermission(menu.getPermission());

@@ -32,11 +32,16 @@ spring:
   aop:  #开启spring boot aop
     auto: true
     proxy-target-class: true
+
+
 mybatis:
-    mapper-locations: classpath:Mapper/**/*.xml
-    type-aliases-package: com.example.demo.Graduation.entity
-    #configuration:
-      #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:Mapper/**/*.xml
+  type-aliases-package: com.example.demo.Graduation.entity
+  configuration:
+   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
 
 logging:
   config: classpath:log4j2.xml

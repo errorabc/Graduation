@@ -15,10 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class MyInterceptorConfig implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Override
     public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
             throws Exception {
-        logger.info("请求地址"+ arg0.getRequestURI());
+        logger.info("请求地址" + arg0.getRequestURI());
     }
 
     /*
@@ -27,7 +28,7 @@ public class MyInterceptorConfig implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, ModelAndView arg3)
             throws Exception {
-        logger.info("跳转视图"+ arg0.getRequestURI());
+        logger.info("跳转视图" + arg0.getRequestURI());
     }
 
     /*
@@ -35,7 +36,7 @@ public class MyInterceptorConfig implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object obj) throws Exception {
-        logger.info("携带参数"+ JSON.toJSONString(request.getParameterMap()));
+        logger.info("携带参数" + JSON.toJSONString(request.getParameterMap()));
         logger.info("                    ");
         return true;
     }

@@ -90,5 +90,22 @@ public class VipService {
         }
     }
 
+    //查询所有的VIP等级
+    public List<VipinfoEntity> FindAllVip() {
+        List<VipinfoEntity> viplist = vipDao.FindAllVipInfo("");
+        return viplist;
+    }
 
+    //删除VIP信息
+    public Result DeleteVip(String id) {
+        if (vipDao.IdFindVipMemberinfo(id) == 0) {
+            if (vipDao.DeleteVip(id)) {
+                return Result.success(1, "删除成功");
+            } else {
+                return Result.error(0, "删除失败");
+            }
+        } else {
+            return Result.success(0, "此VIP正在被使用,无法被删除");
+        }
+    }
 }

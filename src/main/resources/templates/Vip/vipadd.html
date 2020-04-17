@@ -120,7 +120,7 @@
             $('#VerificationVipName').css('color', 'red').text("vip名字不能为空");
         } else {
             if (vipname.indexOf(" ") == -1) {
-                if (vipname.length >=4  && vipname.length <=8) {
+                if (vipname.length >= 4 && vipname.length <= 8) {
                     $.ajax({
                         url: "/VipInfo/VerificationVipName",
                         async: false,
@@ -131,6 +131,7 @@
                         success: function (result) {
                             if (result.code == "1") {
                                 $('#VerificationVipName').css('color', 'green').text("验证通过");
+                                $('#vipname').val(vipname.replace(/\s*/g, ""));
                             } else {
                                 $('#VerificationVipName').css('color', 'red').text("VIP名字已存在");
                                 $('#vipname').val('');

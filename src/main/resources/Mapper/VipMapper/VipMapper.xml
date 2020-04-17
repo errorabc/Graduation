@@ -30,9 +30,20 @@
         SELECT * FROM vipinfo  WHERE  id=#{id}
     </select>
 
+    <!--查询VIP的会员的关联-->
+    <select id="IdFindVipMemberinfo" resultType="integer">
+    SELECT COUNT(*) FROM membervip WHERE  vipid=#{vipid}
+    </select>
+
     <!--修改VIP信息-->
     <update id="UpdateVip">
     UPDATE  vipinfo SET name=#{name},lowestconsumption=#{lowestconsumption},discount=#{discount}  WHERE id=#{id}
     </update>
+
+    <!--删除VIP信息-->
+    <delete id="DeleteVip">
+        DELETE  FROM vipinfo WHERE id=#{id}
+    </delete>
+
 
 </mapper>

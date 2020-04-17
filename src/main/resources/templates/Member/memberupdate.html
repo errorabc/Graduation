@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-L-admin1.0</title>
+    <title>添加VIP</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -25,44 +25,41 @@
 <div class="x-body">
     <form class="layui-form">
         <div class="layui-form-item">
-            <label for="username" class="layui-form-label">
-                <span class="x-red">*</span>账号
+            <label for="membername" class="layui-form-label">
+                <span class="x-red">*</span>会员名
             </label>
-            <div class="layui-input-inline">
-                <input type="text" id="username" name="username" lay-verify="username||required"
-                       autocomplete="off" class="layui-input">
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="membername" name="membername" lay-reqtext="必填项不能为空"
+                       lay-verify="membername||required"
+                       autocomplete="off" class="layui-input" placeholder="姓名+手机号后四位" th:value="${member.name}">
             </div>
             <div class="layui-form-mid layui-word-aux">
-                <span id="VerificationUsername"></span>
+                <span id="VerificationMemberName"></span>
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="password" class="layui-form-label">
-                <span class="x-red">*</span>密码
+            <label for="phone" class="layui-form-label">
+                <span class="x-red">*</span>手机
             </label>
-            <div class="layui-input-inline">
-                <input type="password" id="password" name="password" lay-verify="password||required"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="x-red">*</span>密码为必填项
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="tel" id="phone" name="phone" lay-verify="required|phone" autocomplete="off"
+                       class="layui-input" placeholder="必填项" th:value="${member.phone}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="enterpassword" class="layui-form-label">
-                <span class="x-red">*</span>确认密码
+            <label for="email" class="layui-form-label">
+                邮件
             </label>
-            <div class="layui-input-inline">
-                <input type="password" id="enterpassword" name="enterpassword" lay-verify="enterpassword||required"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="x-red">*</span>确认密码为必填项
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="email" name="email" autocomplete="off" class="layui-input" placeholder="选择性填写"
+                       th:value="${member.email}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">角色</label>
-            <div class="layui-input-block" id="radiolist">
+            <label for="vipgrade" class="layui-form-label">
+                <span class="x-red">*</span>VIP等级
+            </label>
+            <div class="layui-input-block" id="vipgrade">
             </div>
         </div>
         <div class="layui-form-item" style="margin-left: 100px">
@@ -73,11 +70,15 @@
 </div>
 </body>
 <script th:inline="javascript">
-    var rolenamelist = [[${rolenamelist}]];
-    var menualllist = [[${menualllist}]];
-    $.each(rolenamelist, function (index, item) {
-        $('#radiolist').append(" <input type='radio' name='role' value=" + item['name'] + " title=" + item['name'] + ">")
-    });
+    var viplist = [[${viplist}]];
+    var member = [[${member}]];
+    var vipid = member.vip.id;
+    console.log(member);
+    console.log(vipid);
+    $.each(viplist, function (index, item) {
+        $('#vipgrade').append(" <input type='radio' name='vip'   lay-verify='otherReq'    id=" + item['id'] + " value=" + item['id'] + " title=" + item['name'] + ">")
+    })
+    $("input[name='vip'][value=" + vipid + "]").attr("checked", true);
 </script>
 <script>
     layui.use(['form', 'layer'], function () {
@@ -86,25 +87,21 @@
             , layer = layui.layer;
         //自定义验证规则
         form.verify({
-            username: [/^[a-zA-Z0-9]{6,12}$/, '账号必须6到12位数字和字母']
-            , password: [/^[a-zA-Z0-9]{6,12}$/, '密码必须6到12位数字和字母']
-            , enterpassword: function (value) {
-                if ($('#enterpassword').val() != $('#password').val()) {
-                    return '两次密码不一致';
-                }
-            }
+            membername: [/.*[0-9]{1,}.*/, '会员名中要带有数字'],
         });
 
         //监听提交
         form.on('submit(add)', function (data) {
+
             $.ajax({
-                url: "/userinfo/AddUserInfo",
+                url: "/member/AddMember",
                 type: "post",
                 anys: false,
                 data: {
-                    username: data.field.username,
-                    password: data.field.password,
-                    name: $('#radiolist input[name="role"]:checked ').val()
+                    name: data.field.membername,
+                    phone: data.field.phone,
+                    email: data.field.email,
+                    vipid: $('#vipgrade input[name="vip"]:checked ').val()
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});
@@ -118,42 +115,41 @@
 
             return false;
         });
-
     });
 
 
     //输入账号验证
-    $('#username').blur(function () {
-        var username = $('#username').val().toString().trim();
-        var reg = new RegExp(/^[a-zA-Z0-9]{6,16}$/);
-        if (username == null || username == '') {
-            $('#VerificationUsername').css('color', 'red').text("账号不能为空");
+    $('#membername').blur(function () {
+        var membername = $('#membername').val().toString().trim();
+        var reg = new RegExp(/.*[0-9]{1,}.*/);
+        if (membername == null || membername == '') {
+            $('#VerificationMemberName').css('color', 'red').text("会员名不能为空");
         } else {
-            if (reg.test(username)) {
+            if (reg.test(membername)) {
                 $.ajax({
-                    url: "/userinfo/VerificationUsername",
+                    url: "/member/VerificationMemberName",
                     async: false,
                     type: 'post',
                     data: {
-                        username: username
+                        name: membername
                     },
                     success: function (result) {
                         if (result.code == "1") {
-                            $('#VerificationUsername').css('color', 'green').text("验证通过");
+                            $('#VerificationMemberName').css('color', 'green').text("验证通过");
                         } else {
-                            $('#VerificationUsername').css('color', 'red').text("账号已存在");
+                            $('#VerificationMemberName').css('color', 'red').text("会员名已存在");
+                            $('#membername').val('');
                         }
                     }
                 });
 
             } else {
-                $('#VerificationUsername').css('color', 'red').text("账号必须6到12位数字和字母");
-                $('#username').val('');
+                $('#VerificationMemberName').css('color', 'red').text("会员名中必须带有数字");
+                $('#membername').val('');
             }
         }
 
     })
-
 
 </script>
 </html>

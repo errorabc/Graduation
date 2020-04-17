@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>VIP管理</title>
+    <title>会员管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -34,14 +34,14 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so" th:action="@{/VipInfo}">
-            <input type="text" name="name" placeholder="请输入VIP名" autocomplete="off" class="layui-input"
-                   id="vipname" th:value="${vipname}">
+        <form class="layui-form layui-col-md12 x-so" th:action="@{/member}">
+            <input type="text" name="name" placeholder="请输入会员名" autocomplete="off" class="layui-input"
+                   id="membername" th:value="${membername}">
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加','/VipInfo/GetAddVip',800,450)"><i
+        <button class="layui-btn" onclick="x_admin_show('添加','/member/GetMemberAdd',800,450)"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -49,29 +49,31 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>VIP名称</th>
-            <th>年最低消费</th>
-            <th>折扣</th>
+            <th>会员名</th>
+            <th>会员手机</th>
+            <th>会员邮箱</th>
+            <th>会员VIP</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="vip : ${viplist.list}">
-            <td th:text="${vip.id}"></td>
-            <td th:text="${vip.name}"></td>
-            <td th:text="${vip.lowestconsumption}"></td>
-            <td th:text="${vip.discount}">
+        <tr th:each="member : ${memberlist.list}">
+            <td th:text="${member.id}"></td>
+            <td th:text="${member.name}"></td>
+            <td th:text="${member.phone}"></td>
+            <td th:text="${member.email}"></td>
+            <td th:text="${member.vip.name}"></td>
             </td>
             <td class="td-manage">
-                <button type="button" class="btn btn-info" th:onclick="updatevip([[${vip.id}]])"
+                <button type="button" class="btn btn-info" th:onclick="updatemember([[${member.id}]])"
                         title="修改" href="javascript:;">修改
                 </button>
-                <button type="button" class="btn btn-danger" th:onclick="deletevip([[${vip.id}]])"
+                <button type="button" class="btn btn-danger" th:onclick="deletemember([[${member.id}]])"
                         href="javascript:;">删除
                 </button>
             </td>
         </tr>
-        <tr th:if="${#lists.isEmpty(viplist.list)}">
+        <tr th:if="${#lists.isEmpty(memberlist.list)}">
             <td colspan="9" style="color: red;font-size: 32px;">暂无数据</td>
         </tr>
         </tbody>
@@ -83,23 +85,23 @@
 <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 <script th:src="@{/js/pageMe.js}"></script>
 <script th:inline="javascript">
-    var viplist = [[${viplist}]];
-    var vipname = $('#vipname').val().toString().trim();
+    var memberlist = [[${memberlist}]];
+    var membername = $('#membername').val().toString().trim();
     //翻页
     $("#page").paging({
-        pageNum: viplist.pageNum, // 当前页面
-        totalNum: viplist.pages, // 总页码
-        totalList: viplist.total, // 记录总数量
+        pageNum: memberlist.pageNum, // 当前页面
+        totalNum: memberlist.pages, // 总页码
+        totalList: memberlist.total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "/VipInfo?pageNo=" + num + "&name=" + vipname;
+            window.location.href = "/member?pageNo=" + num + "&name=" + membername;
         }
     });
 
-    /*用户-删除*/
-    function deletevip(id) {
+    //删除会员信息
+    function deletemember(id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
-                url: "/VipInfo/DeleteVip",
+                url: "/member/DeleteMember",
                 async: false,
                 type: 'post',
                 data: {
@@ -118,8 +120,8 @@
         });
     }
 
-    //修改
-    function updatevip(id) {
+    //修改会员信息
+    function updatemember(id) {
         layer.open({
             type: 2 //Page层类型
             , area: ['800px', '450px']
@@ -127,7 +129,7 @@
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/VipInfo/GetUpdateVip?id=' + id
+            , content: '/member/GetMemberUpdate?id=' + id
         });
     }
 </script>

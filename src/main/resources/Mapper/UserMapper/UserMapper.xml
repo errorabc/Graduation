@@ -21,6 +21,7 @@
             <result property="createtime" column="createtime" jdbcType="DATE"/>
             <result property="updatetime" column="updatetime" jdbcType="DATE"/>
         </association>
+
     </resultMap>
 
     <!--查询用户的信息返回List-->

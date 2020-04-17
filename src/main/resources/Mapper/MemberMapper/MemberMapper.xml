@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.MemberDao.MemberDao">
+
+    <resultMap id="member" type="com.example.demo.Graduation.entity.MemberEntity">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <association property="vip" javaType="com.example.demo.Graduation.entity.VipinfoEntity">
+            <id property="id" column="vip.id" jdbcType="VARCHAR"/>
+            <result property="name" column="vip.name" jdbcType="VARCHAR"/>
+            <result property="lowestconsumption" column="lowestconsumption" jdbcType="DECIMAL"/>
+            <result property="discount" column="discount" jdbcType="FLOAT"/>
+        </association>
+        <association property="mv" javaType="com.example.demo.Graduation.entity.MemberVipEntity">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="vipid" column="vipid" jdbcType="VARCHAR"/>
+            <result property="memberid" column="memberid" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+    <!--添加会员-->
+    <insert id="AddMember">
+        INSERT INTO memberinfo VALUES(#{id},#{name},#{phone},#{email})
+    </insert>
+    <!--添加会员与VIP信息关联-->
+    <insert id="AddMemberVip">
+     INSERT INTO membervip VALUES(#{id},#{vipid},#{memberid})
+    </insert>
+    <!--删除会员信息-->
+    <delete id="DeleteMember">
+        DELETE FROM memberinfo WHERE id=#{id}
+    </delete>
+
+    <!--删除会员和VIP关联信息-->
+    <delete id="DeleteMemberVip">
+        DELETE FROM membervip WHERE memberid=#{id}
+    </delete>
+
+
+    <!--查询会员信息-->
+    <select id="MemberAllInfo" resultMap="member">
+        SELECT m.*,vip.name as 'vip.name' FROM memberinfo as m
+        JOIN membervip as mv
+        ON mv.memberid=m.id
+        JOIN vipinfo as vip
+        ON vip.id=mv.vipid
+        <where>
+            <if test="name!=null and name!=''">
+                m.name=#{name}
+            </if>
+        </where>
+    </select>
+    <!--查询会员名是否存在-->
+    <select id="VerificationMemberName" resultType="com.example.demo.Graduation.entity.MemberEntity">
+     SELECT * FROM memberinfo WHERE name=#{name}
+    </select>
+
+    <!--根据会员ID查询会员信息-->
+    <select id="IdFIndMemberInfo" resultMap="member">
+        SELECT m.*,vip.name as 'vip.name',vip.id as 'vip.id' FROM memberinfo as m
+        JOIN membervip as mv
+        ON mv.memberid=m.id
+        JOIN vipinfo as vip
+        ON vip.id=mv.vipid
+       WHERE m.id=#{id}
+    </select>
+
+
+</mapper>
