@@ -6,6 +6,9 @@ import com.example.demo.Graduation.entity.JstreeVO;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -25,6 +28,7 @@ public class LoginController {
     private MenuService menuService;
     @Autowired
     private UserDao userDao;
+
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     //跳转到登录界面
@@ -40,17 +44,17 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
-            if (subject.isAuthenticated()) {
-                logger.info("登录成功");
-                return "redirect:/index";
-            } else {
-                token.clear();
-                return "login";
-            }
-        } catch (Exception e) {
-            logger.trace("登录失败");
+            return "redirect:/index";
+        } catch (UnknownAccountException e) {
+            model.addAttribute("msg", "用户名不存在");
+            return "login";
+        } catch (IncorrectCredentialsException e) {
+            model.addAttribute("msg", "密码错误");
+            return "login";
+        } catch (LockedAccountException e) {
+            model.addAttribute("msg", "该账户已被锁定");
+            return "login";
         }
-        return "login";
     }
 
     //注销

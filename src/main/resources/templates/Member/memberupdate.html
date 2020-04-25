@@ -25,12 +25,22 @@
 <div class="x-body">
     <form class="layui-form">
         <div class="layui-form-item">
+            <label for="memberid" class="layui-form-label">
+                <span class="x-red">*</span>会员id
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="memberid" name="memberid" class="layui-input" readonly="readonly"
+                       placeholder="姓名+手机号后四位"
+                       th:value="${member.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label for="membername" class="layui-form-label">
                 <span class="x-red">*</span>会员名
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="membername" name="membername" lay-reqtext="必填项不能为空"
-                       lay-verify="membername||required"
+                       lay-verify="membername|required"
                        autocomplete="off" class="layui-input" placeholder="姓名+手机号后四位" th:value="${member.name}">
             </div>
             <div class="layui-form-mid layui-word-aux">
@@ -63,7 +73,7 @@
             </div>
         </div>
         <div class="layui-form-item" style="margin-left: 100px">
-            <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+            <button class="layui-btn" lay-filter="update" lay-submit="">增加</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </form>
@@ -91,13 +101,13 @@
         });
 
         //监听提交
-        form.on('submit(add)', function (data) {
-
+        form.on('submit(update)', function (data) {
             $.ajax({
-                url: "/member/AddMember",
+                url: "/member/UpdateMember",
                 type: "post",
                 anys: false,
                 data: {
+                    id: data.field.memberid,
                     name: data.field.membername,
                     phone: data.field.phone,
                     email: data.field.email,
@@ -108,7 +118,6 @@
                         x_admin_close();
                     } else {
                         layer.msg(result.content, {icon: 2});
-                        x_admin_close();
                     }
                 }
             })
@@ -117,39 +126,6 @@
         });
     });
 
-
-    //输入账号验证
-    $('#membername').blur(function () {
-        var membername = $('#membername').val().toString().trim();
-        var reg = new RegExp(/.*[0-9]{1,}.*/);
-        if (membername == null || membername == '') {
-            $('#VerificationMemberName').css('color', 'red').text("会员名不能为空");
-        } else {
-            if (reg.test(membername)) {
-                $.ajax({
-                    url: "/member/VerificationMemberName",
-                    async: false,
-                    type: 'post',
-                    data: {
-                        name: membername
-                    },
-                    success: function (result) {
-                        if (result.code == "1") {
-                            $('#VerificationMemberName').css('color', 'green').text("验证通过");
-                        } else {
-                            $('#VerificationMemberName').css('color', 'red').text("会员名已存在");
-                            $('#membername').val('');
-                        }
-                    }
-                });
-
-            } else {
-                $('#VerificationMemberName').css('color', 'red').text("会员名中必须带有数字");
-                $('#membername').val('');
-            }
-        }
-
-    })
 
 </script>
 </html>

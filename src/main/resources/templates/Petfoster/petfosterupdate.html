@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<style type="text/css">
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>修改宠物寄养</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/page.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入  -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div style="margin-top: 30px">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" autocomplete="off" disabled="disabled"
+                       class="layui-input" style="width: 80%" th:value="${petfoster.id}" id="id">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">饲主名<span style="color: red">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="feedername" lay-verify="required|feedername" autocomplete="off"
+                       class="layui-input" style="width: 80%" th:value="${petfoster.feedername}" id="feedername">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">饲主手机<span style="color: red">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="feederphone" autocomplete="off"
+                       class="layui-input" style="width: 80%" th:value="${petfoster.feederphone}"
+                       lay-verify="phone|required" id="feederphone">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">宠物类型<span style="color: red">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="pettype" lay-verify="required" autocomplete="off"
+                       class="layui-input" style="width: 80%" th:value="${petfoster.pettype}" id="pettype">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">宠物笼子<span style="color: red">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="petcage" lay-verify="required" autocomplete="off"
+                       class="layui-input" style="width: 80%" th:value="${petfoster.petcage}" id="petcage">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">开始时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="fosterstartime" lay-verify="title" autocomplete="off" readonly="readonly"
+                       class="layui-input" style="width: 80%"
+                       th:value="${#dates.format(petfoster.fosterstartime,'yyyy-MM-dd HH:mm:ss')}" id="fosterstartime">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">结束时间<span style="color: red">*</span></label>
+            <div class="layui-input-block">
+                <input class="layui-input" placeholder="yyyy-MM-dd HH:mm:ss" name="fosterendtime"
+                       autocomplete="off"
+                       lay-verify="required" style="width: 80%"
+                       th:value="${#dates.format(petfoster.fosterendtime,'yyyy-MM-dd HH:mm:ss')}" id="fosterendtime">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">寄养备注<span style="color: red">*</span></label>
+            <div class="layui-input-block">
+                <textarea autocomplete="off" name="fosterremark" class="layui-textarea" style="width: 80%"
+                          th:text="${petfoster.fosterremark}" id="fosterremark"></textarea>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">状态</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="fosterstates"
+                       autocomplete="off" readonly="readonly"
+                       lay-verify="required" style="width: 80%"
+                       th:value="${petfoster.state}" id="fosterstates">
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-left: 10%">
+            <button class="layui-btn" lay-filter="update" lay-submit="">修改</button>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    layui.use(['form', 'layer', 'laydate'], function () {
+        var laydate = layui.laydate,
+            form = layui.form,
+            layer = layui.layer;
+        //自定义验证规则
+        form.verify({
+            feedername: [/.*[0-9]{1,}.*/, '会员名中要带有数字'],
+        });
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#fosterendtime' //指定元素
+            , type: 'datetime'
+        });
+
+        //监听提交
+        form.on('submit(update)', function (data) {
+            $.ajax({
+                url: "/petfoster/UpdatePetFoster",
+                type: "post",
+                anys: false,
+                data: {
+                    id: data.field.id,
+                    feedername: data.field.feedername,
+                    pettype: data.field.pettype,
+                    petcage: data.field.petcage,
+                    starttime: data.field.fosterstartime,
+                    endtime: data.field.fosterendtime,
+                    feederphone: data.field.feederphone,
+                    fosterremark: data.field.fosterremark,
+                    state: data.field.fosterstates
+                }, success: function (result) {
+                    if (result.code == '1') {
+                        layer.msg(result.content, {icon: 1});
+                        x_admin_close();
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                        x_admin_close();
+                    }
+                }
+            })
+
+            return false;
+        });
+    });
+</script>
+</html>

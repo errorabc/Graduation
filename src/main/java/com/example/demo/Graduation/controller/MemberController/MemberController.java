@@ -80,8 +80,8 @@ public class MemberController {
     //修改会员信息
     @PostMapping(value = "/UpdateMember")
     @ResponseBody
-    public Result UpdateMember(MemberEntity memberEntity) {
-        Result result = null;
+    public Result UpdateMember(MemberEntity memberEntity, @RequestParam("vipid") String vipid) {
+        Result result = memberSerice.UpdateMember(memberEntity, vipid);
         return result;
     }
 

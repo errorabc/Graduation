@@ -67,10 +67,25 @@ public class MemberSerice {
     }
 
     //修改会员信息
-    public Result UpdateMember(MemberEntity memberEntity) {
-
-        Result result = null;
-        return result;
+    public Result UpdateMember(MemberEntity memberEntity, String vipid) {
+        MemberEntity member = memberDao.VerificationMemberName(memberEntity.getName().trim());
+        if (null != member) {
+            if (member.getId().equals(memberEntity.getId())) {
+                if (memberDao.UpdateMember(memberEntity) && memberDao.UpdateMemberVip(vipid, memberEntity.getId())) {
+                    return Result.success(1, "修改成功");
+                } else {
+                    return Result.error(0, "修改失败");
+                }
+            } else {
+                return Result.error(0, "该账号已存在");
+            }
+        } else {
+            if (memberDao.UpdateMember(memberEntity) && memberDao.UpdateMemberVip(vipid, memberEntity.getId())) {
+                return Result.success(1, "修改成功");
+            } else {
+                return Result.error(0, "修改失败");
+            }
+        }
     }
 
 

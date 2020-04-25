@@ -130,40 +130,5 @@
         });
 
     });
-
-    /*
-        //输入账号验证
-        $('#username').blur(function () {
-            var username = $('#username').val().toString().trim();
-            var reg = new RegExp(/^[a-zA-Z0-9]{6,16}$/);
-            if (username == null || username == '') {
-                $('#VerificationUsername').css('color', 'red').text("账号不能为空");
-            } else {
-                if (reg.test(username)) {
-                    $.ajax({
-                        url: "/userinfo/VerificationUsername",
-                        async: false,
-                        type: 'post',
-                        data: {
-                            username: username
-                        },
-                        success: function (result) {
-                            if (result.code == "1") {
-                                $('#VerificationUsername').css('color', 'green').text("验证通过");
-                            } else {
-                                $('#VerificationUsername').css('color', 'red').text("账号已存在");
-                            }
-                        }
-                    });
-
-                } else {
-                    $('#VerificationUsername').css('color', 'red').text("账号必须6到12位数字和字母");
-                    $('#username').val('');
-                }
-            }
-
-        })
-    */
-
 </script>
 </html>

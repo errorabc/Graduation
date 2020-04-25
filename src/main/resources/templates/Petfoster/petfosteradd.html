@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加宠物寄养</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/layui2.5/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script src=".." th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <script type="text/javascript" th:src="@{/layui2.5/layui.js}"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+</head>
+<body>
+<div class="x-body">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label for="feedername" class="layui-form-label">
+                <span class="x-red">*</span>饲主名
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="feedername" name="feedername" lay-verify="required|feedername"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span id="VerificationFeederName"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="feedername" class="layui-form-label">
+                <span class="x-red">*</span>宠物类型
+            </label>
+            <div>
+                <div class="layui-input-inline">
+                    <input type="text" id="pettype" name="pettype" lay-verify="required|pettype"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div>
+                <label for="feedername" class="layui-form-label">
+                    <span>宠物种族</span>
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="pettype2" name="pettype2" lay-verify="required|pettype2"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span id="VerificationPetType"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="petcage" class="layui-form-label">
+                <span class="x-red">*</span>笼子编号
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="petcage" name="petcage" lay-verify="required|petcage"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span id="VerificationPetCage"></span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="petcage" class="layui-form-label">
+                <span class="x-red">*</span>结束时间
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input class="layui-input" placeholder="yyyy-MM-dd HH:mm:ss" name="fosterendtime" id="fosterendtime"
+                       autocomplete="off"
+                       lay-verify="required">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="petcage" class="layui-form-label">
+                <span class="x-red">*</span>饲主手机
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="feederphone" name="feederphone" lay-verify="required|phone"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">寄养备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" id="fosterremark" name="fosterremark"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-left: 30%">
+            <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </form>
+</div>
+</body>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script th:src="@{/js/pageMe.js}"></script>
+<script>
+    layui.use(['form', 'layer', 'laydate'], function () {
+        var laydate = layui.laydate,
+            form = layui.form,
+            layer = layui.layer;
+        //自定义验证规则
+        form.verify({
+            feedername: [/.*[0-9]{1,}.*/, '会员名中要带有数字'],
+        });
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#fosterendtime' //指定元素
+            , type: 'datetime'
+        });
+
+        //监听提交
+        form.on('submit(add)', function (data) {
+            $.ajax({
+                url: "/petfoster/AddPetFoster",
+                type: "post",
+                anys: false,
+                data: {
+                    feedername: data.field.feedername,
+                    pettype: data.field.pettype + "-" + data.field.pettype2,
+                    petcage: data.field.petcage,
+                    endtime: data.field.fosterendtime,
+                    feederphone: data.field.feederphone,
+                    fosterremark: data.field.fosterremark,
+                }, success: function (result) {
+                    if (result.code == '1') {
+                        layer.msg(result.content, {icon: 1});
+                        x_admin_close();
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                        x_admin_close();
+                    }
+                }
+            })
+
+            return false;
+        });
+
+
+    });
+</script>
+</html>

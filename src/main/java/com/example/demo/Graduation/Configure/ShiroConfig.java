@@ -55,7 +55,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/lib/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/QueryJsTree", "anon");
         filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/**", "authc");
 
@@ -106,6 +105,8 @@ public class ShiroConfig {
         sessionManager.setGlobalSessionTimeout(3600000L);//登录状态1个小时后失效
         return sessionManager;
     }
+
+
 
 
 }

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<style type="text/css">
+</style>
 <head>
     <meta charset="UTF-8">
-    <title>会员管理</title>
+    <title>宠物寄养管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -15,7 +17,7 @@
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入  -->
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -34,46 +36,67 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so" th:action="@{/member}">
-            <input type="text" name="name" placeholder="请输入会员名" autocomplete="off" class="layui-input"
-                   id="membername" th:value="${membername}">
+        <form class="layui-form layui-col-md12 x-so" th:action="@{/petfoster}">
+            <input type="text" name="feedername" placeholder="饲主名" class="layui-input"
+                   id="feedername" th:value="${feedername}">
+            <input type="text" name="feederphone" placeholder="饲主手机号" class="layui-input"
+                   id="feederphone" th:value="${feederphone}">
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加','/member/GetMemberAdd',800,450)"><i
+        <button class="layui-btn" onclick="x_admin_show('添加寄养','/petfoster/GetAddPetFoster',1000,700)"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
     <table class="layui-table">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>会员名</th>
-            <th>会员手机</th>
-            <th>会员邮箱</th>
-            <th>会员VIP</th>
+            <th hidden="hidden">ID</th>
+            <th>饲主名</th>
+            <th>饲主手机</th>
+            <th>宠物类型</th>
+            <th>宠物笼子</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>寄养备注</th>
+            <th>状态</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="member : ${memberlist.list}">
-            <td th:text="${member.id}"></td>
-            <td th:text="${member.name}"></td>
-            <td th:text="${member.phone}"></td>
-            <td th:text="${member.email}"></td>
-            <td th:text="${member.vip.name}"></td>
+        <tr th:each="petfoster : ${petfosterlist.list}">
+            <td th:text="${petfoster.id}" hidden="hidden"></td>
+            <td th:text="${petfoster.feedername}"></td>
+            <td th:text="${petfoster.feederphone}"></td>
+            <td th:text="${petfoster.pettype}"></td>
+            <td th:text="${petfoster.petcage}"></td>
+            <td th:text="${#dates.format(petfoster.fosterstartime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(petfoster.fosterendtime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <button type="button" class="btn btn-danger" th:onclick="detailspetfoster([[${petfoster.id}]])"
+                        href="javascript:;">详情
+                </button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" th:if="${petfoster.state} eq  1"
+                        th:onclick="StopUser([[${petfoster.id}]])">寄养完成
+                </button>
+                <button type="button" class="btn btn-success" th:if="${petfoster.state} eq  0"
+                        th:onclick="EnableUser([[${petfoster.id}]])">寄养中
+                </button>
             </td>
             <td class="td-manage">
-                <button type="button" class="btn btn-info" th:onclick="updatemember([[${member.id}]])"
+                <button type="button" class="btn btn-info" th:onclick="updatepetfoster([[${petfoster.id}]])"
                         title="修改" href="javascript:;">修改
                 </button>
-                <button type="button" class="btn btn-danger" th:onclick="deletemember([[${member.id}]])"
+                <button type="button" class="btn btn-danger" th:onclick="deletepetfoster([[${petfoster.id}]])"
                         href="javascript:;">删除
                 </button>
+
             </td>
         </tr>
-        <tr th:if="${#lists.isEmpty(memberlist.list)}">
+        <tr th:if="${#lists.isEmpty(petfosterlist.list)}">
             <td colspan="9" style="color: red;font-size: 32px;">暂无数据</td>
         </tr>
         </tbody>
@@ -85,23 +108,37 @@
 <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 <script th:src="@{/js/pageMe.js}"></script>
 <script th:inline="javascript">
-    var memberlist = [[${memberlist}]];
-    var membername = $('#membername').val().toString().trim();
+    var petfosterlist = [[${petfosterlist}]];
+    var feedername = $('#feedername').val().toString().trim();
+    var feederphone = $('#feederphone').val().toString().trim();
     //翻页
     $("#page").paging({
-        pageNum: memberlist.pageNum, // 当前页面
-        totalNum: memberlist.pages, // 总页码
-        totalList: memberlist.total, // 记录总数量
+        pageNum: petfosterlist.pageNum, // 当前页面
+        totalNum: petfosterlist.pages, // 总页码
+        totalList: petfosterlist.total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "/member?pageNo=" + num + "&name=" + membername;
+            window.location.href = "/petfoster?pageNo=" + num + "&feedername=" + feedername + "&feederphone=" + feederphone;
         }
     });
 
-    //删除会员信息
-    function deletemember(id) {
+    //详情
+    function detailspetfoster(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['1000px', '700px']
+            , title: '详情' + '-' + id
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/petfoster/GetDetailsPetFoster?id=' + id
+        });
+    }
+
+    //删除寄养信息
+    function deletepetfoster(id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
-                url: "/member/DeleteMember",
+                url: "/petfoster/DeletePetFoster",
                 async: false,
                 type: 'post',
                 data: {
@@ -120,18 +157,20 @@
         });
     }
 
-    //修改会员信息
-    function updatemember(id) {
+
+    //修改寄养信息
+    function updatepetfoster(id) {
         layer.open({
             type: 2 //Page层类型
-            , area: ['800px', '450px']
-            , title: '修改信息'
+            , area: ['1000px', '700px']
+            , title: '修改' + '-' + id
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/member/GetMemberUpdate?id=' + id
+            , content: '/petfoster/GetUpdatePetFoster?id=' + id
         });
     }
+
 </script>
 </body>
 </html>

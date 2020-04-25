@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/PetFoodinfo")
 public class PetFoodController {
-    @RequestMapping(value = "/GetPetFood")
+    //查询
+    @RequestMapping(value = "")
     public String GetPetFood() {
-
-
-        return "";
+        return "PetFood/petfoodlist";
     }
 }

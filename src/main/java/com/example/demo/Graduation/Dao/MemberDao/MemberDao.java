@@ -32,6 +32,13 @@ public interface MemberDao {
 
     //根据会员ID查询会员信息
 
-    MemberEntity IdFIndMemberInfo(@Param("id")String id);
+    MemberEntity IdFIndMemberInfo(@Param("id") String id);
+
+    //修改会员信息
+    boolean UpdateMember(MemberEntity memberEntity);
+
+    //修改会员和VIP关联
+
+    boolean UpdateMemberVip(@Param("vipid") String vipid, @Param("memberid") String memberid);
 
 }
