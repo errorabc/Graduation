@@ -85,4 +85,12 @@ public class MemberController {
         return result;
     }
 
+
+    //查看会员数量
+    @GetMapping(value = "/MemberNumber")
+    @ResponseBody
+    public int MemberNumber() {
+        return memberSerice.MemberNumber();
+    }
+
 }

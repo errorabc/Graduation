@@ -4,7 +4,7 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>宠物食品管理</title>
+    <title>宠物饰品管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -36,17 +36,17 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so" th:action="@{/PetFoodinfo}">
-            <input type="text" name="foodname" placeholder="食品的名称:XXX" class="layui-input"
-                   id="foodname" th:value="${foodname}">
-            <input type="text" name="foodtype" placeholder="食品类型:狗粮" class="layui-input"
-                   id="foodtype" th:value="${foodtype}">
+        <form class="layui-form layui-col-md12 x-so" th:action="@{/petjewelry}">
+            <input type="text" name="petjewelryname" placeholder="饰品的名称:XXX" class="layui-input"
+                   id="petjewelryname" th:value="${petjewelryname}">
+            <input type="text" name="petjewelrytype" placeholder="饰品类型:绳子" class="layui-input"
+                   id="petjewelrytype" th:value="${petjewelrytype}">
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>
             </button>
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加食品','/PetFoodinfo/GetAddPetFood',1000,450)"><i
+        <button class="layui-btn" onclick="x_admin_show('添加饰品','/petjewelry/GetAddPetjewelry',1000,450)"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -54,36 +54,36 @@
         <thead>
         <tr>
             <th hidden="hidden">ID</th>
-            <th>食品名称</th>
-            <th>食品类型</th>
-            <th>食品数量</th>
-            <th>食品单价</th>
+            <th>饰品名称</th>
+            <th>饰品类型</th>
+            <th>饰品数量</th>
+            <th>饰品单价</th>
             <th>库存操作</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="petfood : ${petfoodlist.list}">
-            <td th:text="${petfood.id}" hidden="hidden"></td>
-            <td th:text="${petfood.foodname}"></td>
-            <td th:text="${petfood.foodtype}"></td>
-            <td th:text="${petfood.foodnumber}"></td>
-            <td th:text="${petfood.foodprice}"></td>
+        <tr th:each="petjewelry : ${petjewelry.list}">
+            <td th:text="${petjewelry.id}" hidden="hidden"></td>
+            <td th:text="${petjewelry.petjewelryname}"></td>
+            <td th:text="${petjewelry.petjewelrytype}"></td>
+            <td th:text="${petjewelry.petjewelrynumber}"></td>
+            <td th:text="${petjewelry.petjewelryprice}"></td>
             <td>
-                <button type="button" class="layui-btn" th:onclick="IncreaseStock([[${petfood.id}]])">加库存</button>
-                <button type="button" class="layui-btn" th:onclick="ReduceStock([[${petfood.id}]])">减库存</button>
-                <button type="button" class="layui-btn" th:onclick="Scrap([[${petfood.id}]])">报废库存</button>
+                <button type="button" class="layui-btn" th:onclick="IncreaseStock([[${petjewelry.id}]])">加库存</button>
+                <button type="button" class="layui-btn" th:onclick="ReduceStock([[${petjewelry.id}]])">减库存</button>
+                <button type="button" class="layui-btn" th:onclick="Scrap([[${petjewelry.id}]])">报废库存</button>
             </td>
             <td class="td-manage">
-                <button type="button" class="btn btn-info" th:onclick="updatepetfood([[${petfood.id}]])"
+                <button type="button" class="btn btn-info" th:onclick="updatepetfood([[${petjewelry.id}]])"
                         title="修改" href="javascript:;">修改
                 </button>
-                <button type="button" class="btn btn-danger" th:onclick="deletepetfood([[${petfood.id}]])"
+                <button type="button" class="btn btn-danger" th:onclick="deletepetfood([[${petjewelry.id}]])"
                         href="javascript:;">删除
                 </button>
             </td>
         </tr>
-        <tr th:if="${#lists.isEmpty(petfoodlist.list)}">
+        <tr th:if="${#lists.isEmpty(petjewelry.list)}">
             <td colspan="9" style="color: red;font-size: 32px;">暂无数据</td>
         </tr>
         </tbody>
@@ -95,16 +95,16 @@
 <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 <script th:src="@{/js/pageMe.js}"></script>
 <script th:inline="javascript">
-    var petfoodlist = [[${petfoodlist}]];
-    var foodname = $('#foodname').val().toString().trim();
-    var foodtype = $('#foodtype').val().toString().trim();
+    var petjewelry = [[${petjewelry}]];
+    var petjewelryname = $('#petjewelryname').val().toString().trim();
+    var petjewelrytype = $('#petjewelrytype').val().toString().trim();
     //翻页
     $("#page").paging({
-        pageNum: petfoodlist.pageNum, // 当前页面
-        totalNum: petfoodlist.pages, // 总页码
-        totalList: petfoodlist.total, // 记录总数量
+        pageNum: petjewelry.pageNum, // 当前页面
+        totalNum: petjewelry.pages, // 总页码
+        totalList: petjewelry.total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "/PetFoodinfo?pageNo=" + num + "&foodname=" + foodname + "&foodtype=" + foodtype;
+            window.location.href = "/petjewelry?pageNo=" + num + "&petjewelryname=" + petjewelryname + "&petjewelrytype=" + petjewelrytype;
         }
     });
 
@@ -112,7 +112,7 @@
     function deletepetfood(id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
-                url: "/PetFoodinfo/DeletePetFood",
+                url: "/petjewelry/DeletePetjewelry",
                 async: false,
                 type: 'post',
                 data: {
@@ -140,7 +140,7 @@
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/PetFoodinfo/GetUpdatePetFood?id=' + id
+            , content: '/PetFoodinfo/**?id=' + id
         });
     }
 
@@ -154,7 +154,7 @@
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/PetFoodinfo/GetIncreaseStock?id=' + id
+            , content: '/petjewelry/GetIncreaseStock?id=' + id
         });
     }
 
@@ -168,7 +168,7 @@
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/PetFoodinfo/GetReduceStock?id=' + id
+            , content: '/PetFoodinfo/***?id=' + id
         });
     }
 
@@ -181,7 +181,7 @@
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/PetFoodinfo/GetIncreaseStock?id=' + id
+            , content: '/PetFoodinfo/**?id=' + id
         });
     }
 

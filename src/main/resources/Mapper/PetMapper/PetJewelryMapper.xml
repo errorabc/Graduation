@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.PetDao.PetJewelryDao">
+    <!--修改库存-->
+    <update id="UpdatePetJewelryNumber">
+    update petjewelry set petjewelrynumber=#{petjewelrynumber}   where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="DeletePetjewelry">
+    delete  from petjewelry where id=#{id}
+    </delete>
+
+    <!--查询-->
+    <select id="FindAllPetFoodInfo" resultType="com.example.demo.Graduation.entity.PetjewelryEntity">
+        select * from petjewelry
+        <where>
+            <if test="petjewelryname!='' and petjewelryname!=null">
+                AND petjewelryname like concat('%',#{petjewelryname},'%')
+            </if>
+            <if test="petjewelrytype!='' and petjewelrytype!=null">
+                AND petjewelrytype like concat('%',#{petjewelrytype},'%')
+            </if>
+        </where>
+        order by petjewelrynumber DESC
+    </select>
+    <select id="VerificationPetJewelryName" resultType="com.example.demo.Graduation.entity.PetjewelryEntity">
+        select  *  from petjewelry where  petjewelryname=#{petjewelryname}
+    </select>
+    <!--ID查询饰品信息-->
+    <select id="IdFindPetjewelryInfo" resultType="com.example.demo.Graduation.entity.PetjewelryEntity">
+     select * from petjewelry  where  id=#{id}
+    </select>
+
+
+    <!--添加-->
+    <insert id="AdddPetJewelry">
+    insert into petjewelry(id,petjewelryname,petjewelrytype,petjewelryprice,petjewelrynumber) VALUES (#{id},#{petjewelryname},#{petjewelrytype},#{petjewelryprice},#{petjewelrynumber})
+    </insert>
+
+
+</mapper>

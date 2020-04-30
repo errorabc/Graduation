@@ -95,4 +95,10 @@ public class MemberSerice {
         return member;
     }
 
+
+    //查看会员数量
+    public int MemberNumber() {
+        return memberDao.MemberNumber();
+    }
+
 }

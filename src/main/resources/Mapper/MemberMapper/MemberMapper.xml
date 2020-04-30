@@ -70,6 +70,10 @@
         ON vip.id=mv.vipid
        WHERE m.id=#{id}
     </select>
+    <!--查询会员数量-->
+    <select id="MemberNumber" resultType="java.lang.Integer">
+    SELECT count(*) FROM memberinfo
+    </select>
 
     <!--修改会员和VIP关联-->
     <update id="UpdateMemberVip">

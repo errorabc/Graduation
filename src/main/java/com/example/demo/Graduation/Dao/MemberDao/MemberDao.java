@@ -41,4 +41,7 @@ public interface MemberDao {
 
     boolean UpdateMemberVip(@Param("vipid") String vipid, @Param("memberid") String memberid);
 
+    //查看会员数量
+    int MemberNumber();
+
 }

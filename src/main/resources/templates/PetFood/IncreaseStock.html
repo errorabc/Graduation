@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>添加宠物食品</title>
+    <title>添加库存</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -25,16 +25,24 @@
 <div class="x-body">
     <form class="layui-form">
 
+
+        <div class="layui-form-item">
+            <label for="id" class="layui-form-label">
+                <span class="x-red">*</span>ID
+            </label>
+            <div class="layui-input-inline" style="width:50%">
+                <input type="text" id="id" name="id"
+                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.id}">
+            </div>
+        </div>
+
         <div class="layui-form-item">
             <label for="foodname" class="layui-form-label">
                 <span class="x-red">*</span>食品名称
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="foodname" name="foodname" lay-verify="required"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span id="VerificationFoodName"></span>
+                <input type="text" id="foodname" name="foodname"
+                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.foodname}">
             </div>
         </div>
 
@@ -44,34 +52,43 @@
             </label>
             <div>
                 <div class="layui-input-inline" style="width: 50%">
-                    <input type="text" id="foodtype" name="foodtype" lay-verify="required"
-                           autocomplete="off" class="layui-input">
+                    <input type="text" id="foodtype" name="foodtype"
+                           autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.foodtype}">
                 </div>
             </div>
         </div>
-
         <div class="layui-form-item">
             <label for="foodnumber" class="layui-form-label">
                 <span class="x-red">*</span>食品数量
             </label>
             <div class="layui-input-inline" style="width:50%">
-                <input type="text" id="foodnumber" name="foodnumber" lay-verify="required|foodnumber"
-                       autocomplete="off" class="layui-input">
+                <input type="text" id="foodnumber" name="foodnumber"
+                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.foodnumber}">
             </div>
         </div>
-
         <div class="layui-form-item">
             <label for="foodprice" class="layui-form-label">
                 <span class="x-red">*</span>食品单价
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="foodprice" name="foodprice" lay-verify="required|foodprice"
-                       autocomplete="off" class="layui-input" placeholder="正整数或者2位小数">
+                <input type="text" id="foodprice" name="foodprice"
+                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.foodprice}">
             </div>
         </div>
+
+        <div class="layui-form-item">
+            <label for="AddNumber" class="layui-form-label">
+                <span class="x-red">*</span>增加量
+            </label>
+            <div class="layui-input-inline" style="width:50%">
+                <input type="text" id="AddNumber" name="AddNumber" lay-verify="required|AddNumber"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
         <div class="layui-form-item" style="margin-left: 30%">
-            <button class="layui-btn" lay-filter="add" lay-submit="" .>增加</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn" lay-filter="update" lay-submit="" .>增加库存</button>
         </div>
     </form>
 </div>
@@ -82,22 +99,19 @@
             layer = layui.layer;
         //自定义验证规则
         form.verify({
-            foodnumber: [/^[0-9]+$/, '数量必须为正整数'],
-            foodprice: [/^([0-9]+|0)(\.(([0-9][1-9])|[1-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数']
+            AddNumber: [/^[0-9]+$/, '数量必须为正整数'],
         });
 
 
         //监听提交
-        form.on('submit(add)', function (data) {
+        form.on('submit(update)', function (data) {
             $.ajax({
-                url: "/PetFoodinfo/AddPetFood",
+                url: "/PetFoodinfo/IncreaseStock",
                 type: "post",
                 anys: false,
                 data: {
-                    foodname: data.field.foodname.replace(/\s*/g, ""),
-                    foodtype: data.field.foodtype.replace(/\s*/g, ""),
-                    foodnumber: data.field.foodnumber.replace(/\s*/g, ""),
-                    foodprice: data.field.foodprice.replace(/\s*/g, ""),
+                    IncreasNumber: data.field.AddNumber.replace(/\s*/g, ""),
+                    id: data.field.id.replace(/\s*/g, "")
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});
@@ -112,40 +126,6 @@
             return false;
         });
     })
-
-    //食品名称是否重复
-    $('#foodname').blur(function () {
-        var foodname = $('#foodname').val();
-        if (foodname == null || foodname == '') {
-            $('#VerificationFoodName').css('color', 'red').text("食品名称不能为空");
-            $('#foodname').val("");
-        } else {
-            if (foodname.indexOf(" ") == -1) {
-                $.ajax({
-                    url: "/PetFoodinfo/VerificationPetFoodName",
-                    type: "post",
-                    anys: false,
-                    data: {
-                        foodname: foodname.replace(/\s*/g, ""),
-                    }, success: function (result) {
-                        if (result.code == '1') {
-                            $('#VerificationFoodName').css('color', 'green').text("可以使用");
-                            console.log(result)
-                        } else {
-                            console.log(result)
-                            $('#VerificationFoodName').css('color', 'red').text("不能使用");
-                            $('#foodname').val("");
-                        }
-                    }
-                })
-            } else {
-                $('#VerificationFoodName').css('color', 'red').text("不能带有空格");
-                $('#foodname').val("");
-            }
-        }
-
-    })
-
 
 
 </script>

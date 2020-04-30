@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.PetDao.PetFoodDao">
+    <!--添加食品信息-->
+    <insert id="AddPetFood">
+     insert into petfood  values (#{id},#{foodtype},#{foodnumber},#{foodprice},#{foodname})
+    </insert>
+    <!--修改库存-->
+    <update id="UpdatePetFoodNumber">
+   UPDATE petfood SET foodnumber=#{foodnumber}  WHERE id=#{id}
+    </update>
+    <!--修改食品信息-->
+    <update id="UpdatePetFood">
+        UPDATE petfood  set foodtype=#{foodtype},foodprice=#{foodprice},foodname=#{foodname} where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="DeletePetFood">
+    delete from petfood where id=#{id}
+    </delete>
+
+
+    <!--查询-->
+    <select id="FindAllPetFoodInfo" resultType="com.example.demo.Graduation.entity.PetfoodEntity">
+        SELECT * FROM petfood
+        <where>
+            <if test="foodname!='' and foodname!=null">
+                AND foodname like concat('%',#{foodname},'%')
+            </if>
+            <if test="foodtype!='' and foodtype!=null">
+                AND foodtype like concat('%',#{foodtype},'%')
+            </if>
+        </where>
+    </select>
+    <!--查询食物名称是否重复-->
+    <select id="VerificationPetFoodName" resultType="com.example.demo.Graduation.entity.PetfoodEntity">
+     SELECT * FROM petfood  WHERE foodname=#{foodname}
+    </select>
+    <!--根据ID查询食品信息-->
+    <select id="IdFindPetFoodInfo" resultType="com.example.demo.Graduation.entity.PetfoodEntity">
+     select  * from petfood where id=#{id}
+    </select>
+</mapper>
