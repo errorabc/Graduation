@@ -50,11 +50,17 @@ public class PetJewelryService {
 
     //删除
     public Result DeletePetjewelry(String id) {
-        if (petJewelryDao.DeletePetjewelry(id)) {
-            return Result.success(1, "删除成功");
+        PetjewelryEntity petjewelryEntity = petJewelryDao.IdFindPetjewelryInfo(id);
+        if (petjewelryEntity.getPetjewelrynumber() == 0) {
+            if (petJewelryDao.DeletePetjewelry(id)) {
+                return Result.success(1, "删除成功");
+            } else {
+                return Result.error(0, "删除失败");
+            }
         } else {
-            return Result.error(0, "删除失败");
+            return Result.error(0, "库存没有清空为0,无法删除");
         }
+
     }
 
     //ID查询饰品信息
@@ -89,4 +95,19 @@ public class PetJewelryService {
 
     }
 
+
+    //报废库存
+    public Result Scrap(String id, int IncreasNumber) {
+        PetjewelryEntity petjewelryEntity = petJewelryDao.IdFindPetjewelryInfo(id);
+        if (petjewelryEntity.getPetjewelrynumber() - IncreasNumber < 0) {
+            return Result.error(0, "超过库存量");
+        } else {
+            if (petJewelryDao.UpdatePetJewelryNumber(id, petjewelryEntity.getPetjewelrynumber() - IncreasNumber)) {
+                return Result.success(1, "报废成功");
+            } else {
+                return Result.error(0, "报废失败");
+            }
+        }
+
+    }
 }

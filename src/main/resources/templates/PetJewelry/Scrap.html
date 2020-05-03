@@ -31,47 +31,51 @@
             </label>
             <div class="layui-input-inline" style="width:50%">
                 <input type="text" id="id" name="id"
-                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.id}">
+                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petjewelry.id}">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="foodname" class="layui-form-label">
+            <label for="petjewelryname" class="layui-form-label">
                 <span class="x-red">*</span>食品名称
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="foodname" name="foodname"
-                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.foodname}">
+                <input type="text" id="petjewelryname" name="petjewelryname"
+                       autocomplete="off" class="layui-input" readonly="readonly"
+                       th:value="${petjewelry.petjewelryname}">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="foodtype" class="layui-form-label">
+            <label for="petjewelrytype" class="layui-form-label">
                 <span class="x-red">*</span>食品类型
             </label>
             <div>
                 <div class="layui-input-inline" style="width: 50%">
-                    <input type="text" id="foodtype" name="foodtype"
-                           autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.foodtype}">
+                    <input type="text" id="petjewelrytype" name="petjewelrytype"
+                           autocomplete="off" class="layui-input" readonly="readonly"
+                           th:value="${petjewelry.petjewelrytype}">
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="foodnumber" class="layui-form-label">
+            <label for="petjewelrynumber" class="layui-form-label">
                 <span class="x-red">*</span>食品数量
             </label>
             <div class="layui-input-inline" style="width:50%">
-                <input type="text" id="foodnumber" name="foodnumber"
-                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.foodnumber}">
+                <input type="text" id="petjewelrynumber" name="petjewelrynumber"
+                       autocomplete="off" class="layui-input" readonly="readonly"
+                       th:value="${petjewelry.petjewelrynumber}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="foodprice" class="layui-form-label">
+            <label for="petjewelryprice" class="layui-form-label">
                 <span class="x-red">*</span>食品单价
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="foodprice" name="foodprice"
-                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petfood.foodprice}">
+                <input type="text" id="petjewelryprice" name="petjewelryprice"
+                       autocomplete="off" class="layui-input" readonly="readonly"
+                       th:value="${petjewelry.petjewelryprice}">
             </div>
         </div>
 
@@ -85,7 +89,7 @@
             </div>
         </div>
         <div class="layui-form-item" style="margin-left: 30%">
-            <button class="layui-btn" lay-filter="update" lay-submit="" .>报废库存</button>
+            <button class="layui-btn" lay-filter="update" lay-submit="" .>减少库存</button>
         </div>
     </form>
 </div>
@@ -100,10 +104,10 @@
         });
 
 
-        //监听提交-报废
+        //监听提交
         form.on('submit(update)', function (data) {
             $.ajax({
-                url: "/PetFoodinfo/ReduceStock",
+                url: "/petjewelry/Scrap",
                 type: "post",
                 anys: false,
                 data: {
@@ -115,7 +119,6 @@
                         x_admin_close();
                     } else {
                         layer.msg(result.content, {icon: 2});
-                        x_admin_close();
                     }
                 }
             })

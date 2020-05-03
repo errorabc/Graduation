@@ -108,7 +108,7 @@
         }
     });
 
-    //删除食品信息
+    //删除饰品信息
     function deletepetfood(id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
@@ -131,7 +131,7 @@
         });
     }
 
-    //修改食品信息
+    //修改饰品信息
     function updatepetfood(id) {
         layer.open({
             type: 2 //Page层类型
@@ -140,7 +140,7 @@
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/PetFoodinfo/**?id=' + id
+            , content: '/petjewelry/GetUpdatePetjewelry?id=' + id
         });
     }
 
@@ -150,7 +150,7 @@
         layer.open({
             type: 2 //Page层类型
             , area: ['700px', '500px']
-            , title: '添加食品库存' + '-' + id
+            , title: '添加饰品库存' + '-' + id
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
@@ -164,11 +164,11 @@
         layer.open({
             type: 2 //Page层类型
             , area: ['700px', '500px']
-            , title: '减少食品库存' + '-' + id
+            , title: '减少饰品库存' + '-' + id
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/PetFoodinfo/***?id=' + id
+            , content: '/petjewelry/GetReduceStock?id=' + id
         });
     }
 
@@ -177,11 +177,11 @@
         layer.open({
             type: 2 //Page层类型
             , area: ['700px', '500px']
-            , title: '报废食品' + '-' + id
+            , title: '报废饰品' + '-' + id
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/PetFoodinfo/**?id=' + id
+            , content: '/petjewelry/GetScrap?id=' + id
         });
     }
 

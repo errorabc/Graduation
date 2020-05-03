@@ -75,5 +75,47 @@ public class PetjewelryController {
         return result;
     }
 
+    //跳转到减少库存界面
+    @GetMapping("/GetReduceStock")
+    public String GetReduceStock(@RequestParam("id") String id, Model model) {
+        PetjewelryEntity petjewelryEntity = petJewelryService.IdFindPetjewelryInfo(id);
+        model.addAttribute("petjewelry", petjewelryEntity);
+        return "PetJewelry/ReduceStock";
+    }
 
+
+    //减少库存
+    @PostMapping(value = "/ReduceStock")
+    @ResponseBody
+    public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number) {
+        Result result = petJewelryService.ReduceStock(id, number);
+        return result;
+    }
+
+
+    //跳转到报废库存界面
+    @GetMapping(value = "/GetScrap")
+    public String GetScrap(@RequestParam("id") String id, Model model) {
+        PetjewelryEntity petjewelryEntity = petJewelryService.IdFindPetjewelryInfo(id);
+        model.addAttribute("petjewelry", petjewelryEntity);
+        return "PetJewelry/Scrap";
+    }
+
+
+    //报废库存
+    @PostMapping(value = "/Scrap")
+    @ResponseBody
+    public Result Scrap(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number) {
+        Result result = petJewelryService.Scrap(id, number);
+        return result;
+    }
+
+
+    //跳转到饰品界面
+    @GetMapping(value = "/GetUpdatePetjewelry")
+    public String GetUpdatePetjewelry(@RequestParam("id") String id, Model model) {
+        PetjewelryEntity petjewelryEntity = petJewelryService.IdFindPetjewelryInfo(id);
+        model.addAttribute("petjewelry", petjewelryEntity);
+        return "PetJewelry/petjewelryupdate";
+    }
 }
