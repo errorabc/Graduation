@@ -39,12 +39,14 @@ public class PetFosterController {
     @PostMapping(value = "/AddPetFoster")
     @ResponseBody
     public Result AddPetFoster(PetfosterEntity petfosterEntity, @RequestParam("endtime") String endtime) {
+        Result result = null;
         try {
             petfosterEntity.setFosterendtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endtime));
+            result = petFosterService.AddPetFoster(petfosterEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Result result = petFosterService.AddPetFoster(petfosterEntity);
+
         return result;
     }
 
@@ -74,7 +76,7 @@ public class PetFosterController {
     }
 
 
-    //修改
+    //修改寄养信息
     @PostMapping(value = "/UpdatePetFoster")
     @ResponseBody
     public Result UpdatePetFoster(PetfosterEntity petfosterEntity, @RequestParam("endtime") String endtime, @RequestParam("starttime") String starttime) {
@@ -85,6 +87,15 @@ public class PetFosterController {
             e.printStackTrace();
         }
         Result result = petFosterService.UpdatePetFoster(petfosterEntity);
+        return result;
+    }
+
+
+    //结束寄养
+    @PostMapping(value = "/StopFoster")
+    @ResponseBody
+    public Result StopFoster(@RequestParam("id") String id) {
+        Result result = petFosterService.StopFoster(id);
         return result;
     }
 

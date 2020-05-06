@@ -1,14 +1,19 @@
 package com.example.demo.Graduation.service.PetService;
 
 import com.example.demo.Graduation.Dao.PetDao.PetFosterDao;
+import com.example.demo.Graduation.Tool.DateTime;
+import com.example.demo.Graduation.entity.OderItemEntity;
 import com.example.demo.Graduation.entity.PetfosterEntity;
 import com.example.demo.Graduation.entity.Result;
+import com.example.demo.Graduation.service.OderService.OderItemService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.ws.Action;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +23,9 @@ import java.util.UUID;
 public class PetFosterService {
     @Autowired
     private PetFosterDao petFosterDao;
+    @Autowired
+    private OderItemService oderItemService;
+
 
     //查询
     public PageInfo<PetfosterEntity> FindAllInfo(int PageNo, int PageSzie, String feedername, String feederphone) {
@@ -28,10 +36,29 @@ public class PetFosterService {
     }
 
     //添加寄养
-    public Result AddPetFoster(PetfosterEntity petfosterEntity) {
-        petfosterEntity.setId(UUID.randomUUID().toString());
+    public Result AddPetFoster(PetfosterEntity petfosterEntity) throws Exception {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String id = UUID.randomUUID().toString();
+        petfosterEntity.setId(id);
         petfosterEntity.setFosterstartime(new Date());
         if (petFosterDao.AddPetFoster(petfosterEntity)) {
+            ///生成子订单
+            if (petfosterEntity.getOderstatus() == 0) {
+                OderItemEntity oderItemEntity = new OderItemEntity();
+                oderItemEntity.setId(UUID.randomUUID().toString());
+                oderItemEntity.setOder_no("jy-" + UUID.randomUUID().toString());
+                oderItemEntity.setMember_name(petfosterEntity.getFeedername());
+                oderItemEntity.setProduct_id(id);
+                oderItemEntity.setProduct_name(petfosterEntity.getFeedername() + " 的宠物寄养");
+                oderItemEntity.setProduct_type("宠物寄养");
+                oderItemEntity.setCurrent_oder_price(petfosterEntity.getFosterprice());
+                oderItemEntity.setNumber(1);
+                oderItemEntity.setTotal_price(petfosterEntity.getFosterprice().multiply(new BigDecimal((int) 1)));
+                oderItemEntity.setCreate_time(DateTime.strToDateLong(df.format(new Date())));
+                oderItemEntity.setUpdate_time(DateTime.strToDateLong(df.format(new Date())));
+                Result result = oderItemService.AddOderItem(oderItemEntity);//添加子订单
+                System.out.println(result);
+            }
             return Result.success(1, "添加成功");
         } else {
             return Result.error(0, "添加失败");
@@ -56,10 +83,26 @@ public class PetFosterService {
 
     //修改
     public Result UpdatePetFoster(PetfosterEntity petfosterEntity) {
-        if (petFosterDao.UpdatePetFoster(petfosterEntity)) {
+        PetfosterEntity petfosterEntity1 = petFosterDao.IdFindPetFosterinfo(petfosterEntity.getId());
+        if (petfosterEntity.getState() == 1) {
+            return Result.error(0, "寄养结束不可在修改信息");
+        } else {
+            if (petFosterDao.UpdatePetFoster(petfosterEntity)) {
+                return Result.success(1, "修改成功");
+            } else {
+                return Result.error(0, "修改失败");
+            }
+        }
+    }
+
+
+    //结束寄养
+    public Result StopFoster(String id) {
+        if (petFosterDao.StopFoster(id)) {
             return Result.success(1, "修改成功");
         } else {
             return Result.error(0, "修改失败");
         }
+
     }
 }

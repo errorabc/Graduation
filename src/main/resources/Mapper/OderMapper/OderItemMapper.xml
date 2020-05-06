@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.OderDao.OderItemDao">
+    <!--添加-->
+    <insert id="AddOderItem">
+insert into oderitem(id,member_name,oder_no,product_id,product_name,product_type,current_oder_price,number,total_price,create_time,update_time)
+values(#{id},#{member_name},#{oder_no},#{product_id},#{product_name},#{product_type},#{current_oder_price},#{number},#{total_price},#{create_time},#{update_time})
+    </insert>
+</mapper>

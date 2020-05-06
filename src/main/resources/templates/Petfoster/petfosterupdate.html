@@ -95,6 +95,15 @@
         </div>
 
         <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 10%">寄养价格<span style="color: red">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" id="fosterprice" name="fosterprice" lay-verify="required|fosterprice"
+                       style="width: 80%"
+                       autocomplete="off" class="layui-input" th:value="${petfoster.fosterprice}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <label class="layui-form-label" style="width: 10%">寄养备注<span style="color: red">*</span></label>
             <div class="layui-input-block">
                 <textarea autocomplete="off" name="fosterremark" class="layui-textarea" style="width: 80%"
@@ -126,6 +135,7 @@
         //自定义验证规则
         form.verify({
             feedername: [/.*[0-9]{1,}.*/, '会员名中要带有数字'],
+            fosterprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '价格必须为正整数或者2位小数'],
         });
         //执行一个laydate实例
         laydate.render({
@@ -148,7 +158,9 @@
                     endtime: data.field.fosterendtime,
                     feederphone: data.field.feederphone,
                     fosterremark: data.field.fosterremark,
-                    state: data.field.fosterstates
+                    state: data.field.fosterstates,
+                    fosterprice: data.field.fosterprice
+
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});

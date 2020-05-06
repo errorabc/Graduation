@@ -94,6 +94,28 @@
                        autocomplete="off" class="layui-input">
             </div>
         </div>
+
+
+        <div class="layui-form-item">
+            <label for="fosterprice" class="layui-form-label">
+                <span class="x-red">*</span>寄养价格
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="fosterprice" name="fosterprice" lay-verify="required|fosterprice"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="fosterprice" class="layui-form-label">
+                <span class="x-red">*</span>生成订单
+            </label>
+            <div class="layui-input-inline" style="width: 50%" id="oderstatus">
+                <input type="radio" name="oder" value="0" title="生成订单" checked>
+                <input type="radio" name="oder" value="1" title="不生成订单">
+            </div>
+        </div>
+
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">寄养备注</label>
             <div class="layui-input-block">
@@ -117,6 +139,7 @@
         //自定义验证规则
         form.verify({
             feedername: [/.*[0-9]{1,}.*/, '会员名中要带有数字'],
+            fosterprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '价格必须为正整数或者2位小数']
         });
         //执行一个laydate实例
         laydate.render({
@@ -137,7 +160,10 @@
                     endtime: data.field.fosterendtime,
                     feederphone: data.field.feederphone,
                     fosterremark: data.field.fosterremark,
-                }, success: function (result) {
+                    fosterprice: data.field.fosterprice,
+                    oderstatus: $('#oderstatus input[name="oder"]:checked ').val()
+                },
+                success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});
                         x_admin_close();

@@ -4,14 +4,19 @@
 
     <!--添加寄养信息-->
     <insert id="AddPetFoster">
-insert into petfoster(id, feedername, pettype, petcage, fosterstartime, fosterendtime, fosterremark, feederphone) values(#{id}, #{feedername}, #{pettype}, #{petcage}, #{fosterstartime}, #{fosterendtime}, #{fosterremark}, #{feederphone})
+insert into petfoster(id, feedername, pettype, petcage, fosterstartime, fosterendtime, fosterremark, feederphone,fosterprice) values(#{id}, #{feedername}, #{pettype}, #{petcage}, #{fosterstartime}, #{fosterendtime}, #{fosterremark}, #{feederphone},#{fosterprice})
     </insert>
     <!--修改-->
     <update id="UpdatePetFoster">
 update petfoster set feedername=#{feedername},pettype=#{pettype},petcage=#{petcage},fosterendtime=#{fosterendtime},
 fosterremark=#{fosterremark},feederphone=#{feederphone},state=#{state},
-fosterstartime=#{fosterstartime}where id=#{id}
+fosterstartime=#{fosterstartime},fosterprice=#{fosterprice} where
+ id=#{id}
  </update>
+    <!--结束寄养-->
+    <update id="StopFoster">
+   update petfoster set state='1' where id=#{id}
+    </update>
 
     <!--删除-->
     <delete id="DeletePetFoster">
@@ -30,7 +35,7 @@ fosterstartime=#{fosterstartime}where id=#{id}
                 AND feederphone=#{feederphone}
             </if>
         </where>
-        ORDER BY fosterendtime DESC
+        ORDER BY state ASC
     </select>
     <!--根据ID查询信息-->
     <select id="IdFindPetFosterinfo" resultType="com.example.demo.Graduation.entity.PetfosterEntity">

@@ -57,6 +57,7 @@
             <th>饲主手机</th>
             <th>宠物类型</th>
             <th>宠物笼子</th>
+            <th>寄养价格</th>
             <th>开始时间</th>
             <th>结束时间</th>
             <th>寄养备注</th>
@@ -71,6 +72,7 @@
             <td th:text="${petfoster.feederphone}"></td>
             <td th:text="${petfoster.pettype}"></td>
             <td th:text="${petfoster.petcage}"></td>
+            <td th:text="${petfoster.fosterprice}"></td>
             <td th:text="${#dates.format(petfoster.fosterstartime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${#dates.format(petfoster.fosterendtime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td>
@@ -79,11 +81,10 @@
                 </button>
             </td>
             <td>
-                <button type="button" class="btn btn-danger" th:if="${petfoster.state} eq  1"
-                        th:onclick="StopUser([[${petfoster.id}]])">寄养完成
+                <button type="button" class="btn btn-danger" th:if="${petfoster.state} eq  1">寄养结束
                 </button>
                 <button type="button" class="btn btn-success" th:if="${petfoster.state} eq  0"
-                        th:onclick="EnableUser([[${petfoster.id}]])">寄养中
+                        th:onclick="StopFoster([[${petfoster.id}]])">寄养中
                 </button>
             </td>
             <td class="td-manage">
@@ -168,6 +169,29 @@
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
             , content: '/petfoster/GetUpdatePetFoster?id=' + id
+        });
+    }
+
+    //结束寄养
+    function StopFoster(id) {
+        layer.confirm('您确认要结束寄养吗？', function (index) {
+            $.ajax({
+                url: "/petfoster/StopFoster",
+                async: false,
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        resh()
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+
+            });
         });
     }
 

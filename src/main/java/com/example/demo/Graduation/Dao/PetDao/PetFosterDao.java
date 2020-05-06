@@ -23,4 +23,7 @@ public interface PetFosterDao {
 
     //修改
     boolean UpdatePetFoster(PetfosterEntity petfosterEntity);
+
+    //结束寄养
+    boolean StopFoster(@Param("id") String id);
 }

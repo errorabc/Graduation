@@ -3,6 +3,7 @@ package com.example.demo.Graduation.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class PetfosterEntity {
@@ -15,7 +16,25 @@ public class PetfosterEntity {
     private Date fosterendtime;//寄养结束时间
     private String fosterremark;//寄养备注
     private String feederphone;//饲养者手机号
+    private BigDecimal fosterprice;//寄养价格
     private int state;//寄养状态   0是寄养者,1是寄养完成
+    private int oderstatus;//订单状态   0是生成订单,1是不生成订单
+
+    public int getOderstatus() {
+        return oderstatus;
+    }
+
+    public void setOderstatus(int oderstatus) {
+        this.oderstatus = oderstatus;
+    }
+
+    public BigDecimal getFosterprice() {
+        return fosterprice;
+    }
+
+    public void setFosterprice(BigDecimal fosterprice) {
+        this.fosterprice = fosterprice;
+    }
 
     public int getState() {
         return state;
