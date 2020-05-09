@@ -6,7 +6,8 @@ import java.util.Date;
 public class OderEntity {
     private String id;//ID
     private String oder_no;//订单号
-    private String member_name;//用户ID
+    private String oder_type;//订单类型
+    private String member_name;//用户名称
     private BigDecimal payment;//实际支付金额
     private String payment_type;//支付方式
     private int status;//订单状态  0是未支付,1是支付失败，2是支付成功，3是交易关闭
@@ -14,6 +15,33 @@ public class OderEntity {
     private Date create_time;//创建时间
     private Date update_time;//修改时间
     private String remark;//备注
+    private String starttime;
+    private String endtime;
+    private OderItemEntity oderi;
+
+    public OderItemEntity getOderi() {
+        return oderi;
+    }
+
+    public void setOderi(OderItemEntity oderi) {
+        this.oderi = oderi;
+    }
+
+    public String getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(String starttime) {
+        this.starttime = starttime;
+    }
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
 
     public String getId() {
         return id;
@@ -93,5 +121,13 @@ public class OderEntity {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getOder_type() {
+        return oder_type;
+    }
+
+    public void setOder_type(String oder_type) {
+        this.oder_type = oder_type;
     }
 }

@@ -57,7 +57,6 @@ public class PetFosterService {
                 oderItemEntity.setCreate_time(DateTime.strToDateLong(df.format(new Date())));
                 oderItemEntity.setUpdate_time(DateTime.strToDateLong(df.format(new Date())));
                 Result result = oderItemService.AddOderItem(oderItemEntity);//添加子订单
-                System.out.println(result);
             }
             return Result.success(1, "添加成功");
         } else {

@@ -101,4 +101,21 @@ public class MemberSerice {
         return memberDao.MemberNumber();
     }
 
+    //根据会员名称查询会员信息
+    public VipinfoEntity NameFindMemberInfo(String name) {
+        MemberEntity memberEntity = memberDao.NameFindMemberInfo(name);
+        VipinfoEntity vipinfoEntity = new VipinfoEntity();
+        if (null != memberEntity) {
+            System.out.println("不为空");
+            vipinfoEntity.setName(memberEntity.getVip().getName());
+            vipinfoEntity.setDiscount(memberEntity.getVip().getDiscount());
+            return vipinfoEntity;
+        } else {
+            System.out.println("为空");
+            vipinfoEntity.setName("非会员");
+            vipinfoEntity.setDiscount(100);
+            return vipinfoEntity;
+        }
+    }
+
 }

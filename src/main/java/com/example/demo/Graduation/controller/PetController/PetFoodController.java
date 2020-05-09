@@ -89,8 +89,8 @@ public class PetFoodController {
     //减少库存
     @PostMapping(value = "/ReduceStock")
     @ResponseBody
-    public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number) {
-        Result result = petFoodService.ReduceStock(id, number);
+    public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number,@RequestParam("member_name") String member_name) {
+        Result result = petFoodService.ReduceStock(id, number,member_name);
         return result;
     }
 

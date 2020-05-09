@@ -74,6 +74,15 @@
     <select id="MemberNumber" resultType="java.lang.Integer">
     SELECT count(*) FROM memberinfo
     </select>
+    <!--会员名查询会员信息-->
+    <select id="NameFindMemberInfo" resultMap="member">
+        SELECT   m.*,vip.name as 'vip.name',vip.discount as 'discount' FROM memberinfo as m
+        JOIN membervip as mv
+        ON mv.memberid=m.id
+        JOIN vipinfo as vip
+        ON vip.id=mv.vipid
+        WHERE m.name=#{name}
+    </select>
 
     <!--修改会员和VIP关联-->
     <update id="UpdateMemberVip">

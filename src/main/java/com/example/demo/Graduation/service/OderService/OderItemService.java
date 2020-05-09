@@ -30,7 +30,8 @@ public class OderItemService {
             oderEntity.setMember_name(oderItemEntity.getMember_name());
             oderEntity.setPayment(oderItemEntity.getTotal_price());
             oderEntity.setStatus(0);
-            oderEntity.setPayment_type("现金");
+            oderEntity.setPayment_type("");
+            oderEntity.setOder_type(oderItemEntity.getProduct_type());
             oderEntity.setPayment_time(DateTime.strToDateLong(df.format(new Date())));
             oderEntity.setCreate_time(DateTime.strToDateLong(df.format(new Date())));
             oderEntity.setUpdate_time(DateTime.strToDateLong(df.format(new Date())));

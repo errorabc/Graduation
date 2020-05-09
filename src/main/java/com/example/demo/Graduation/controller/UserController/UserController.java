@@ -117,7 +117,7 @@ public class UserController {
         List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);//查询用户的可以修改的权限
         model.addAttribute("rolenamelist", roleEntityList);
         model.addAttribute("user", userEntity);
-        return "userupdate";
+        return "SysUser/userupdate";
     }
 
     //修改用户信息

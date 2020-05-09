@@ -1,13 +1,19 @@
 package com.example.demo.Graduation.service.PetService;
 
 import com.example.demo.Graduation.Dao.PetDao.PetFoodDao;
+import com.example.demo.Graduation.Tool.DateTime;
+import com.example.demo.Graduation.entity.OderItemEntity;
 import com.example.demo.Graduation.entity.PetfoodEntity;
 import com.example.demo.Graduation.entity.Result;
+import com.example.demo.Graduation.service.OderService.OderItemService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +22,8 @@ import java.util.UUID;
 public class PetFoodService {
     @Autowired
     private PetFoodDao petFoodDao;
+    @Autowired
+    private OderItemService oderItemService;
 
     //查询
     public PageInfo<PetfoodEntity> FindAllPetFoodInfo(int PageNo, int PageSzie, PetfoodEntity petfoodEntity) {
@@ -37,7 +45,8 @@ public class PetFoodService {
 
     //添加食品信息
     public Result AddPetFood(PetfoodEntity petfoodEntity) {
-        petfoodEntity.setId(UUID.randomUUID().toString());
+        String id = UUID.randomUUID().toString();
+        petfoodEntity.setId(id);
         if (petFoodDao.AddPetFood(petfoodEntity)) {
             return Result.success(1, "添加成功");
         } else {
@@ -78,13 +87,28 @@ public class PetFoodService {
 
 
     //减少库存
-    public Result ReduceStock(String id, int number) {
+    public Result ReduceStock(String id, int number, String member_name) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         PetfoodEntity petfoodEntity = petFoodDao.IdFindPetFoodInfo(id);
         if (petfoodEntity.getFoodnumber() - number < 0) {
             return Result.error(0, "超过库存量");
         } else {
             int foodnumber = petfoodEntity.getFoodnumber() - number;
             if (petFoodDao.UpdatePetFoodNumber(id, foodnumber)) {
+                OderItemEntity oderItemEntity = new OderItemEntity();
+                oderItemEntity.setId(UUID.randomUUID().toString());
+                oderItemEntity.setOder_no("fd-" + UUID.randomUUID().toString());
+                oderItemEntity.setMember_name(member_name);
+                oderItemEntity.setProduct_id(id);
+                oderItemEntity.setProduct_name(petfoodEntity.getFoodname());
+                oderItemEntity.setProduct_type("宠物食品");
+                oderItemEntity.setCurrent_oder_price(petfoodEntity.getFoodprice());
+                oderItemEntity.setNumber(number);
+                oderItemEntity.setTotal_price(petfoodEntity.getFoodprice().multiply(new BigDecimal(number)));
+                oderItemEntity.setCreate_time(DateTime.strToDateLong(df.format(new Date())));
+                oderItemEntity.setUpdate_time(DateTime.strToDateLong(df.format(new Date())));
+                Result result = oderItemService.AddOderItem(oderItemEntity);//添加子订单
+
                 return Result.success(1, "减少库存成功");
             } else {
                 return Result.error(0, "减少库存失败");

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/page.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+</head>
+
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so" th:action="@{/oderinfo}">
+            <input class="layui-input" placeholder="开始日" name="starttime" id="starttime" autocomplete="off"
+                   th:value="${sreachcondition.starttime}">
+            <input class="layui-input" placeholder="截止日" name="endtime" id="endtime" autocomplete="off"
+                   th:value="${sreachcondition.endtime}">
+            <div class="layui-input-inline">
+                <select name="oder_type" id="selectoder_type">
+                    <option value="all">所有订单</option>
+                    <option value="宠物寄养">宠物寄养</option>
+                    <option value="宠物食品">宠物食品</option>
+                    <option value="宠物饰品">宠物饰品</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="status" id="selectstatus">
+                    <option value="0">未支付</option>
+                    <option value="1">支付成功</option>
+                    <option value="2">支付失败</option>
+                    <option value="3">交易关闭</option>
+                </select>
+            </div>
+            <input type="text" name="member_name" placeholder="请输入会员名" autocomplete="off" class="layui-input"
+                   th:value="${sreachcondition.member_name}">
+            <input type="text" name="oder_no" placeholder="请输入订单号" autocomplete="off" class="layui-input"
+                   th:value="${sreachcondition.oder_no}">
+            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+    <xblock>
+        <button class="layui-btn layui-btn-danger" onclick="HandleMultipleOder()"><i class="layui-icon"></i>批量处理订单</button>
+    </xblock>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>
+                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i
+                        class="layui-icon">&#xe605;</i></div>
+            </th>
+            <th>订单编号</th>
+            <th>订单类型</th>
+            <th>商品名称</th>
+            <th>商品单价(元)</th>
+            <th>商品数量</th>
+            <th>实际订单金额(元)</th>
+            <th>会员名</th>
+            <th>支付方式</th>
+            <th>订单状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="oder:${oderlist.list}">
+            <td>
+                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" th:attr="data-id=${oder.oder_no}"><i
+                        class="layui-icon">&#xe605;</i>
+                </div>
+            </td>
+            <td th:text="${oder.oder_no}" t></td>
+            <td th:text="${oder.oder_type}"></td>
+            <td th:text="${oder.oderi.product_name}"></td>
+            <td th:text="${oder.oderi.current_oder_price}"></td>
+            <td th:text="${oder.oderi.number}"></td>
+            <td th:text="${oder.payment}"></td>
+            <td th:text="${oder.member_name}"></td>
+            <td th:text="${oder.payment_type}"></td>
+            <td>
+                <button type="button" class="layui-btn layui-btn-normal" th:if="${oder.status} eq 0  "
+                        th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">未支付
+                </button>
+                <button type="button" class="layui-btn layui-btn-warm" th:if="${oder.status} eq 1  "
+                        th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">支付成功
+                </button>
+                <button type="button" class="layui-btn layui-btn-danger" th:if="${oder.status} eq 2  "
+                        th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">支付失败
+                </button>
+                <button type="button" class="layui-btn layui-btn-disabled" th:if="${oder.status} eq  3"
+                        th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">交易关闭
+                </button>
+            </td>
+            <td class="td-manage">
+                <a title="查看" onclick="x_admin_show('编辑','order-view.html')" href="javascript:;">
+                    <i class="layui-icon">&#xe63c;</i>
+                </a>
+                <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page">
+        <div id="page" class="page_div"></div>
+    </div>
+</div>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script th:src="@{/js/pageMe.js}"></script>
+<script th:inline="javascript">
+    var orderlist = [[${oderlist}]];
+    var oder = [[${sreachcondition}]];
+    console.log(oder.oder_type + "  " + oder.status);
+    $('#selectoder_type').find('option[value=' + oder.oder_type + ']').prop('selected', true);
+    $('#selectstatus').find('option[value=' + oder.status + ']').prop('selected', true);
+    //翻页
+    $("#page").paging({
+        pageNum: orderlist.pageNum, // 当前页面
+        totalNum: orderlist.pages, // 总页码
+        totalList: orderlist.total, // 记录总数量
+        callback: function (num) { //回调函数
+            window.location.href = "/oderinfo?pageNo=" + num;
+        }
+    });
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#starttime' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#endtime' //指定元素
+        });
+    });
+
+
+    /*用户-删除*/
+    function member_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            //发异步删除数据
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!', {icon: 1, time: 1000});
+        });
+    }
+
+
+    function HandleMultipleOder(argument) {
+        var data = tableCheck.getData();
+        var datas=data+"";
+        var dataoders=datas.split(',')
+        console.log(dataoders);
+
+    }
+
+    //处理单个订单
+    function HandleOder(id, status) {
+        if (status == "1") {
+            layer.msg('交易成功后不允许处理订单', {icon: 2});
+        } else {
+            layer.open({
+                type: 2 //Page层类型
+                , area: ['1000px', '700px']
+                , title: '处理订单' + '-' + id
+                , shade: 0.6 //遮罩透明度
+                , maxmin: true //允许全屏最小化
+                , anim: 1 //0-6的动画形式，-1不开启
+                , content: '/oderinfo/GetHandleOder?id=' + id
+            });
+        }
+    }
+</script>
+</body>
+
+</html>

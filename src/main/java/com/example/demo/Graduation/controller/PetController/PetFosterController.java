@@ -22,7 +22,6 @@ public class PetFosterController {
     @RequestMapping(value = "")
     public String petfosterlist(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize, PetfosterEntity petfosterEntity) {
         PageInfo<PetfosterEntity> petfosterlist = petFosterService.FindAllInfo(pageNo, pageSize, petfosterEntity.getFeedername(), petfosterEntity.getFeederphone());
-        System.out.println(petfosterlist.getSize());
         model.addAttribute("petfosterlist", petfosterlist);
         model.addAttribute("feedername", petfosterEntity.getFeedername());
         model.addAttribute("feederphone", petfosterEntity.getFeederphone());

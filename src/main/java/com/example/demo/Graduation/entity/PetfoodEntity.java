@@ -10,6 +10,15 @@ public class PetfoodEntity {
     private int foodnumber;//食品库存数量
     private BigDecimal foodprice;//食品单价
     private String foodname;//食品名字
+    private String member_name;//购买人
+
+    public String getMember_name() {
+        return member_name;
+    }
+
+    public void setMember_name(String member_name) {
+        this.member_name = member_name;
+    }
 
     public int getFoodnumber() {
         return foodnumber;
@@ -51,7 +60,6 @@ public class PetfoodEntity {
     public void setFoodtype(String foodtype) {
         this.foodtype = foodtype;
     }
-
 
 
 }

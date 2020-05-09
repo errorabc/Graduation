@@ -84,6 +84,16 @@
                        autocomplete="off" class="layui-input">
             </div>
         </div>
+
+        <div class="layui-form-item">
+            <label for="membername" class="layui-form-label">
+                <span class="x-red">*</span>购买人
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="membername" name="membername"
+                       autocomplete="off" class="layui-input" lay-verify="required|membername">
+            </div>
+        </div>
         <div class="layui-form-item" style="margin-left: 30%">
             <button class="layui-btn" lay-filter="update" lay-submit="" .>减少库存</button>
         </div>
@@ -97,6 +107,7 @@
         //自定义验证规则
         form.verify({
             AddNumber: [/^[0-9]+$/, '数量必须为正整数'],
+            membername: [/.*[0-9]{1,}.*/, '会员名中要带有数字'],
         });
 
 
@@ -108,7 +119,8 @@
                 anys: false,
                 data: {
                     IncreasNumber: data.field.AddNumber.replace(/\s*/g, ""),
-                    id: data.field.id.replace(/\s*/g, "")
+                    id: data.field.id.replace(/\s*/g, ""),
+                    member_name: data.field.membername.replace(/\s*/g, "")
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});

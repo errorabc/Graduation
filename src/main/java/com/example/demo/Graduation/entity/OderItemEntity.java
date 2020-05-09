@@ -5,17 +5,17 @@ import java.util.Date;
 
 public class OderItemEntity {
 
-    private String id;
-    private String member_name;
-    private String oder_no;
-    private String product_id;
-    private String product_name;
-    private String product_type;
-    private BigDecimal current_oder_price;
-    private int number;
-    private BigDecimal total_price;
-    private Date create_time;
-    private Date update_time;
+    private String id;//ID
+    private String member_name;//会员名
+    private String oder_no;//订单号
+    private String product_id;//商品ID
+    private String product_name;//商品名称
+    private String product_type;//商品类型
+    private BigDecimal current_oder_price;//应付的单价
+    private int number;//数量
+    private BigDecimal total_price;//应付的总金额
+    private Date create_time;//创建时间
+    private Date update_time;//更新时间
 
     public String getId() {
         return id;

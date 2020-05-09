@@ -1,9 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.Graduation.Dao.OderDao.OderDao">
+    <resultMap id="odermap" type="com.example.demo.Graduation.entity.OderEntity">
+        <id property="id" column="id" jdbcType="VARCHAR"></id>
+        <result property="oder_no" column="oder_no" jdbcType="VARCHAR"></result>
+        <result property="oder_type" column="oder_type" jdbcType="VARCHAR"></result>
+        <result property="member_name" column="member_name" jdbcType="VARCHAR"></result>
+        <result property="payment" column="payment" jdbcType="DECIMAL"></result>
+        <result property="payment_type" column="payment_type" jdbcType="VARCHAR"></result>
+        <result property="status" column="status" jdbcType="INTEGER"></result>
+        <result property="payment_time" column="payment_time" jdbcType="DATE"></result>
+        <result property="create_time" column="create_time" jdbcType="DATE"></result>
+        <result property="update_time" column="update_time" jdbcType="DATE"></result>
+        <result property="remark" column="remark" jdbcType="VARCHAR"></result>
+        <association property="oderi" javaType="com.example.demo.Graduation.entity.OderItemEntity">
+            <id property="id" column="id" jdbcType="VARCHAR"></id>
+            <result property="member_name" column="member_name" jdbcType="VARCHAR"></result>
+            <result property="oder_no" column="oder_no" jdbcType="VARCHAR"></result>
+            <result property="product_id" column="product_id" jdbcType="VARCHAR"></result>
+            <result property="product_name" column="product_name" jdbcType="VARCHAR"></result>
+            <result property="product_type" column="product_type" jdbcType="VARCHAR"></result>
+            <result property="current_oder_price" column="current_oder_price" jdbcType="DECIMAL"></result>
+            <result property="number" column="number" jdbcType="INTEGER"></result>
+            <result property="total_price" column="total_price" jdbcType="DECIMAL"></result>
+            <result property="create_time" column="create_time" jdbcType="DATE"></result>
+            <result property="update_time" column="update_time" jdbcType="DATE"></result>
+        </association>
+    </resultMap>
     <!--添加总订单-->
     <insert id="AddOder">
-      insert into oderinfo(id,oder_no,member_name,payment,payment_type,status,payment_time,create_time,update_time,remark)
-      values(#{id},#{oder_no},#{member_name},#{payment},#{payment_type},#{status},#{payment_time},#{create_time},#{update_time},#{remark})
+      insert into oderinfo(id,oder_no,member_name,payment,payment_type,status,payment_time,create_time,update_time,remark,oder_type)
+      values(#{id},#{oder_no},#{member_name},#{payment},#{payment_type},#{status},#{payment_time},#{create_time},#{update_time},#{remark},#{oder_type})
     </insert>
+
+    <!--查询总订单-->
+    <select id="FindAllOderInfo" resultMap="odermap">
+        SELECT oder.*,oderi.current_oder_price,oderi.number,oderi.product_name FROM oderinfo as oder
+        JOIN oderitem as oderi
+        on oder.oder_no=oderi.oder_no
+        <where>
+            <if test="oder_type!='all' and oder_type!=null and oder_type!=''">
+                and oder.oder_type=#{oder_type}
+            </if>
+            <if test="status!='' and status!=null">
+                and oder.status=#{status}
+            </if>
+            <if test="member_name!='' and member_name!=null">
+                and oder.member_name=#{member_name}
+            </if>
+            <if test="oder_no!='' and oder_no!=null">
+                and oder.oder_no=#{oder_no}
+            </if>
+            <if test="starttime!=null and starttime!=''">
+                and oder.create_time>=#{starttime}
+            </if>
+            <if test="endtime!=null and endtime!=''">
+                and oder.create_time&lt;=#{endtime}    <!--&lt;等于<-->
+            </if>
+        </where>
+    </select>
+    <!--ID查询订单信息-->
+    <select id="IdFindOderInfo" resultMap="odermap">
+        SELECT oder.*,
+        oderi.current_oder_price,
+        oderi.number,
+        oderi.product_name,
+        oderi.total_price
+        FROM oderinfo as oder
+        JOIN oderitem as oderi
+        on oder.oder_no=oderi.oder_no
+        WHERE oder.oder_no=#{oder_no}
+    </select>
+
+
 </mapper>
