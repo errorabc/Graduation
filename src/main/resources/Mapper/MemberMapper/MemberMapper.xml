@@ -7,10 +7,10 @@
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="balance" column="balance" jdbcType="DECIMAL"/>
         <association property="vip" javaType="com.example.demo.Graduation.entity.VipinfoEntity">
             <id property="id" column="vip.id" jdbcType="VARCHAR"/>
             <result property="name" column="vip.name" jdbcType="VARCHAR"/>
-            <result property="lowestconsumption" column="lowestconsumption" jdbcType="DECIMAL"/>
             <result property="discount" column="discount" jdbcType="FLOAT"/>
         </association>
         <association property="mv" javaType="com.example.demo.Graduation.entity.MemberVipEntity">
@@ -41,6 +41,7 @@
     <delete id="DeleteMemberVip">
         DELETE FROM membervip WHERE memberid=#{id}
     </delete>
+
 
 
     <!--查询会员信息-->

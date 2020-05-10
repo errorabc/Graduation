@@ -47,4 +47,5 @@ public interface MemberDao {
     //根据会员名称查询会员信息
     MemberEntity NameFindMemberInfo(@Param("name") String name);
 
+
 }

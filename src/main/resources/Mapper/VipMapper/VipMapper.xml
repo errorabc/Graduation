@@ -21,7 +21,7 @@
 
     <!--添加vip-->
     <insert id="AddVip">
-        INSERT into vipinfo  VALUES(#{id},#{name},#{lowestconsumption},#{discount})
+        INSERT into vipinfo  VALUES(#{id},#{name},#{discount})
     </insert>
 
 
@@ -37,7 +37,7 @@
 
     <!--修改VIP信息-->
     <update id="UpdateVip">
-    UPDATE  vipinfo SET name=#{name},lowestconsumption=#{lowestconsumption},discount=#{discount}  WHERE id=#{id}
+    UPDATE  vipinfo SET name=#{name},discount=#{discount}  WHERE id=#{id}
     </update>
 
     <!--删除VIP信息-->

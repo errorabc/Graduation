@@ -50,7 +50,6 @@
         <tr>
             <th>ID</th>
             <th>VIP名称</th>
-            <th>年最低消费</th>
             <th>折扣</th>
             <th>操作</th>
         </tr>
@@ -59,7 +58,6 @@
         <tr th:each="vip : ${viplist.list}">
             <td th:text="${vip.id}"></td>
             <td th:text="${vip.name}"></td>
-            <td th:text="${vip.lowestconsumption}"></td>
             <td th:text="${vip.discount}">
             </td>
             <td class="td-manage">

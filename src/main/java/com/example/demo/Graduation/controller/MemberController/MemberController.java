@@ -93,4 +93,13 @@ public class MemberController {
         return memberSerice.MemberNumber();
     }
 
+    //跳转都会员充值界面
+    @GetMapping(value = "/GetRecharge")
+    public String GetRecharge(@Param("id") String id, Model model) {
+        MemberEntity memberEntity = memberSerice.IdFIndMemberInfo(id);
+        model.addAttribute("member", memberEntity);
+        return "Member/recharge";
+    }
+
+
 }

@@ -37,19 +37,6 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="lowestconsumption" class="layui-form-label">
-                <span class="x-red">*</span>年最低消费
-            </label>
-            <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="lowestconsumption" name="lowestconsumption" required
-                       lay-verify="lowestconsumption"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span id="Verificationlowestconsumption"></span>
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label for="discount" class="layui-form-label">
                 <span class="x-red">*</span>折扣
             </label>
@@ -83,7 +70,6 @@
                     return '不允许大于8个字符';
                 }
             }
-            , lowestconsumption: [/^[1-9]\d*$/, '年最低消费必须为正整数']
             , discount: [/^(?:0|[1-9][0-9]?|100)$/, '折扣率只能为0-100以内正整数']
         });
 
@@ -95,7 +81,6 @@
                 anys: false,
                 data: {
                     name: data.field.vipname,
-                    lowestconsumption: data.field.lowestconsumption,
                     discount: data.field.discount
                 }, success: function (result) {
                     if (result.code == '1') {

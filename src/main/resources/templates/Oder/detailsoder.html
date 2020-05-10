@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>处理订单</title>
+    <title>订单详情</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -116,16 +116,15 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label for="actualpayment" class="layui-form-label">
+        <label for="payment_type" class="layui-form-label">
             <span class="x-red">*</span>支付方式
         </label>
         <div class="layui-input-inline" style="width: 50%">
-            <select name="payment_type" id="payment_type">
-                <option value="支付宝">支付宝</option>
-                <option value="微信">微信</option>
-                <option value="现金">现金</option>
-            </select>
+            <input type="text" id="payment_type" name="payment_type"
+                   autocomplete="off" class="layui-input" th:value="${oder.payment_type}"
+                   readonly>
         </div>
+    </div>
     </div>
 
     <div class="layui-form-item">
@@ -134,55 +133,18 @@
         </label>
         <div class="layui-input-inline" style="width: 50%">
             <input type="text" id="finalpayment" name="finalpayment"
-                   autocomplete="off" class="layui-input" lay-verify="required|finalpayment">
+                   autocomplete="off" class="layui-input" readonly th:value="${oder.final_payment}">
         </div>
     </div>
 
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">支付备注</label>
+        <label class="layui-form-label">订单备注</label>
         <div class="layui-input-block">
-            <textarea placeholder="如果有特殊情况,请" class="layui-textarea" name="remark"></textarea>
+            <textarea placeholder="如果有特殊情况,请填写备注" class="layui-textarea" name="remark" th:text="${oder.remark}"
+                      readonly></textarea>
         </div>
-    </div>
-    <div class="layui-form-item" style="margin-left: 15%">
-        <button class="layui-btn" lay-filter="handle" lay-submit="" .>处理</button>
     </div>
 </form>
 </body>
-<script>
-    layui.use(['form', 'layer'], function () {
-        var form = layui.form,
-            layer = layui.layer;
-        //自定义验证规则
-        form.verify({
-            finalpayment: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数']
-        });
 
-        //监听提交
-        form.on('submit(handle)', function (data) {
-            $.ajax({
-                url: "/oderinfo/HandleOder",
-                type: "post",
-                anys: false,
-                data: {
-                    final_payment: data.field.finalpayment.replace(/\s*/g, ""),
-                    remark: data.field.remark.replace(/\s*/g, ""),
-                    oder_no: data.field.oder_no.replace(/\s*/g, ""),
-                    payment_type: $('#payment_type option:selected').val()
-                }, success: function (result) {
-                    if (result.code == '1') {
-                        layer.msg(result.content, {icon: 1});
-                        x_admin_close();
-                    } else {
-                        layer.msg(result.content, {icon: 2});
-                        x_admin_close();
-                    }
-                }
-            })
-
-            return false;
-        });
-
-    })
-</script>
 </html>

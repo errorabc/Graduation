@@ -1,12 +1,23 @@
 package com.example.demo.Graduation.entity;
 
+import java.math.BigDecimal;
+
 public class MemberEntity {
-    private String id;
-    private String name;
-    private String phone;
-    private String email;
+    private String id;//id
+    private String name;//会员名
+    private String phone;//会员手机
+    private String email;//会员邮箱
+    private BigDecimal balance;//账户余额
     private VipinfoEntity vip;
     private MemberVipEntity mv;
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
 
     public MemberVipEntity getMv() {
         return mv;

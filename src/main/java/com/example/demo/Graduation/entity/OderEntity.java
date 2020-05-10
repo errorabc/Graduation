@@ -18,6 +18,15 @@ public class OderEntity {
     private String starttime;
     private String endtime;
     private OderItemEntity oderi;
+    private BigDecimal final_payment;//最终支付
+
+    public BigDecimal getFinal_payment() {
+        return final_payment;
+    }
+
+    public void setFinal_payment(BigDecimal final_payment) {
+        this.final_payment = final_payment;
+    }
 
     public OderItemEntity getOderi() {
         return oderi;

@@ -13,6 +13,7 @@
         <result property="create_time" column="create_time" jdbcType="DATE"></result>
         <result property="update_time" column="update_time" jdbcType="DATE"></result>
         <result property="remark" column="remark" jdbcType="VARCHAR"></result>
+        <result property="final_payment" column="final_payment" jdbcType="DECIMAL"></result>
         <association property="oderi" javaType="com.example.demo.Graduation.entity.OderItemEntity">
             <id property="id" column="id" jdbcType="VARCHAR"></id>
             <result property="member_name" column="member_name" jdbcType="VARCHAR"></result>
@@ -32,6 +33,10 @@
       insert into oderinfo(id,oder_no,member_name,payment,payment_type,status,payment_time,create_time,update_time,remark,oder_type)
       values(#{id},#{oder_no},#{member_name},#{payment},#{payment_type},#{status},#{payment_time},#{create_time},#{update_time},#{remark},#{oder_type})
     </insert>
+    <!--处理订单-->
+    <update id="HandleOder">
+     update oderinfo set status=#{status},payment_time=#{payment_time},payment_type=#{payment_type},final_payment=#{final_payment},remark=#{remark}   where oder_no=#{oder_no}
+    </update>
 
     <!--查询总订单-->
     <select id="FindAllOderInfo" resultMap="odermap">
@@ -71,6 +76,16 @@
         on oder.oder_no=oderi.oder_no
         WHERE oder.oder_no=#{oder_no}
     </select>
+
+
+    <!--删除总订单-->
+    <delete id="DeleteOder">
+    delete  from oderinfo where oder_no=#{oder_no}
+    </delete>
+    <!--删除子订单-->
+    <delete id="Delete_OderItem">
+    delete  from oderitem where oder_no=#{oder_no}
+    </delete>
 
 
 </mapper>

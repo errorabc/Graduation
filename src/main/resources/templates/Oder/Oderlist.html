@@ -46,8 +46,6 @@
                 <select name="status" id="selectstatus">
                     <option value="0">未支付</option>
                     <option value="1">支付成功</option>
-                    <option value="2">支付失败</option>
-                    <option value="3">交易关闭</option>
                 </select>
             </div>
             <input type="text" name="member_name" placeholder="请输入会员名" autocomplete="off" class="layui-input"
@@ -58,7 +56,8 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="HandleMultipleOder()"><i class="layui-icon"></i>批量处理订单</button>
+        <button class="layui-btn layui-btn-danger" onclick="HandleMultipleOder()"><i class="layui-icon"></i>批量处理订单
+        </button>
     </xblock>
     <table class="layui-table">
         <thead>
@@ -76,6 +75,7 @@
             <th>会员名</th>
             <th>支付方式</th>
             <th>订单状态</th>
+            <th>最终支付</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -94,6 +94,7 @@
             <td th:text="${oder.payment}"></td>
             <td th:text="${oder.member_name}"></td>
             <td th:text="${oder.payment_type}"></td>
+            <td th:text="${oder.final_payment}"></td>
             <td>
                 <button type="button" class="layui-btn layui-btn-normal" th:if="${oder.status} eq 0  "
                         th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">未支付
@@ -101,18 +102,12 @@
                 <button type="button" class="layui-btn layui-btn-warm" th:if="${oder.status} eq 1  "
                         th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">支付成功
                 </button>
-                <button type="button" class="layui-btn layui-btn-danger" th:if="${oder.status} eq 2  "
-                        th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">支付失败
-                </button>
-                <button type="button" class="layui-btn layui-btn-disabled" th:if="${oder.status} eq  3"
-                        th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">交易关闭
-                </button>
             </td>
             <td class="td-manage">
-                <a title="查看" onclick="x_admin_show('编辑','order-view.html')" href="javascript:;">
+                <a title="查看" th:onclick="DetailsOder([[${oder.oder_no}]])">
                     <i class="layui-icon">&#xe63c;</i>
                 </a>
-                <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                <a title="删除" th:onclick="DeleteOder([[oder.oder_no]])">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>
@@ -128,7 +123,6 @@
 <script th:inline="javascript">
     var orderlist = [[${oderlist}]];
     var oder = [[${sreachcondition}]];
-    console.log(oder.oder_type + "  " + oder.status);
     $('#selectoder_type').find('option[value=' + oder.oder_type + ']').prop('selected', true);
     $('#selectstatus').find('option[value=' + oder.status + ']').prop('selected', true);
     //翻页
@@ -154,23 +148,18 @@
         });
     });
 
-
-    /*用户-删除*/
-    function member_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {icon: 1, time: 1000});
-        });
-    }
-
-
+    //批量处理订单
     function HandleMultipleOder(argument) {
         var data = tableCheck.getData();
-        var datas=data+"";
-        var dataoders=datas.split(',')
-        console.log(dataoders);
-
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['1000px', '800px']
+            , title: '处理订单'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/oderinfo/GetHandleMultipleOder?datas=' + data + ""
+        });
     }
 
     //处理单个订单
@@ -180,7 +169,7 @@
         } else {
             layer.open({
                 type: 2 //Page层类型
-                , area: ['1000px', '700px']
+                , area: ['1000px', '800px']
                 , title: '处理订单' + '-' + id
                 , shade: 0.6 //遮罩透明度
                 , maxmin: true //允许全屏最小化
@@ -188,6 +177,43 @@
                 , content: '/oderinfo/GetHandleOder?id=' + id
             });
         }
+    }
+
+    //订单详情
+    function DetailsOder(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['1000px', '800px']
+            , title: '处理订单' + '-' + id
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/oderinfo/GetDetailsOder?id=' + id
+        });
+    }
+
+
+    //删除订单
+    function DeleteOder(oder_no) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                url: "/oderinfo/DeleteOder",
+                async: false,
+                type: 'post',
+                data: {
+                    oder_no: oder_no
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        resh()
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+
+            });
+        });
     }
 </script>
 </body>

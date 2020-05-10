@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public class VipinfoEntity {
     private String id;
-    private String name;//会员名
-    private BigDecimal lowestconsumption;//年最低消费
+    private String name;//VIP名
     private float discount;//折扣率
+
 
     public String getId() {
         return id;
@@ -24,13 +24,6 @@ public class VipinfoEntity {
         this.name = name;
     }
 
-    public BigDecimal getLowestconsumption() {
-        return lowestconsumption;
-    }
-
-    public void setLowestconsumption(BigDecimal lowestconsumption) {
-        this.lowestconsumption = lowestconsumption;
-    }
 
     public float getDiscount() {
         return discount;

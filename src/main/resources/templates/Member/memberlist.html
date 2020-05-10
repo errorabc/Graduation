@@ -53,6 +53,7 @@
             <th>会员手机</th>
             <th>会员邮箱</th>
             <th>会员VIP</th>
+            <th>余额</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -63,13 +64,16 @@
             <td th:text="${member.phone}"></td>
             <td th:text="${member.email}"></td>
             <td th:text="${member.vip.name}"></td>
+            <th th:text="${member.balance}"></th>
             </td>
             <td class="td-manage">
                 <button type="button" class="btn btn-info" th:onclick="updatemember([[${member.id}]])"
-                        title="修改" href="javascript:;">修改
+                        title="修改">修改
                 </button>
                 <button type="button" class="btn btn-danger" th:onclick="deletemember([[${member.id}]])"
-                        href="javascript:;">删除
+                >删除
+                </button>
+                <button type="button" class="layui-btn layui-btn-warm" th:onclick="recharge([[${member.id}]])">充值
                 </button>
             </td>
         </tr>
@@ -130,6 +134,18 @@
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
             , content: '/member/GetMemberUpdate?id=' + id
+        });
+    }
+
+    function recharge(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '会员充值'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/member/GetRecharge?id=' + id
         });
     }
 </script>
