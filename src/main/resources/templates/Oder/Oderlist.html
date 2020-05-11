@@ -83,7 +83,7 @@
         <tr th:each="oder:${oderlist.list}">
             <td>
                 <div class="layui-unselect layui-form-checkbox" lay-skin="primary" th:attr="data-id=${oder.oder_no}"><i
-                        class="layui-icon">&#xe605;</i>
+                        class="layui-ico n">&#xe605;</i>
                 </div>
             </td>
             <td th:text="${oder.oder_no}" t></td>
@@ -94,7 +94,6 @@
             <td th:text="${oder.payment}"></td>
             <td th:text="${oder.member_name}"></td>
             <td th:text="${oder.payment_type}"></td>
-            <td th:text="${oder.final_payment}"></td>
             <td>
                 <button type="button" class="layui-btn layui-btn-normal" th:if="${oder.status} eq 0  "
                         th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">未支付
@@ -103,6 +102,7 @@
                         th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">支付成功
                 </button>
             </td>
+            <td th:text="${oder.final_payment}"></td>
             <td class="td-manage">
                 <a title="查看" th:onclick="DetailsOder([[${oder.oder_no}]])">
                     <i class="layui-icon">&#xe63c;</i>
@@ -125,6 +125,7 @@
     var oder = [[${sreachcondition}]];
     $('#selectoder_type').find('option[value=' + oder.oder_type + ']').prop('selected', true);
     $('#selectstatus').find('option[value=' + oder.status + ']').prop('selected', true);
+
     //翻页
     $("#page").paging({
         pageNum: orderlist.pageNum, // 当前页面

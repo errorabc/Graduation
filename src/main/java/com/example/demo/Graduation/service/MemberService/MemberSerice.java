@@ -3,6 +3,7 @@ package com.example.demo.Graduation.service.MemberService;
 import com.example.demo.Graduation.Dao.MemberDao.MemberDao;
 import com.example.demo.Graduation.Dao.VipDao.VipDao;
 import com.example.demo.Graduation.entity.MemberEntity;
+import com.example.demo.Graduation.entity.MenuEntity;
 import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.entity.VipinfoEntity;
 import com.github.pagehelper.PageHelper;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.Null;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -119,7 +121,18 @@ public class MemberSerice {
     }
 
 
-
-
-
+    //账户余额充值
+    public Result Recharge(String id, String name, BigDecimal money) {
+        MemberEntity memberEntity = memberDao.IdFIndMemberInfo(id);
+        if (memberEntity.getName().equals(name)) {
+            if (memberDao.Recharge(id, name, money.add(memberEntity.getBalance()))) {
+                return Result.success(1, "充值成功");
+            } else {
+                return Result.error(0, "充值失败");
+            }
+        } else {
+            return Result.error(0, "该会员不存在");
+        }
+    }
 }
+

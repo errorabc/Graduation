@@ -85,11 +85,11 @@
     </div>
 
     <div class="layui-form-item">
-        <label for="foodprice" class="layui-form-label">
+        <label for="membervip" class="layui-form-label">
             <span class="x-red">*</span>会员等级
         </label>
         <div class="layui-input-inline" style="width: 50%">
-            <input type="text" id="foodprice" name="foodprice"
+            <input type="text" id="membervip" name="membervip"
                    autocomplete="off" class="layui-input" readonly th:value="${vip.name}">
         </div>
     </div>
@@ -150,6 +150,10 @@
 </form>
 </body>
 <script>
+    var foodprice = $('#membervip').val();
+    if (foodprice!= '非会员') {
+        $("#payment_type").append("<option value='余额'>余额</option>"); //为Select追加一个Option(下拉项)
+    }
     layui.use(['form', 'layer'], function () {
         var form = layui.form,
             layer = layui.layer;

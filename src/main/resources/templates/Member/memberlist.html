@@ -67,10 +67,10 @@
             <th th:text="${member.balance}"></th>
             </td>
             <td class="td-manage">
-                <button type="button" class="btn btn-info" th:onclick="updatemember([[${member.id}]])"
+                <button type="button" class="layui-btn" th:onclick="updatemember([[${member.id}]])"
                         title="修改">修改
                 </button>
-                <button type="button" class="btn btn-danger" th:onclick="deletemember([[${member.id}]])"
+                <button type="button" class="layui-btn layui-btn-danger" th:onclick="deletemember([[${member.id}]])"
                 >删除
                 </button>
                 <button type="button" class="layui-btn layui-btn-warm" th:onclick="recharge([[${member.id}]])">充值
@@ -97,7 +97,7 @@
         totalNum: memberlist.pages, // 总页码
         totalList: memberlist.total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "/member?pageNo=" + num + "&name=" + membername;
+            window.location.href = "/member?pageNo=" + num + "&name=" + membername.replace(/\s*/g, "");
         }
     });
 

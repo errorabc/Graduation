@@ -107,10 +107,10 @@
                 type: "post",
                 anys: false,
                 data: {
-                    id: data.field.memberid,
-                    name: data.field.membername,
-                    phone: data.field.phone,
-                    email: data.field.email,
+                    id: data.field.memberid.replace(/\s*/g, ""),
+                    name: data.field.membername.replace(/\s*/g, ""),
+                    phone: data.field.phone.replace(/\s*/g, ""),
+                    email: data.field.email.replace(/\s*/g, ""),
                     vipid: $('#vipgrade input[name="vip"]:checked ').val()
                 }, success: function (result) {
                     if (result.code == '1') {

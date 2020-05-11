@@ -63,6 +63,7 @@
                 and oder.create_time&lt;=#{endtime}    <!--&lt;等于<-->
             </if>
         </where>
+        order by status asc
     </select>
     <!--ID查询订单信息-->
     <select id="IdFindOderInfo" resultMap="odermap">

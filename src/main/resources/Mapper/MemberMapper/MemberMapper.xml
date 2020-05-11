@@ -43,7 +43,6 @@
     </delete>
 
 
-
     <!--查询会员信息-->
     <select id="MemberAllInfo" resultMap="member">
         SELECT m.*,vip.name as 'vip.name' FROM memberinfo as m
@@ -53,7 +52,7 @@
         ON vip.id=mv.vipid
         <where>
             <if test="name!=null and name!=''">
-                m.name=#{name}
+                AND  m.name like concat('%',#{name},'%')
             </if>
         </where>
     </select>
@@ -88,6 +87,10 @@
     <!--修改会员和VIP关联-->
     <update id="UpdateMemberVip">
         UPDATE membervip SET vipid=#{vipid} WHERE  memberid=#{memberid}
+    </update>
+    <!--余额充值-->
+    <update id="Recharge">
+    update memberinfo set balance=#{money} where id=#{id} and name=#{name}
     </update>
 
 </mapper>

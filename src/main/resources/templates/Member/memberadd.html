@@ -91,9 +91,9 @@
                 type: "post",
                 anys: false,
                 data: {
-                    name: data.field.membername,
-                    phone: data.field.phone,
-                    email: data.field.email,
+                    name: data.field.membername.replace(/\s*/g, ""),
+                    phone: data.field.phone.replace(/\s*/g, ""),
+                    email: data.field.email.replace(/\s*/g, ""),
                     vipid: $('#vipgrade input[name="vip"]:checked ').val()
                 }, success: function (result) {
                     if (result.code == '1') {

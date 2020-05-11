@@ -74,17 +74,18 @@
                 <span class="x-red">*</span>充值金额
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="recharge" name="recharge" autocomplete="off" class="layui-input" lay-verify="required|recharge">
+                <input type="text" id="recharge" name="recharge" autocomplete="off" class="layui-input"
+                       lay-verify="required|recharge">
             </div>
         </div>
 
         <div class="layui-form-item" style="margin-left: 15%">
-            <button class="layui-btn" lay-filter="update" lay-submit="">充值</button>
+            <button class="layui-btn" lay-filter="recharge" lay-submit="">充值</button>
         </div>
     </form>
 </div>
 </body>
-<script >
+<script>
     layui.use(['form', 'layer'], function () {
         var form = layui.form,
             layer = layui.layer;
@@ -92,6 +93,32 @@
         form.verify({
             recharge: [/^[0-9]+$/, '数量必须为正整数'],
         });
+
+
+        //监听提交
+        form.on('submit(recharge)', function (data) {
+            $.ajax({
+                url: "/member/Recharge",
+                type: "post",
+                anys: false,
+                data: {
+                    memberid: data.field.memberid.replace(/\s*/g, ""),
+                    membername: data.field.membername.replace(/\s*/g, ""),
+                    recharge: data.field.recharge.replace(/\s*/g, "")
+                }, success: function (result) {
+                    if (result.code == '1') {
+                        layer.msg(result.content, {icon: 1});
+                        x_admin_close();
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+            })
+
+            return false;
+        });
+
+
     })
 </script>
 </html>

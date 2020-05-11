@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.awt.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
@@ -46,6 +47,10 @@ public interface MemberDao {
 
     //根据会员名称查询会员信息
     MemberEntity NameFindMemberInfo(@Param("name") String name);
+
+
+    //会员余额充值
+    boolean Recharge(@Param("id") String id, @Param("name") String name, @Param("money") BigDecimal money);
 
 
 }

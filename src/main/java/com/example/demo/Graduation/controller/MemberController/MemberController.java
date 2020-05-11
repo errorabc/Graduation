@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -99,6 +100,14 @@ public class MemberController {
         MemberEntity memberEntity = memberSerice.IdFIndMemberInfo(id);
         model.addAttribute("member", memberEntity);
         return "Member/recharge";
+    }
+
+    //充值
+    @PostMapping(value = "/Recharge")
+    @ResponseBody
+    public Result Recharge(@RequestParam("memberid") String memberid, @RequestParam("membername") String membername, @RequestParam("recharge") BigDecimal recharge) {
+        Result result = memberSerice.Recharge(memberid, membername, recharge);
+        return result;
     }
 
 
