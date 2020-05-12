@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/page.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+</head>
+
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so" th:action="@{/salesrecord}">
+            <input class="layui-input" placeholder="开始日" name="starttime" id="starttime" autocomplete="off"
+                   th:value="${sreachcondition.starttime}">
+            <input class="layui-input" placeholder="截止日" name="endtime" id="endtime" autocomplete="off"
+                   th:value="${sreachcondition.endtime}">
+            <div class="layui-input-inline">
+                <select name="product_type" id="product_type">
+                    <option value="all">所有</option>
+                    <option value="宠物寄养">宠物寄养</option>
+                    <option value="宠物食品">宠物食品</option>
+                    <option value="宠物饰品">宠物饰品</option>
+                </select>
+            </div>
+            <input type="text" name="member_name" id="member_name" placeholder="请输入会员名" autocomplete="off"
+                   class="layui-input"
+                   th:value="${sreachcondition.member_name}">
+            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th hidden>ID</th>
+            <th>商品ID</th>
+            <th>商品名称</th>
+            <th>商品类型</th>
+            <th>商品单价(元)</th>
+            <th>商品数量</th>
+            <th>会员名</th>
+            <th>商品总价</th>
+            <th>交易时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sale:${salelist.list}">
+            <td th:text="${sale.id}" hidden></td>
+            <td th:text="${sale.product_id}"></td>
+            <td th:text="${sale.product_name}"></td>
+            <td th:text="${sale.product_type}"></td>
+            <td th:text="${sale.current_oder_price}"></td>
+            <td th:text="${sale.number}"></td>
+            <td th:text="${sale.member_name}"></td>
+            <td th:text="${sale.total_price}"></td>
+            <td th:text="${#dates.format(sale.create_time,'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(salelist.list)}">
+            <td colspan="9" style="color: red;font-size: 32px;">暂无数据</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page">
+        <div id="page" class="page_div"></div>
+    </div>
+</div>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script th:src="@{/js/pageMe.js}"></script>
+<script th:inline="javascript">
+    var salelist = [[${salelist}]];
+    var sale = [[${sreachcondition}]];
+    $('#product_type').find('option[value=' + sale.product_type + ']').prop('selected', true);
+    //翻页
+    $("#page").paging({
+        pageNum: salelist.pageNum, // 当前页面
+        totalNum: salelist.pages, // 总页码
+        totalList: salelist.total, // 记录总数量
+        callback: function (num) { //回调函数
+            window.location.href = "/salesrecord?pageNo=" + num;
+        }
+    });
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#starttime' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#endtime' //指定元素
+        });
+    });
+
+
+</script>
+</body>
+
+</html>

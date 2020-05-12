@@ -6,11 +6,14 @@ import com.example.demo.Graduation.Tool.DateTime;
 import com.example.demo.Graduation.entity.OderEntity;
 import com.example.demo.Graduation.entity.OderItemEntity;
 import com.example.demo.Graduation.entity.Result;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -43,6 +46,14 @@ public class OderItemService {
         } else {
             return Result.error(0, "订单添加失败");
         }
+    }
+
+    //查询
+    public PageInfo<OderItemEntity> FindAllOderItemInfo(int PageNo, int PageSzie, OderItemEntity oderItemEntity) {
+        PageHelper.startPage(PageNo, PageSzie);
+        List<OderItemEntity> oderlist=oderItemDao.FindAllOderItemInfo(oderItemEntity);
+        PageInfo<OderItemEntity> oderpagelist=new PageInfo<OderItemEntity>(oderlist);
+        return oderpagelist;
     }
 
 }

@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>ECharts</title>
     <!-- 引入 echarts.js -->
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
     <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div class="layui-row" style="margin-top: 20px;margin-left: 20px">
+    <form class="layui-form layui-col-md12 x-so">
+        <div>
+        <label>主体1</label>
+        <div class="layui-input-inline">
+            <select name="">
+                <option value="all"></option>
+                <option value="">宠物寄养</option>
+                <option value="">宠物寄养</option>
+                <option value="">宠物寄养</option>
+            </select>
+        </div>
+        <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+    </form>
+</div>
 <div id="main" style="width: 600px;height:400px;"></div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
@@ -20,10 +45,10 @@
         },
         tooltip: {},
         legend: {
-            data:['销量']
+            data: ['销量']
         },
         xAxis: {
-            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
         },
         yAxis: {},
         series: [{

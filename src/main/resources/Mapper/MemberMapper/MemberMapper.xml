@@ -52,7 +52,7 @@
         ON vip.id=mv.vipid
         <where>
             <if test="name!=null and name!=''">
-                AND  m.name like concat('%',#{name},'%')
+                AND m.name like concat('%',#{name},'%')
             </if>
         </where>
     </select>
@@ -88,9 +88,10 @@
     <update id="UpdateMemberVip">
         UPDATE membervip SET vipid=#{vipid} WHERE  memberid=#{memberid}
     </update>
-    <!--余额充值-->
+    <!--修改余额-->
     <update id="Recharge">
     update memberinfo set balance=#{money} where id=#{id} and name=#{name}
     </update>
+
 
 </mapper>

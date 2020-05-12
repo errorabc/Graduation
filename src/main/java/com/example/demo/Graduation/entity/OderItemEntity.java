@@ -16,6 +16,25 @@ public class OderItemEntity {
     private BigDecimal total_price;//应付的总金额
     private Date create_time;//创建时间
     private Date update_time;//更新时间
+    private String starttime;
+
+    public String getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(String starttime) {
+        this.starttime = starttime;
+    }
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
+
+    private String endtime;
 
     public String getId() {
         return id;
