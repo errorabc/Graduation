@@ -77,7 +77,7 @@ public class LogAspect {
         if (args != null && paramNames != null) {
             String params = "";
             for (int i = 0; i < args.length; i++) {
-                params += paramNames[i] + ": " + args[i];
+                params += paramNames[i] + ": " + args[i]+"   ";
             }
             sysLog.setParams(params);
         }

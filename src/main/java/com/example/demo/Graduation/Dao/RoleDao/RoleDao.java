@@ -2,6 +2,7 @@ package com.example.demo.Graduation.Dao.RoleDao;
 
 import com.example.demo.Graduation.entity.RoleEntity;
 import com.example.demo.Graduation.entity.RoleResourcesEntity;
+import com.example.demo.Graduation.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,5 +36,6 @@ public interface RoleDao {
     List<RoleResourcesEntity> FindRoleAllResources(@Param("roleid") String roleid);
 
     boolean DeleteRoleResources(@Param("roleid") String roleid);
+
 
 }

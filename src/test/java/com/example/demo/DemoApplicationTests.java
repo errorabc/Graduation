@@ -8,6 +8,7 @@ import org.apache.shiro.util.ByteSource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -16,8 +17,10 @@ import java.util.UUID;
 class DemoApplicationTests {
 
     @Test
-    void contextLoads() {
-        System.out.println(new Date());
+    void contextLoads() throws ParseException {
+
+
+
     }
 
 }

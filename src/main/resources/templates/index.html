@@ -21,24 +21,14 @@
     <div class="left_open">
         <i title="展开左侧栏" class="iconfont">&#xe699;</i>
     </div>
-    <ul class="layui-nav left fast-add" lay-filter="">
-        <li class="layui-nav-item">
-            <a href="javascript:;">+新增</a>
-            <dl class="layui-nav-child"> <!-- 二级菜单 -->
-                <dd><a onclick="x_admin_show('资讯','http://www.baidu.com')"><i class="iconfont">&#xe6a2;</i>资讯</a></dd>
-                <dd><a onclick="x_admin_show('图片','http://www.baidu.com')"><i class="iconfont">&#xe6a8;</i>图片</a></dd>
-                <dd><a onclick="x_admin_show('用户','http://www.baidu.com')"><i class="iconfont">&#xe6b8;</i>用户</a></dd>
-            </dl>
-        </li>
-    </ul>
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
             <a href="javascript:;"><span th:text="${username}"></span></a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-                <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
-                <dd><a onclick="x_admin_show('修改密码','http://www.baidu.com')">修改密码</a></dd>
-                <dd><a href="/logout">切换帐号</a></dd>
-                <dd><a href="/logout">退出</a></dd>
+                <dd><a>个人信息</a></dd>
+                <dd><a th:onclick="updatepassword()">修改密码</a></dd>
+                <dd><a th:onclick="switchaccount()">切换帐号</a></dd>
+                <dd><a th:onclick="outlogin()">退出</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item to-index"><a href="/index">前台首页</a></li>
@@ -93,5 +83,33 @@
 <div class="page-content-bg"></div>
 </body>
 <script>
+    //修改密码
+    function updatepassword() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['600px', '450px']
+            , title: '修改信息'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/userinfo/GetUpdatePassword'
+        });
+    }
+
+
+    //切换账号
+    function switchaccount() {
+        layer.confirm('确认要切换吗?', function (index) {
+            location.href = "/logout";
+        });
+    }
+
+    //退出登录
+    function outlogin() {
+        layer.confirm('确认要退出吗?', function (index) {
+            location.href = "/logout";
+        });
+    }
+
 </script>
 </html>

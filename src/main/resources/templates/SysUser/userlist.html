@@ -36,12 +36,14 @@
     <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so" th:action="@{/userinfo}">
             <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input"
-                   id="username" th:value="${username}">
+                   id="username" th:value="${user.username}">
+            <input type="text" name="rolename" placeholder="请输入角色名" autocomplete="off" class="layui-input"
+                   id="rolename" th:value="${user.rolename}">
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','/userinfo/addusers',800,450)"><i
+        <button class="layui-btn" onclick="addusers()"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -73,10 +75,11 @@
                 <button type="button" class="btn btn-success" th:if="${user.status} eq  0"
                         th:onclick="EnableUser([[${user.id}]])">启用
                 </button>
-                <button type="button" class="btn btn-info" th:onclick="UpdateUser([[${user.id}]])"
+                <button type="button" class="btn btn-info" th:onclick="UpdateUser([[${user.id}]],[[${user.username}]])"
                         title="修改" href="javascript:;">修改
                 </button>
-                <button type="button" class="btn btn-danger" th:onclick="member_del(this,[[${user.id}]])"
+                <button type="button" class="btn btn-danger"
+                        th:onclick="member_del([[${user.id}]],[[${user.username}]])"
                         href="javascript:;">删除
                 </button>
 
@@ -102,20 +105,19 @@
         totalNum: userlist.pages, // 总页码
         totalList: userlist.total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "/userinfo?pageNo=" + num + "&username=" + username;
+            window.location.href = "/userinfo?pageNo=" + num + "&username=" + username.replace(/\s*/g, "");
         }
     });
 
     /*用户-删除*/
-    function member_del(obj, id) {
-        var data = tableCheck.getData();
-        layer.confirm('确认要删除吗？' + data, function (index) {
+    function member_del(id, name) {
+        layer.confirm('确认要删除吗？' + " " + name, function (index) {
             $.ajax({
                 url: "/userinfo/DeleteUserInfo",
                 async: false,
                 type: 'post',
                 data: {
-                    id: id
+                    id: id.replace(/\s*/g, "")
                 },
                 success: function (result) {
                     if (result.code == "1") {
@@ -134,13 +136,13 @@
     //账号停用
     function StopUser(id) {
         var data = tableCheck.getData();
-        layer.confirm('确认要停用吗？' + data, function (index) {
+        layer.confirm('确认要停用吗？', function (index) {
             $.ajax({
                 url: "/userinfo/SealUser",
                 async: false,
                 type: 'post',
                 data: {
-                    id: id
+                    id: id.replace(/\s*/g, "")
                 },
                 success: function (result) {
                     if (result.code == "1") {
@@ -158,13 +160,13 @@
     //账号恢复使用
     function EnableUser(id) {
         var data = tableCheck.getData();
-        layer.confirm('确认要解封吗？' + data, function (index) {
+        layer.confirm('确认要解封吗？', function (index) {
             $.ajax({
                 url: "/userinfo/RelieveSealUser",
                 async: false,
                 type: 'post',
                 data: {
-                    id: id
+                    id: id.replace(/\s*/g, "")
                 },
                 success: function (result) {
                     if (result.code == "1") {
@@ -179,15 +181,29 @@
     }
 
     //修改
-    function UpdateUser(id) {
+    function UpdateUser(id, name) {
         layer.open({
             type: 2 //Page层类型
             , area: ['800px', '450px']
-            , title: '修改信息'
+            , title: '修改信息' + " " + name
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/userinfo/UpdateUserInfo?id=' + id
+            , content: '/userinfo/UpdateUserInfo?id=' + id.replace(/\s*/g, "")
+        });
+    }
+
+
+    //添加
+    function addusers() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '添加用户'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/userinfo/addusers'
         });
     }
 </script>

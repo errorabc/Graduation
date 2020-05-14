@@ -51,9 +51,14 @@ public class OderItemService {
     //查询
     public PageInfo<OderItemEntity> FindAllOderItemInfo(int PageNo, int PageSzie, OderItemEntity oderItemEntity) {
         PageHelper.startPage(PageNo, PageSzie);
-        List<OderItemEntity> oderlist=oderItemDao.FindAllOderItemInfo(oderItemEntity);
-        PageInfo<OderItemEntity> oderpagelist=new PageInfo<OderItemEntity>(oderlist);
+        List<OderItemEntity> oderlist = oderItemDao.FindAllOderItemInfo(oderItemEntity);
+        PageInfo<OderItemEntity> oderpagelist = new PageInfo<OderItemEntity>(oderlist);
         return oderpagelist;
+    }
+
+    public List<OderItemEntity> SaleEcharts(OderItemEntity oderItemEntity) {
+        List<OderItemEntity> list = oderItemDao.FindAllOderItemInfo(oderItemEntity);
+        return list;
     }
 
 }

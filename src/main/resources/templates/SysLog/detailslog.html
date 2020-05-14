@@ -7,50 +7,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
-    <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script src=".." th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 </head>
 <body>
 <div>
-    <form role="form">
-        <div class="form-group">
-            <label for="1">ID：</label>
-            <input type="text" class="form-control" id="1" th:placeholder="${loglist.id}" readonly>
+    <form class="layui-form" style="margin-top: 20px">
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                ID:
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" th:value="${loglist.id}" readonly style="width: 700px">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="2">操作人：</label>
-            <input type="text" class="form-control" id="2" th:placeholder="${loglist.username}" readonly>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                操作者:
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" th:value="${loglist.username}" readonly style="width: 700px">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="3">功能：</label>
-            <input type="text" class="form-control" id="3" th:placeholder="${loglist.operation}" readonly>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                操作:
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" th:value="${loglist.operation}" readonly style="width: 700px">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="4">响应时间：</label>
-            <input type="text" class="form-control" id="4" th:placeholder="${loglist.time}" readonly>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                响应时间:
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" th:value="${loglist.time}" readonly style="width: 700px">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="6">请求地址：</label>
-            <input type="text" class="form-control" id="6" th:placeholder="${loglist.method}" readonly>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                请求方法:
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" th:value="${loglist.method}" readonly style="width: 700px">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="7">请求参数：</label>
-            <input type="text" class="form-control" id="7" th:placeholder="${loglist.params}" readonly>
+
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                参数:
+            </label>
+            <div class="layui-input-inline">
+                <textarea placeholder="请输入内容" class="layui-textarea" th:text="${loglist.params}" readonly style="width: 700px"></textarea>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="8">请求ip：</label>
-            <input type="text" class="form-control" id="8" th:placeholder="${loglist.ip}" readonly>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                IP:
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" th:value="${loglist.ip}" readonly style="width: 700px">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="9">请求时间：</label>
-            <input type="text" class="form-control" id="9" th:placeholder="${#dates.format(loglist.create_time,'yyyy-MM-dd HH:mm:ss')}" readonly>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                请求时间:
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" th:value="${#dates.format(loglist.create_time,'yyyy-MM-dd HH:mm:ss')}" readonly style="width: 500px">
+            </div>
         </div>
+
 
     </form>
 </div>

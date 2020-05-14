@@ -12,6 +12,7 @@ import com.example.demo.Graduation.service.UserService.UserService;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,8 @@ public class UserController {
     @RequiresPermissions("user:user")
     @RequestMapping("")
     public String UserInfo(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestParam(value = "pageSize", defaultValue = "5") int pageSize, UserEntity userEntity) {
-        PageInfo<UserEntity> userEntityPageInfo = userService.RoleFindUserinfo(pageNo, pageSize, userEntity.getUsername());
-        model.addAttribute("username", userEntity.getUsername());
+        PageInfo<UserEntity> userEntityPageInfo = userService.RoleFindUserinfo(pageNo, pageSize, userEntity.getUsername(), userEntity.getRolename());
+        model.addAttribute("user", userEntity);
         model.addAttribute("userinfo", userEntityPageInfo);
         return "SysUser/userlist";
     }
@@ -59,7 +60,6 @@ public class UserController {
     @PostMapping(value = "/VerificationUsername")
     @ResponseBody
     public Result VerificationUsername(String username) throws Exception {
-
         Result result = userService.UsernameFindUser(username);
         return result;
     }
@@ -71,7 +71,6 @@ public class UserController {
     @PostMapping(value = "/AddUserInfo")
     @ResponseBody
     public Result AddUserInfo(UserEntity userEntity, @RequestParam("name") String name) throws Exception {
-        System.out.println("进来了");
         Result result = userService.AddUserInfo(userEntity, name);
         return result;
     }
@@ -99,7 +98,7 @@ public class UserController {
     /*
     删除
      */
-    @LogAop("解封用户")
+    @LogAop("删除用户")
     @PostMapping(value = "/DeleteUserInfo")
     @ResponseBody
     public Result DeleteUserInfo(String id) {
@@ -130,4 +129,22 @@ public class UserController {
     }
 
 
+    //跳转到修改密码界面
+    @GetMapping(value = "GetUpdatePassword")
+    public String GetUpdatePassword(Model model) {
+        String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
+        UserEntity userEntity = userService.UserNameFindUserInfo(LoginUsername);
+        model.addAttribute("user", userEntity);
+        return "System/updatepassword";
+    }
+
+
+    //修改密码
+    @LogAop(value = "修改密码")
+    @PostMapping(value = "/UpdatePassword")
+    @ResponseBody
+    public Result UpdatePassword(@RequestParam("password") String password, @RequestParam("username") String username) throws Exception {
+        Result result = userService.UpdatePassword(username, password);
+        return result;
+    }
 }

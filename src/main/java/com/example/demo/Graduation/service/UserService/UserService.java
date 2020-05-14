@@ -39,10 +39,10 @@ public class UserService {
 
 
     //不同权限的获取不同的用户信息
-    public PageInfo RoleFindUserinfo(int PageNo, int PageSzie, String username) {
+    public PageInfo RoleFindUserinfo(int PageNo, int PageSzie, String username, String name) {
         String rolename = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
         PageHelper.startPage(PageNo, PageSzie);
-        List<UserEntity> userEntityList = userDao.UserNameFindUserInfo(username, rolename);
+        List<UserEntity> userEntityList = userDao.UserNameFindUserInfo(username, rolename, name);
         PageInfo<UserEntity> pagelist = new PageInfo<UserEntity>(userEntityList);
         return pagelist;
     }
@@ -152,5 +152,25 @@ public class UserService {
             }
         }
 
+    }
+
+
+    //修改密码
+    public Result UpdatePassword(String username, String password) throws Exception {
+        UserEntity userEntity = userDao.UsernameFindUser(username);
+        String ConfidentialPassword = PasswordUtil.PasswordConfidential(username, password);//根据密码和盐值生成加密生成新密码
+        if (userDao.UpdateUserPassword(ConfidentialPassword, userEntity.getId())) {
+            return Result.success(1, "密码修改成功");
+        } else {
+            return Result.error(0, "密码修改失败");
+        }
+
+    }
+
+
+    //根据用户名查询用户信息
+    public UserEntity UserNameFindUserInfo(String username) {
+        UserEntity userEntity = userDao.UsernameFindUser(username);
+        return userEntity;
     }
 }

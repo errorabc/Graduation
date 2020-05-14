@@ -37,6 +37,14 @@ public class Result<T> {
         return new Result(code, content);
     }
 
+    public static <T> Result<T> listsuccess(int code, String content, T data) {
+        return new Result(code, content, data);
+    }
+
+    public static <T> Result<T> listerror(int code, String content, T data) {
+        return new Result(code, content, data);
+    }
+
 
     public int getCode() {
         return code;

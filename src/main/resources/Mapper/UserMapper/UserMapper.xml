@@ -51,10 +51,13 @@ where  a.username=#{username}
         ON r.id=ur.roleid
         <where>
             <if test="username!=null and username!=''">
-                AND u.username=#{username}
+                AND u.username like concat('%',#{username},'%')
             </if>
             <if test="rolename!='超级管理员'">
                 AND r.name!='超级管理员'
+            </if>
+            <if test="name!=null and name!=''">
+                AND r.name like concat('%',#{name},'%')
             </if>
         </where>
     </select>
