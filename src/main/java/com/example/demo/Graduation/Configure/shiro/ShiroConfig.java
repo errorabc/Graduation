@@ -1,5 +1,7 @@
-package com.example.demo.Graduation.Configure;
+package com.example.demo.Graduation.Configure.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.example.demo.Graduation.Configure.shiro.UserRealm;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -104,6 +106,16 @@ public class ShiroConfig {
         // 设置session过期时间3600s
         sessionManager.setGlobalSessionTimeout(3600000L);//登录状态1个小时后失效
         return sessionManager;
+    }
+
+    /**
+     * 必须（thymeleaf页面使用shiro标签控制按钮是否显示）
+     * 未引入thymeleaf包，Caused by: java.lang.ClassNotFoundException: org.thymeleaf.dialect.AbstractProcessorDialect
+     * @return
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 
 

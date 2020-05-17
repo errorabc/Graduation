@@ -1,4 +1,4 @@
-package com.example.demo.Graduation.Configure;
+package com.example.demo.Graduation.Configure.shiro;
 
 import com.example.demo.Graduation.entity.MenuEntity;
 import com.example.demo.Graduation.entity.UserEntity;
@@ -33,8 +33,11 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         String loginusernname = (String) principalCollection.getPrimaryPrincipal();  //获取当前登录的用户名
-        List<MenuEntity> menuEntityList = menuService.UserNameFindPerssiom(loginusernname);//根据登录的用户名查询他的权限
+        List<MenuEntity> menuEntityList = menuService.UserNameFindPerssiom(loginusernname);//获取当前用户的所有权限
+
+
         for (MenuEntity menu : menuEntityList) {
+            System.out.println(menu.getPermission() + "权限");
             if (!StringUtils.isEmpty(menu.getPermission())) {
                 info.addStringPermission(menu.getPermission());
             }
@@ -46,13 +49,12 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
-        List<UserEntity> userEntity1 = userService.FindUserInfo(username);
-        for (UserEntity u : userEntity1) {
-            dbusername = u.getUsername();//从数据库里面取得账号
-            dbstatus = u.getStatus();//从数据库里面取得密码
-            dbpassword = u.getPassword();//从数据库里面取得登录黑名单状态
-        }
-        if (userEntity1.size() == 0) {
+        UserEntity user = userService.FindUserInfo(username);
+
+        dbusername = user.getUsername();//从数据库里面取得账号
+        dbstatus = user.getStatus();//从数据库里面取得密码
+        dbpassword = user.getPassword();//从数据库里面取得登录黑名单状态
+        if (user == null) {
             throw new UnknownAccountException("此用户不存在");
         }
         if (dbstatus != 1) {
@@ -61,4 +63,53 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(username, dbpassword, ByteSource.Util.bytes(username + SALT), getName());
         return info;
     }
+
+
+    /**
+     * 重写方法,清除当前用户的的 授权缓存
+     *
+     * @param principals
+     */
+    @Override
+    public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
+        super.clearCachedAuthorizationInfo(principals);
+    }
+
+    /**
+     * 重写方法，清除当前用户的 认证缓存
+     *
+     * @param principals
+     */
+    @Override
+    public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
+        super.clearCachedAuthenticationInfo(principals);
+    }
+
+    @Override
+    public void clearCache(PrincipalCollection principals) {
+        super.clearCache(principals);
+    }
+
+    /**
+     * 自定义方法：清除所有 授权缓存
+     */
+    public void clearAllCachedAuthorizationInfo() {
+        getAuthorizationCache().clear();
+    }
+
+    /**
+     * 自定义方法：清除所有 认证缓存
+     */
+    public void clearAllCachedAuthenticationInfo() {
+        getAuthenticationCache().clear();
+    }
+
+    /**
+     * 自定义方法：清除所有的  认证缓存  和 授权缓存
+     */
+    public void clearAllCache() {
+        clearAllCachedAuthenticationInfo();
+        clearAllCachedAuthorizationInfo();
+    }
+
 }

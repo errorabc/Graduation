@@ -80,7 +80,7 @@ public class PetFosterService {
     }
 
 
-    //修改
+    //修改寄养信息
     public Result UpdatePetFoster(PetfosterEntity petfosterEntity) {
         PetfosterEntity petfosterEntity1 = petFosterDao.IdFindPetFosterinfo(petfosterEntity.getId());
         if (petfosterEntity.getState() == 1) {
@@ -104,4 +104,11 @@ public class PetFosterService {
         }
 
     }
+
+    //查询正在寄养的宠物数量
+    public int FindUnfinishedPetFosterMumber() {
+        int mumber = petFosterDao.FindUnfinishedPetFosterMumber();
+        return mumber;
+    }
+
 }

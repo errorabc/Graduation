@@ -1,4 +1,4 @@
-package com.example.demo.Graduation.Configure;
+package com.example.demo.Graduation.Configure.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;

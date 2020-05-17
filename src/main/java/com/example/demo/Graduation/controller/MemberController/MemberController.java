@@ -1,5 +1,6 @@
 package com.example.demo.Graduation.controller.MemberController;
 
+import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.entity.MemberEntity;
 import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.entity.VipinfoEntity;
@@ -8,6 +9,7 @@ import com.example.demo.Graduation.service.MenuService.MenuService;
 import com.example.demo.Graduation.service.VipService.VipService;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +38,7 @@ public class MemberController {
     }
 
     //跳转到添加界面
+    @RequiresPermissions("member:add")
     @GetMapping(value = "/GetMemberAdd")
     public String GetMemberAdd(Model model) {
         List<VipinfoEntity> viplist = vipService.FindAllVip();
@@ -44,6 +47,7 @@ public class MemberController {
     }
 
     //跳转到修改界面
+    @RequiresPermissions("member:update")
     @GetMapping(value = "/GetMemberUpdate")
     public String GetMemberUpdate(Model model, @RequestParam("id") String id) {
         MemberEntity memberEntity = memberSerice.IdFIndMemberInfo(id);
@@ -55,6 +59,8 @@ public class MemberController {
 
 
     //添加会员
+    @LogAop("添加会员")
+    @RequiresPermissions("member:add")
     @PostMapping(value = "/AddMember")
     @ResponseBody
     public Result AddMember(MemberEntity memberEntity, @RequestParam("vipid") String vipid) {
@@ -71,6 +77,8 @@ public class MemberController {
     }
 
     //删除会员信息
+    @LogAop("删除会员")
+    @RequiresPermissions("member:delete")
     @PostMapping(value = "/DeleteMember")
     @ResponseBody
     public Result DeleteMember(@Param("id") String id) {
@@ -79,6 +87,8 @@ public class MemberController {
     }
 
     //修改会员信息
+    @LogAop("修改会员")
+    @RequiresPermissions("member:update")
     @PostMapping(value = "/UpdateMember")
     @ResponseBody
     public Result UpdateMember(MemberEntity memberEntity, @RequestParam("vipid") String vipid) {
@@ -95,6 +105,7 @@ public class MemberController {
     }
 
     //跳转都会员充值界面
+    @RequiresPermissions("member:recharge")
     @GetMapping(value = "/GetRecharge")
     public String GetRecharge(@Param("id") String id, Model model) {
         MemberEntity memberEntity = memberSerice.IdFIndMemberInfo(id);
@@ -103,6 +114,8 @@ public class MemberController {
     }
 
     //充值
+    @LogAop("会员充值")
+    @RequiresPermissions("member:recharge")
     @PostMapping(value = "/Recharge")
     @ResponseBody
     public Result Recharge(@RequestParam("memberid") String memberid, @RequestParam("membername") String membername, @RequestParam("recharge") BigDecimal recharge) {

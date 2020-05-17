@@ -77,7 +77,7 @@
         form.verify({
             rolename: function (value) {
                 if (value.length < 2) {
-                    return '名称至少得2个字符啊';
+                    return '名称至少得2个字符';
                 }
                 if (value.length > 8) {
                     return '名称不得超过8个字符';
@@ -85,7 +85,7 @@
             },
             description: function (value) {
                 if (value.length > 50) {
-                    return '说明不能超过50个字';
+                    return '备注不能超过50个字符';
                 }
             }
         });
@@ -98,9 +98,9 @@
                 type: "post",
                 anys: false,
                 data: {
-                    id: data.field.roleid,
-                    name: data.field.rolename,
-                    description: data.field.description,
+                    id: data.field.roleid.replace(/\s*/g, ""),
+                    name: data.field.rolename.replace(/\s*/g, ""),
+                    description: data.field.description.replace(/\s*/g, ""),
                     ztree: JSON.stringify(nodes)
                 }, success: function (result) {
                     if (result.code == '1') {
@@ -108,11 +108,9 @@
                         x_admin_close();
                     } else {
                         layer.msg(result.content, {icon: 2});
-                        x_admin_close();
                     }
                 }
             })
-
             return false;
         });
 

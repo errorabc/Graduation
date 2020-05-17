@@ -142,4 +142,11 @@ public class PetFoodService {
         }
     }
 
+
+    //查询宠物食品种类的数量
+    public int PetFoodNumber() {
+        int mumber = petFoodDao.PetFoodNumber();
+        return mumber;
+    }
+
 }

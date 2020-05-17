@@ -1,10 +1,16 @@
 package com.example.demo.Graduation.controller.UserController;
 
+import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.Dao.UserDao.UserDao;
 import com.example.demo.Graduation.entity.MenuEntity;
 import com.example.demo.Graduation.entity.JstreeVO;
+import com.example.demo.Graduation.service.MemberService.MemberSerice;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 
+import com.example.demo.Graduation.service.OderService.OderService;
+import com.example.demo.Graduation.service.PetService.PetFoodService;
+import com.example.demo.Graduation.service.PetService.PetFosterService;
+import com.example.demo.Graduation.service.PetService.PetJewelryService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -19,7 +25,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -28,6 +36,16 @@ public class LoginController {
     private MenuService menuService;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private OderService oderService;
+    @Autowired
+    private MemberSerice memberSerice;
+    @Autowired
+    private PetFoodService petFoodService;
+    @Autowired
+    private PetFosterService petFosterService;
+    @Autowired
+    private PetJewelryService petJewelryService;
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -38,6 +56,7 @@ public class LoginController {
     }
 
     //登录
+    @LogAop("登录")
     @PostMapping(value = "/loginin")
     public String loginin(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -58,6 +77,7 @@ public class LoginController {
     }
 
     //注销
+    @LogAop("/注销")
     @RequestMapping(value = "/logout")
     public String logout() {
         Subject subject = SecurityUtils.getSubject();
@@ -98,4 +118,21 @@ public class LoginController {
     }
 
 
+    //获取系统桌面信息
+    @GetMapping(value = "/systemstate")
+    @ResponseBody
+    public Map sysinfo() {
+        int unprocessedoder = oderService.FindUnprocessedOderNumber();   //未处理的订单数量
+        int membernumber = memberSerice.MemberNumber();//会员数量
+        int petfoodmumber = petFoodService.PetFoodNumber();//宠物食品
+        int petfostermumber = petFosterService.FindUnfinishedPetFosterMumber();//未完成的宠物寄养
+        int petjewelrymumber = petJewelryService.PetjewelryNumber();//宠物饰品
+        Map<String, Integer> maplist = new HashMap<String, Integer>();
+        maplist.put("unprocessedoder", unprocessedoder);
+        maplist.put("membernumber", membernumber);
+        maplist.put("petfoodmumber", petfoodmumber);
+        maplist.put("petfostermumber", petfostermumber);
+        maplist.put("petjewelrymumber", petjewelrymumber);
+        return maplist;
+    }
 }

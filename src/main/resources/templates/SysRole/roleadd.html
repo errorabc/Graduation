@@ -18,11 +18,6 @@
     <script type="text/javascript" th:src="@{/layui2.5/layui.js}"></script>
     <script type="text/javascript" th:src="@{/js/ztree/jquery.ztree.core.js}"></script>
     <script type="text/javascript" th:src="@{/js/ztree/jquery.ztree.excheck.js}"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body>
 <div class="x-body">
@@ -33,7 +28,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="rolename" name="rolename" lay-verify="required|rolename"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="请输入内容">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 <span id="VerificationRoleName"></span>
@@ -50,9 +45,11 @@
             <label class="layui-form-label">角色权限</label>
             <br/>
             <br/>
+
             <div class="zTreeDemoBackground left" style="margin-left: 100px">
                 <ul id="treeDemo" class="ztree"></ul>
             </div>
+
         </div>
 
         <div class="layui-form-item">
@@ -84,7 +81,7 @@
             },
             description: function (value) {
                 if (value.length > 50) {
-                    return '说明不能超过50个字';
+                    return '角色备注不能超过50个字符';
                 }
             }
         });
@@ -98,8 +95,8 @@
                 type: "post",
                 anys: false,
                 data: {
-                    name: data.field.rolename,
-                    description: data.field.description,
+                    name: data.field.rolename.replace(/\s*/g, ""),
+                    description: data.field.description.replace(/\s*/g, ""),
                     ztree: JSON.stringify(nodes)
                 }, success: function (result) {
                     if (result.code == '1') {
@@ -107,7 +104,6 @@
                         x_admin_close();
                     } else {
                         layer.msg(result.content, {icon: 2});
-                        x_admin_close();
                     }
                 }
             })
@@ -165,7 +161,6 @@
             type = {"Y": "ps", "N": "ps"};
         zTree.setting.check.chkboxType = type;
     }
-
 
     $(document).ready(function () {
         $.fn.zTree.init($("#treeDemo"), setting, zNodes);

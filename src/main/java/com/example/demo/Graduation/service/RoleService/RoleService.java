@@ -146,45 +146,6 @@ public class RoleService {
 
     }
 
-    /*
-        layui菜单树
-     */
-    public JSONArray layuitree() {
-        List<MenuEntity> mulu = menuDao.FindMenusType11();//一级菜单
-        JSONObject jsonObject2 = null;
-        JSONObject jsonObject = null;
-        JSONObject jsonObject3 = null;
-        JSONObject jsonObject4 = null;
-        JSONArray jsonArray4 = new JSONArray();
-        for (MenuEntity item : mulu) {
-            List<MenuEntity> caidan = menuDao.ParentIdFindResoucesinfo(item.getId());  //二级菜单
-            JSONArray jsonArray3 = new JSONArray();
-            JSONArray jsonArray2 = new JSONArray();
-            for (MenuEntity item2 : caidan) { //拿出所有的二级菜单
-                System.out.println(item2.getName());
-                List<MenuEntity> anniu = menuDao.ParentIdFindResoucesinfo(item2.getId());//三级菜单
-                JSONArray jsonArray1 = new JSONArray();
-                for (MenuEntity item3 : anniu) {
-                    jsonObject = new JSONObject();
-                    jsonObject.put("id", item3.getId());
-                    jsonObject.put("title", item3.getName());
-                    jsonArray1.add(jsonObject);
-                }
-                jsonObject2 = new JSONObject();
-                jsonObject2.put("id", item2.getId());
-                jsonObject2.put("title", item2.getName());
-                jsonObject2.put("children", jsonArray1);
-                jsonArray3.add(jsonObject2);
-            }
-            jsonObject3 = new JSONObject();
-            jsonObject3.put("id", item.getId());
-            jsonObject3.put("title", item.getName());
-            jsonObject3.put("children", jsonArray3);
-            jsonArray4.add(jsonObject3);
-        }
-        return jsonArray4;
-    }
-
     //查询角色关联的菜单信息
     public List<RoleResourcesEntity> FindRoleAllResources(String id) {
         List<RoleResourcesEntity> roleResourcesLists = roleDao.FindRoleAllResources(id);

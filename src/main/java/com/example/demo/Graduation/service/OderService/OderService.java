@@ -61,4 +61,12 @@ public class OderService {
             return Result.error(0, "删除失败");
         }
     }
+
+    //查询未处理的订单数量
+    public int FindUnprocessedOderNumber() {
+        int unprocessedoder = oderDao.FindUnprocessedOderNumber();
+        return unprocessedoder;
+    }
+
+
 }

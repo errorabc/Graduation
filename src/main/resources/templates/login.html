@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登录</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script th:src="@{/css/jquery.min.js}"></script>
+    <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+
 </head>
 <body>
 <div id="wrapper" class="login-page">
@@ -15,8 +20,8 @@
             <h2>萌萌宠物店管理登录</h2>
             <input type="text" placeholder="用户名" id="username" name="username" th:value="admin"/>
             <input type="password" placeholder="密码" id="password" name="password" th:value="123456"/>
-            <input type="submit" value="登录" style="background-color: green;" />
-            <span th:text="${msg}" style="color: red;font-size: 28px"></span>
+            <input type="submit" value="登录" style="background-color: green;"/>
+            <span th:text="${msg}" style="color: red;font-size: 18px"></span>
         </form>
     </div>
 </div>
@@ -26,7 +31,7 @@
         var username = $("#username").val().toString().trim();
         var password = $("#password").val().toString().trim();
         if (username == "" || password == "") {
-            alert("账号或者密码都不许为空");
+            layer.msg('账号密码不能为空', {icon: 2});
             return false;
         } else {
             return true;

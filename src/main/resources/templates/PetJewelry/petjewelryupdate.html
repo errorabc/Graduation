@@ -63,7 +63,8 @@
             </label>
             <div class="layui-input-inline" style="width:50%">
                 <input type="text" id="petjewelrynumber" name="petjewelrynumber"
-                       autocomplete="off" class="layui-input" readonly="readonly" th:value="${petjewelry.petjewelrynumber}">
+                       autocomplete="off" class="layui-input"
+                       th:value="${petjewelry.petjewelrynumber}" readonly="readonly">
             </div>
         </div>
         <div class="layui-form-item">
@@ -88,21 +89,22 @@
             layer = layui.layer;
         //自定义验证规则
         form.verify({
-            foodprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数']
+            petjewelryprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数']
         });
 
 
         //监听提交
         form.on('submit(update)', function (data) {
             $.ajax({
-                url: "/PetFoodinfo/UpdatePetFood",
+                url: "/petjewelry/UpdatePetjewelry",
                 type: "post",
                 anys: false,
                 data: {
                     id: data.field.id.replace(/\s*/g, ""),
-                    foodname: data.field.foodname.replace(/\s*/g, ""),
-                    foodtype: data.field.foodtype.replace(/\s*/g, ""),
-                    foodprice: data.field.foodprice.replace(/\s*/g, "")
+                    petjewelryname: data.field.petjewelryname.replace(/\s*/g, ""),
+                    petjewelrytype: data.field.petjewelrytype.replace(/\s*/g, ""),
+                    petjewelrynumber: data.field.petjewelrynumber.replace(/\s*/g, ""),
+                    petjewelryprice: data.field.petjewelryprice.replace(/\s*/g, ""),
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});

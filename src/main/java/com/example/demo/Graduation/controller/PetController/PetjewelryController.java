@@ -88,7 +88,7 @@ public class PetjewelryController {
     @PostMapping(value = "/ReduceStock")
     @ResponseBody
     public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number, @RequestParam("member_name") String member_name) {
-        Result result = petJewelryService.ReduceStock(id, number,member_name);
+        Result result = petJewelryService.ReduceStock(id, number, member_name);
         return result;
     }
 
@@ -117,5 +117,14 @@ public class PetjewelryController {
         PetjewelryEntity petjewelryEntity = petJewelryService.IdFindPetjewelryInfo(id);
         model.addAttribute("petjewelry", petjewelryEntity);
         return "PetJewelry/petjewelryupdate";
+    }
+
+
+    //修改饰品信息
+    @PostMapping(value = "/UpdatePetjewelry")
+    @ResponseBody
+    public Result UpdatePetjewelry(PetjewelryEntity petjewelryEntity) {
+        Result result = petJewelryService.UpdatePetjewelry(petjewelryEntity);
+        return result;
     }
 }

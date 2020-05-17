@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface UserDao {
 
-    List<UserEntity> FindUserInfo(@Param("username") String username);
+    UserEntity FindUserInfo(@Param("username") String username);
 
     RoleEntity Finduserinfo2(@Param("username") String username);
 

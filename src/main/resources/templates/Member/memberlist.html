@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>会员管理</title>
@@ -13,19 +14,7 @@
     <script th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
-    <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
-
 <body class="layui-anim layui-anim-up">
 <div class="x-nav">
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
@@ -41,7 +30,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加','/member/GetMemberAdd',800,450)"><i
+        <button class="layui-btn" onclick="addmember()" shiro:hasPermission="member:add"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -68,13 +57,15 @@
             </td>
             <td class="td-manage">
                 <button type="button" class="layui-btn" th:onclick="updatemember([[${member.id}]])"
-                        title="修改">修改
+                        title="修改" shiro:hasPermission="member:update">修改
                 </button>
                 <button type="button" class="layui-btn layui-btn-danger" th:onclick="deletemember([[${member.id}]])"
-                >删除
+                        shiro:hasPermission="member:delete">删除
                 </button>
-                <button type="button" class="layui-btn layui-btn-warm" th:onclick="recharge([[${member.id}]])">充值
+                <button type="button" class="layui-btn layui-btn-warm" th:onclick="recharge([[${member.id}]])"
+                        shiro:hasPermission="member:recharge">充值
                 </button>
+
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(memberlist.list)}">
@@ -109,7 +100,7 @@
                 async: false,
                 type: 'post',
                 data: {
-                    id: id
+                    id: id.replace(/\s*/g, "")
                 },
                 success: function (result) {
                     if (result.code == "1") {
@@ -133,7 +124,7 @@
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/member/GetMemberUpdate?id=' + id
+            , content: '/member/GetMemberUpdate?id=' + id.replace(/\s*/g, "")
         });
     }
 
@@ -145,7 +136,19 @@
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/member/GetRecharge?id=' + id
+            , content: '/member/GetRecharge?id=' + id.replace(/\s*/g, "")
+        });
+    }
+
+    function addmember() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '添加会员'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/member/GetMemberAdd'
         });
     }
 </script>

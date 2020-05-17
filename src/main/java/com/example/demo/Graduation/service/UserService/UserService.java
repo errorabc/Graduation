@@ -24,8 +24,8 @@ public class UserService {
 
 
     //查询用户的信息
-    public List<UserEntity> FindUserInfo(String username) {
-        List<UserEntity> user = userDao.FindUserInfo(username);
+    public UserEntity FindUserInfo(String username) {
+        UserEntity user = userDao.FindUserInfo(username);
         return user;
     }
 

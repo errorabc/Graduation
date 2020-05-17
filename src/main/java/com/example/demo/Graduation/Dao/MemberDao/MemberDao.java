@@ -28,7 +28,7 @@ public interface MemberDao {
     //删除会员信息
     boolean DeleteMember(@Param("id") String id);
 
-    //删除会员
+    //删除会员和VIP的关联
     boolean DeleteMemberVip(@Param("id") String id);
 
     //根据会员ID查询会员信息
@@ -39,7 +39,6 @@ public interface MemberDao {
     boolean UpdateMember(MemberEntity memberEntity);
 
     //修改会员和VIP关联
-
     boolean UpdateMemberVip(@Param("vipid") String vipid, @Param("memberid") String memberid);
 
     //查看会员数量

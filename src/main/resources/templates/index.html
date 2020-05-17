@@ -1,7 +1,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>后台主界面</title>
+    <title>系统主界面</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -82,7 +82,13 @@
 </div>
 <div class="page-content-bg"></div>
 </body>
-<script>
+<script th:inline="javascript">
+    var menu = [[${menus}]];
+    if (menu == null || menu == '' || menu == undefined) {
+        location.href = '/login';
+    } else {
+    }
+
     //修改密码
     function updatepassword() {
         layer.open({
@@ -110,6 +116,7 @@
             location.href = "/logout";
         });
     }
+
 
 </script>
 </html>

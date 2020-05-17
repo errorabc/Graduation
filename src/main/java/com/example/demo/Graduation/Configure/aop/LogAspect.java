@@ -1,4 +1,4 @@
-package com.example.demo.Graduation.Configure;
+package com.example.demo.Graduation.Configure.aop;
 
 
 import com.example.demo.Graduation.Annotation.LogAop;

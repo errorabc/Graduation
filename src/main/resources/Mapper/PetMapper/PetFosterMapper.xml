@@ -41,4 +41,8 @@ fosterstartime=#{fosterstartime},fosterprice=#{fosterprice} where
     <select id="IdFindPetFosterinfo" resultType="com.example.demo.Graduation.entity.PetfosterEntity">
         SELECT * FROM petfoster WHERE  id=#{id}
     </select>
+    <!--查询正在寄养的宠物数量-->
+    <select id="FindUnfinishedPetFosterMumber" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM petfoster WHERE state=0
+    </select>
 </mapper>

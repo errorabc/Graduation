@@ -13,11 +13,6 @@
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
     <link rel="stylesheet" th:href="@{/css/page.css}">
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body>
@@ -29,14 +24,14 @@
 <div class="x-body">
     <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so" th:action="@{/roleinfo}">
-            <input type="text" name="name" id="name" placeholder="请输入用户名" autocomplete="off" class="layui-input"
+            <input type="text" name="name" id="name" placeholder="请输入角色名" autocomplete="off" class="layui-input"
                    th:value="${rolename}">
             <button class="layui-btn" lay-filter="sreach" type="submit"><i class="layui-icon">&#xe615;</i>
             </button>
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','/roleinfo/GetRoleAdd',1000,800)"><i
+        <button class="layui-btn" onclick="AddRole()"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -66,8 +61,12 @@
                 </a>
             </td>
         </tr>
+        <tr th:if="${#lists.isEmpty(rolelist.list)}">
+            <td colspan="9" style="color: red;font-size: 32px;">暂无数据</td>
+        </tr>
         </tbody>
     </table>
+    <!--分页-->
     <div class="page">
         <div id="page" class="page_div"></div>
     </div>
@@ -82,19 +81,9 @@
         totalNum: rolelist.pages, // 总页码
         totalList: rolelist.total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "/roleinfo?pageNo=" + num + "&username=" + name;
+            window.location.href = "/roleinfo?pageNo=" + num + "&username=" + name.replace(/\s*/g, "");
         }
     });
-
-
-    function delAll(argument) {
-        var data = tableCheck.getData();
-        layer.confirm('确认要删除吗？' + data, function (index) {
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-    }
 
     function updaterole(id) {
         layer.open({
@@ -104,7 +93,7 @@
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: '/roleinfo/GetRoleUpdate?id=' + id
+            , content: '/roleinfo/GetRoleUpdate?id=' + id.replace(/\s*/g, "")
         });
     }
 
@@ -116,7 +105,7 @@
                 type: "post",
                 anys: false,
                 data: {
-                    id: id,
+                    id: id.replace(/\s*/g, ""),
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});
@@ -129,6 +118,18 @@
         });
     }
 
+    //添加角色
+    function AddRole() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['1000px', '800px']
+            , title: '添加角色'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/roleinfo/GetRoleAdd'
+        });
+    }
 </script>
 </body>
 

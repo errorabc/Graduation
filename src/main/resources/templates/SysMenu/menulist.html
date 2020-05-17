@@ -17,22 +17,7 @@
 <br/>
 <br/>
 <table id="demo"></table>
-<!--模态框-->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
-            </div>
-            <div class="modal-body">在这里添加一些文本</div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">提交更改</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
+
 <!-- 全局js -->
 <script type="text/javascript" th:src="@{/bootstrap/libs/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/bootstrap/libs/v3/bootstrap.min.js}"></script>
@@ -121,31 +106,24 @@
                 }
             }],
         onAll: function (data) {
-            console.log("onAll");
             return false;
         },
         onLoadSuccess: function (data) {
-            console.log("onLoadSuccess");
             return false;
         },
         onLoadError: function (status) {
-            console.log("onLoadError");
             return false;
         },
         onClickCell: function (field, value, row, $element) {
-            console.log("onClickCell", row);
             return false;
         },
         onDblClickCell: function (field, value, row, $element) {
-            console.log("onDblClickCell", row);
             return row;
         },
         onClickRow: function (row, $element) {
-            console.log("onClickRow", row);
             return false;
         },
         onDblClickRow: function (row, $element) {
-            console.log("onDblClickRow", row);
             return false;
         },
         data: null,
@@ -223,7 +201,7 @@
         if (menutype == "1") {
             //添加菜单
             layer.open({
-                type: 2 //Page层类型
+                type: 2
                 , area: ['800px', '450px']
                 , title: name + '中添加菜单'
                 , shade: 0.6 //遮罩透明度
@@ -236,7 +214,7 @@
         if (menutype == "2") {
             //添加按钮
             layer.open({
-                type: 2 //Page层类型
+                type: 2
                 , area: ['800px', '450px']
                 , title: name + '中添加按钮'
                 , shade: 0.6 //遮罩透明度
@@ -253,7 +231,7 @@
     //修改菜单
     function updatemenu(id, menutype, name) {
         layer.open({
-            type: 2 //Page层类型
+            type: 2
             , area: ['800px', '450px']
             , title: '修改' + name + '信息'
             , shade: 0.6 //遮罩透明度
@@ -266,7 +244,7 @@
     //打开添加目录界面
     function AddContents() {
         layer.open({
-            type: 2 //Page层类型
+            type: 2
             , area: ['800px', '450px']
             , title: '添加目录'
             , shade: 0.6 //遮罩透明度

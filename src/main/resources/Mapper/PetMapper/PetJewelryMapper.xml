@@ -5,6 +5,10 @@
     <update id="UpdatePetJewelryNumber">
     update petjewelry set petjewelrynumber=#{petjewelrynumber}   where id=#{id}
     </update>
+    <!--修改饰品信息-->
+    <update id="UpdatePetjewelry">
+    UPDATE petjewelry SET petjewelryname=#{petjewelryname},petjewelrytype=#{petjewelrytype},petjewelryprice=#{petjewelryprice},petjewelrynumber=#{petjewelrynumber} WHERE   id=#{id}
+    </update>
     <!--删除-->
     <delete id="DeletePetjewelry">
     delete  from petjewelry where id=#{id}
@@ -29,6 +33,10 @@
     <!--ID查询饰品信息-->
     <select id="IdFindPetjewelryInfo" resultType="com.example.demo.Graduation.entity.PetjewelryEntity">
      select * from petjewelry  where  id=#{id}
+    </select>
+    <!--查询饰品种类的数量-->
+    <select id="PetjewelryNumber" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM petfoster WHERE state=0
     </select>
 
 

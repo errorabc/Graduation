@@ -65,7 +65,6 @@ public class RoleController {
         RoleEntity roleEntity = roleService.IdFindRoleInfo(id);//查询用户的信息
         JSONArray jsonArray = menuService.FindAllMenuZtree();
         List<RoleResourcesEntity> roleResourcesLists = roleService.FindRoleAllResources(id);
-        System.out.println(roleResourcesLists.size() + "条");
         model.addAttribute("ztree", jsonArray);
         model.addAttribute("role", roleEntity);
         model.addAttribute("roleresources", roleResourcesLists);

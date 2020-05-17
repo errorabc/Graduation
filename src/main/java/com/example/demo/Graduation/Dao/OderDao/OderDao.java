@@ -27,5 +27,8 @@ public interface OderDao {
     boolean DeleteOder(@Param("oder_no") String oder_no);
 
     //删除子订单
-    boolean Delete_OderItem(@Param("oder_no")String oder_no);
+    boolean Delete_OderItem(@Param("oder_no") String oder_no);
+
+    //查询未处理的订单数量
+    int FindUnprocessedOderNumber();
 }

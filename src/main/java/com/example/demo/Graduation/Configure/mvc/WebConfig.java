@@ -1,10 +1,9 @@
-package com.example.demo.Graduation.Configure;
+package com.example.demo.Graduation.Configure.mvc;
 
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.annotation.Resource;
 

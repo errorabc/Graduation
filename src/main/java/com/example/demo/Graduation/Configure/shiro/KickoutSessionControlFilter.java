@@ -1,4 +1,4 @@
-package com.example.demo.Graduation.Configure;
+package com.example.demo.Graduation.Configure.shiro;
 
 import com.alibaba.fastjson.JSON;
 import com.example.demo.Graduation.entity.UserEntity;

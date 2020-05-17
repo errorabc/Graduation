@@ -11,6 +11,7 @@ import com.example.demo.Graduation.service.RoleService.RoleService;
 import com.example.demo.Graduation.service.UserService.UserService;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     //跳转到用户管理界面
-    @RequiresPermissions("user:user")
+    @RequiresPermissions("sys:user:list")
     @RequestMapping("")
     public String UserInfo(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestParam(value = "pageSize", defaultValue = "5") int pageSize, UserEntity userEntity) {
         PageInfo<UserEntity> userEntityPageInfo = userService.RoleFindUserinfo(pageNo, pageSize, userEntity.getUsername(), userEntity.getRolename());
@@ -44,14 +45,18 @@ public class UserController {
     }
 
     //跳转到添加用户界面
-    @RequiresPermissions("user:add")
+    @RequiresPermissions("sys:user:add")
     @RequestMapping("/addusers")
     public String AddUsers(Model model) {
-        String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
-        List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);
-        List<MenuEntity> menuEntityList = menuService.FindAllsMenu();
-        model.addAttribute("rolenamelist", roleEntityList);
-        model.addAttribute("menualllist", menuEntityList);
+        try {
+            String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
+            List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);
+            List<MenuEntity> menuEntityList = menuService.FindAllsMenu();
+            model.addAttribute("rolenamelist", roleEntityList);
+            model.addAttribute("menualllist", menuEntityList);
+        } catch (AuthorizationException a) {
+            a.printStackTrace();
+        }
         return "SysUser/useradd";
     }
 
@@ -69,6 +74,7 @@ public class UserController {
      */
     @LogAop("添加用户")
     @PostMapping(value = "/AddUserInfo")
+    @RequiresPermissions("sys:user:add")
     @ResponseBody
     public Result AddUserInfo(UserEntity userEntity, @RequestParam("name") String name) throws Exception {
         Result result = userService.AddUserInfo(userEntity, name);
@@ -122,6 +128,7 @@ public class UserController {
     //修改用户信息
     @LogAop("修改用户信息")
     @PostMapping(value = "/UpdateUser")
+    @RequiresPermissions("sys:user:update")
     @ResponseBody
     public Result UpdateUser(UserEntity userEntity, String name) throws Exception {
         Result result = userService.UpdateUser(userEntity, name);

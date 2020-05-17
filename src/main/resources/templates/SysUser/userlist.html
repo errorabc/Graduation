@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>用户管理</title>
@@ -13,17 +14,6 @@
     <script th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
-    <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body class="layui-anim layui-anim-up">
@@ -42,11 +32,9 @@
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
-    <xblock>
-        <button class="layui-btn" onclick="addusers()"><i
-                class="layui-icon"></i>添加
-        </button>
-    </xblock>
+            <button class="layui-btn" onclick="addusers()" shiro:hasPermission="sys:user:add"><i
+                    class="layui-icon"></i>添加用户
+            </button>
     <table class="layui-table">
         <thead>
         <tr>
@@ -54,6 +42,7 @@
             <th>账号</th>
             <th>角色</th>
             <th>状态</th>
+            <th>账号操作</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -68,21 +57,22 @@
             <td class="td-status" th:if="${user.status} eq  0">
                 <button type="button" class="layui-btn layui-btn-disabled">禁用</button>
             </td>
-            <td class="td-manage">
-                <button type="button" class="btn btn-danger" th:if="${user.status} eq  1"
+            <td>
+                <button type="button" class="layui-btn layui-btn-danger" th:if="${user.status} eq  1"
                         th:onclick="StopUser([[${user.id}]])">停用
                 </button>
-                <button type="button" class="btn btn-success" th:if="${user.status} eq  0"
+                <button type="button" class="layui-btn layui-btn-normal" th:if="${user.status} eq  0"
                         th:onclick="EnableUser([[${user.id}]])">启用
                 </button>
-                <button type="button" class="btn btn-info" th:onclick="UpdateUser([[${user.id}]],[[${user.username}]])"
-                        title="修改" href="javascript:;">修改
-                </button>
-                <button type="button" class="btn btn-danger"
-                        th:onclick="member_del([[${user.id}]],[[${user.username}]])"
-                        href="javascript:;">删除
-                </button>
+            </td>
+            <td class="td-manage">
 
+                <a title="编辑" th:onclick="UpdateUser([[${user.id}]],[[${user.username}]])" shiro:hasPermission="sys:user:update">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" th:onclick="member_del([[${user.id}]],[[${user.username}]])"  shiro:hasPermission="sys:user:delete">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(userinfo.list)}">
@@ -206,6 +196,7 @@
             , content: '/userinfo/addusers'
         });
     }
+
 </script>
 </body>
 

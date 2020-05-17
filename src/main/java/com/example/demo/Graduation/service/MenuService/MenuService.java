@@ -62,7 +62,6 @@ public class MenuService {
     }
 
 
-
     //查询所有菜单封装成ztree
     public JSONArray FindAllMenuZtree() {
         List<MenuEntity> list = menuDao.FindAllMenu();
@@ -251,7 +250,7 @@ public class MenuService {
         int flag = 0;
         MenuEntity menuEntityname = menuDao.VerificationMenuName(menuEntity.getName());
         MenuEntity menuEntityurl = menuDao.VerificationMenuUrl(menuEntity.getUrl());
-        MenuEntity menuEntitypermission = menuDao.VerificationMenuPermission(menuEntity.getPermission());
+
 
         if (null != menuEntityname) {
             if (menuEntityname.getId().equals(menuEntity.getId())) {
@@ -271,13 +270,6 @@ public class MenuService {
             }
         }
 
-        if (null != menuEntitypermission) {
-            if (menuEntitypermission.getId().equals(menuEntity.getId())) {
-            } else {
-                flag = 1;
-                return Result.error(0, "菜单权限已经存在");
-            }
-        }
 
         if (flag == 0) {
             if (menuDao.updateMenuinfo(menuEntity)) {

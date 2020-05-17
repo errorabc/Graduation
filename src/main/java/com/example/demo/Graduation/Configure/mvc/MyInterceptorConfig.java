@@ -1,4 +1,4 @@
-package com.example.demo.Graduation.Configure;
+package com.example.demo.Graduation.Configure.mvc;
 
 
 import com.alibaba.fastjson.JSON;

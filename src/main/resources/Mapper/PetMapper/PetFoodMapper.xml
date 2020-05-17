@@ -39,4 +39,8 @@
     <select id="IdFindPetFoodInfo" resultType="com.example.demo.Graduation.entity.PetfoodEntity">
      select  * from petfood where id=#{id}
     </select>
+    <!--查询宠物食品种类的数量-->
+    <select id="PetFoodNumber" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM petfood
+    </select>
 </mapper>

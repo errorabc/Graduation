@@ -77,6 +77,10 @@
         on oder.oder_no=oderi.oder_no
         WHERE oder.oder_no=#{oder_no}
     </select>
+    <!--查询未处理的订单数量-->
+    <select id="FindUnprocessedOderNumber" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM oderinfo WHERE  status=0
+    </select>
 
 
     <!--删除总订单-->
@@ -87,9 +91,6 @@
     <delete id="Delete_OderItem">
     delete  from oderitem where oder_no=#{oder_no}
     </delete>
-
-
-
 
 
 </mapper>

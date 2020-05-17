@@ -109,7 +109,7 @@
 
     <!--修改菜单信息-->
     <update id="updateMenuinfo">
-     UPDATE sys_resources SET name=#{name},url=#{url},permission=#{permission}  WHERE id=#{id}
+     UPDATE sys_resources SET name=#{name},url=#{url},sort=#{sort}  WHERE id=#{id}
     </update>
 
     <!--查询所有的菜单-->

@@ -59,7 +59,7 @@
         <label for="menupermission" class="col-sm-2 control-label">菜单权限:</label>
         <div class="col-sm-7">
             <input type="text" class="form-control" id="menupermission"
-                   placeholder="请输入菜单权限名称" th:value="${menuinfo.permission}">
+                   placeholder="请输入菜单权限名称" th:value="${menuinfo.permission}" readonly>
         </div>
         <div>
             <span id="VerificationMenupermission" style="font-size: 16px;margin-left: 20px"></span>
@@ -85,12 +85,11 @@
         var parentid = $('#parentid').val().toString().trim();
         var menuname = $('#menuname').val().toString().trim();
         var menuurl = $('#menuurl').val().toString().trim();
-        var menupermission = $('#menupermission').val().toString().trim();
         var menusort = $('#menupersort').val().toString().trim();
-        if (menuname == null || menuurl == null || menupermission == null || menusort == null) {
+        if (menuname == null || menuurl == null ||  menusort == null) {
             layer.msg("有必填项为空", {icon: 2});
         } else {
-            if (menuname.indexOf(" ") == -1 && menuurl.indexOf(" ") == -1 && menupermission.indexOf("  ") == -1 && menusort.indexOf(" ") == -1) {
+            if (menuname.indexOf(" ") == -1 && menuurl.indexOf(" ") == -1 && menusort.indexOf(" ") == -1) {
                 $.ajax({
                     url: "/menuinfo/UpdateMenus",
                     type: 'post',
@@ -99,7 +98,6 @@
                         id: mid,
                         name: menuname,
                         url: menuurl,
-                        permission: menupermission,
                         sort: menusort,
                         parent_id: parentid
                     },

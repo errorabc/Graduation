@@ -28,9 +28,11 @@ public interface PetFoodDao {
     //修改库存
     boolean UpdatePetFoodNumber(@Param("id") String id, @Param("foodnumber") int foodnumber);
 
-
+    //修改宠物食品信息
     boolean UpdatePetFood(PetfoodEntity petfoodEntity);
 
+    //查询宠物食品种类的数量
+    int PetFoodNumber();
 
 
 }

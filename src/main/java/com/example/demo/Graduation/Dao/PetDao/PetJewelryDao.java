@@ -27,5 +27,13 @@ public interface PetJewelryDao {
 
 
     //修改库存-入库，出库，报废
-    boolean  UpdatePetJewelryNumber(@Param("id") String id, @Param("petjewelrynumber") int petjewelrynumber);
+    boolean UpdatePetJewelryNumber(@Param("id") String id, @Param("petjewelrynumber") int petjewelrynumber);
+
+
+    //修改
+    boolean UpdatePetjewelry(PetjewelryEntity petjewelryEntity);
+
+    //查询饰品种类的数量
+    int PetjewelryNumber();
+
 }

@@ -133,4 +133,19 @@ public class PetJewelryService {
         }
 
     }
+
+    //修改饰品信息
+    public Result UpdatePetjewelry(PetjewelryEntity petjewelryEntity) {
+        if (petJewelryDao.UpdatePetjewelry(petjewelryEntity)) {
+            return Result.success(1, "修改成功");
+        } else {
+            return Result.error(0, "修改失败");
+        }
+    }
+
+    //查询饰品种类的数量
+    public int PetjewelryNumber() {
+        int flag=petJewelryDao.PetjewelryNumber();
+        return flag;
+    }
 }

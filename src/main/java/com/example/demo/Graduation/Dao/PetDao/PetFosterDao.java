@@ -26,4 +26,7 @@ public interface PetFosterDao {
 
     //结束寄养
     boolean StopFoster(@Param("id") String id);
+
+    //查询正在寄养的宠物数量
+    int FindUnfinishedPetFosterMumber();
 }
