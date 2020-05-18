@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/font.css}">
+<link rel="stylesheet" th:href="@{/css/xadmin.css}">
+<script src=".." th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>公告详情</title>
+</head>
+<body>
+<form class="layui-form">
+    <div class="layui-form-item" style="margin-top: 2%">
+        <label for="name" class="layui-form-label">
+            <span class="x-red">*</span>公告名
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="name" name="name" lay-verify="required"
+                   autocomplete="off" class="layui-input" style="width: 500px" th:value="${notice.name}" readonly>
+        </div>
+    </div>
+
+    <div id="editor" style="margin-left: 5%" readonly>
+    </div>
+</form>
+<script src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+<script th:inline="javascript">
+    var notice = [[${notice}]];
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    editor.create();
+    editor.txt.append(notice.content);
+</script>
+</body>
+</html>

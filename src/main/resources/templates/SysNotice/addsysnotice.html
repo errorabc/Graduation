@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/font.css}">
+<link rel="stylesheet" th:href="@{/css/xadmin.css}">
+<script src=".." th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+<script src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor demo</title>
+</head>
+<body>
+<form class="layui-form">
+    <div class="layui-form-item" style="margin-top: 2%">
+        <label for="name" class="layui-form-label">
+            <span class="x-red">*</span>公告名
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="name" name="name" lay-verify="required"
+                   autocomplete="off" class="layui-input" style="width: 500px">
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            <span id="VerificationUsername"></span>
+        </div>
+
+    </div>
+
+    <div id="editor" style="margin-left: 5%">
+    </div>
+
+    <div class="layui-form-item" style="margin-left: 100px">
+        <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+    </div>
+
+
+</form>
+
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    editor.create();
+
+    layui.use(['form', 'layer'], function () {
+        $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer;
+
+        //监听提交
+        form.on('submit(add)', function (data) {
+            $.ajax({
+                url: "/sysnotice/AddNotice",
+                anys: false,
+                type: 'post',
+                data: {
+                    name: data.field.name,
+                    content: editor.txt.html()
+                }, success: function (result) {
+                    if (result.code == '1') {
+                        layer.msg(result.content, {icon: 1});
+                        x_admin_close();
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+            })
+
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

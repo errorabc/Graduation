@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.SysNoticeDao.SysNoticeDao">
+
+    <!--添加公告-->
+    <insert id="AddSnotice">
+        INSERT INTO sys_notice(id,name,content,username,createtime) VALUES(#{id},#{name},#{content},#{username},#{createtime})
+    </insert>
+    <!--删除公告-->
+    <delete id="DeleteNotice">
+        DELETE FROM sys_notice WHERE id=#{id}
+    </delete>
+
+    <!--查询公告-->
+    <select id="FindAllSysNoticeInfo" resultType="com.example.demo.Graduation.entity.SysNoticeEntity">
+        SELECT * FROM sys_notice
+        <where>
+            <if test="name!=null and name!=''">
+                name LIKE concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+    <!--Id查询公告信息-->
+    <select id="IdFindSysNoticeInfo" resultType="com.example.demo.Graduation.entity.SysNoticeEntity">
+        SELECT * FROM sys_notice WHERE id=#{id}
+    </select>
+
+    <!--修改公告-->
+    <update id="UpdateNotice">
+        UPDATE sys_notice set name=#{name},content=#{content}  WHERE id=#{id}
+    </update>
+
+
+</mapper>
