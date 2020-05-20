@@ -71,4 +71,29 @@ public class SysNoticeService {
         }
     }
 
+    //停止公告
+    public Result StopNotice(String id) {
+        if (sysNoticeDao.StopNotice(id)) {
+            return Result.success(1, "停止成功");
+        } else {
+            return Result.error(0, "停止失败");
+        }
+    }
+
+    //启动公告
+    public Result StarNotice(String id) {
+        SysNoticeEntity sysNoticeEntity = sysNoticeDao.FindStarNotice(id);
+        if (null != sysNoticeEntity) {
+            return Result.error(0, "已经启动了一个公告,请先停止原来公告");
+        } else {
+            if (sysNoticeDao.StarNotice(id)) {
+                return Result.success(1, "启动成功");
+            } else {
+                return Result.error(0, "启动失败");
+            }
+        }
+
+    }
+
+
 }

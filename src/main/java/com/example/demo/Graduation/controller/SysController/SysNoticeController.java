@@ -6,6 +6,7 @@ import com.example.demo.Graduation.service.SysNoticeService.SysNoticeService;
 import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.regexp.internal.RE;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,4 +75,22 @@ public class SysNoticeController {
         Result result = sysNoticeService.DeleteNotice(id);
         return result;
     }
+
+    //停止公告
+
+    @PostMapping(value = "/StopNotice")
+    @ResponseBody
+    public Result StopNotice(@RequestParam("id") String id) {
+        Result result = sysNoticeService.StopNotice(id);
+        return result;
+    }
+
+    //启动公告
+    @PostMapping(value = "/StarNotice")
+    @ResponseBody
+    public Result StarNotice(@RequestParam("id") String id) {
+        Result result = sysNoticeService.StarNotice(id);
+        return result;
+    }
+
 }

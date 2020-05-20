@@ -51,10 +51,12 @@
             <td th:text="${notice.username}"></td>
             <td th:text="${#dates.format(notice.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td class="td-status" th:if="${notice.states} eq  1">
-                <button type="button" class="layui-btn layui-btn-warm">公告中</button>
+                <button type="button" class="layui-btn layui-btn-warm" th:onclick="stopnotice([[${notice.id}]])">公告中
+                </button>
             </td>
             <td class="td-status" th:if="${notice.states} eq  0">
-                <button type="button" class="layui-btn layui-btn-normal">未公告</button>
+                <button type="button" class="layui-btn layui-btn-normal" th:onclick="starnotice([[${notice.id}]])">未公告
+                </button>
             </td>
             <td class="td-manage">
                 <a title="查看" th:onclick="details([[${notice.id}]])">
@@ -90,7 +92,7 @@
         totalNum: sysnoticelist.pages, // 总页码
         totalList: sysnoticelist.total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "/sysnotice?pageNo=" + num + "&username=" + name.replace(/\s*/g, "");
+            window.location.href = "/sysnotice?pageNo=" + num + "&name=" + name.replace(/\s*/g, "");
         }
     });
 
@@ -158,6 +160,53 @@
         });
     }
 
+    //停止公告
+    function stopnotice(id) {
+        layer.confirm('确认要停止这份公告吗？', function (index) {
+            $.ajax({
+                url: "/sysnotice/StopNotice",
+                async: false,
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        resh()
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+
+            });
+        });
+    }
+
+    //启动公告
+    function starnotice(id) {
+        layer.confirm('确认要启动这份公告吗？', function (index) {
+            $.ajax({
+                url: "/sysnotice/StarNotice",
+                async: false,
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        resh()
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+
+            });
+        });
+
+
+    }
 </script>
 </body>
 

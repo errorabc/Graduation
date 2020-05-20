@@ -13,25 +13,25 @@ spring:
     initialSize: 1
     minIdle: 3
     maxActive: 20
-      # 配置获取连接等待超时的时间
+    # 配置获取连接等待超时的时间
     maxWait: 60000
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
     timeBetweenEvictionRunsMillis: 60000
-      # 配置一个连接在池中最小生存的时间，单位是毫秒
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
     minEvictableIdleTimeMillis: 30000
     validationQuery: select 'x'
     testWhileIdle: true
     testOnBorrow: false
     testOnReturn: false
-      # 打开PSCache，并且指定每个连接上PSCache的大小
+    # 打开PSCache，并且指定每个连接上PSCache的大小
     poolPreparedStatements: true
     maxPoolPreparedStatementPerConnectionSize: 20
-      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
     filters: stat,wall,slf4j
-      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-      # 合并多个DruidDataSource的监控数据
-      #useGlobalDataSourceStat: true
+    # 合并多个DruidDataSource的监控数据
+    #useGlobalDataSourceStat: true
   redis:
     host: localhost
     port: 6379
@@ -57,6 +57,12 @@ spring:
   aop:  #开启spring boot aop
     auto: true
     proxy-target-class: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+
 
 
 mybatis:
@@ -78,5 +84,16 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+#七牛云
+AccessKey: cgxe41ygttLPrQmoGXfVy3hCQ4Np8YMtBTgJ9NNG
+SecretKey: AC5GiwKa_MdRgLdydDQgAVJFbY2RJgEFsneFSBpb
+bucket: mmpetshop
+fileurl: http://qaf1h0fv4.bkt.clouddn.com/
+
+#文件存储
+upload:
+  path: E:\Graduation\file\
+
 
 

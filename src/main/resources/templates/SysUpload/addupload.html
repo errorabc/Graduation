@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/font.css}">
+<link rel="stylesheet" th:href="@{/css/xadmin.css}">
+<script src=".." th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form class="layui-form">
+    <div class="layui-form-item" style="margin-top: 2%">
+        <label for="name" class="layui-form-label">
+            <span class="x-red">*</span>资源名称
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="name" name="name" lay-verify="required"
+                   autocomplete="off" class="layui-input" style="width: 500px">
+        </div>
+    </div>
+
+    <div class="layui-form-item" style="margin-top:2%;margin-left: 3%">
+        <button type="button" class="layui-btn layui-btn-normal" id="test8">
+            选择文件
+        </button>
+    </div>
+
+    <div class="layui-upload-list" style="margin-top:2%;margin-left: 3%">
+        <img class="layui-upload-img" id="demo1" style="height: 400px;width: 400px">
+        <p id="demoText"></p>
+    </div>
+
+    <button type="button" class="layui-btn" id="test9" style="margin-top:2%;margin-left: 3%" lay-submit="">开始上传</button>
+</form>
+</body>
+<script>
+    layui.use(['form', 'layer', 'upload'], function () {
+        var $ = layui.jquery
+            , upload = layui.upload
+            , form = layui.form
+            , layer = layui.layer;
+
+        upload
+            .render({
+                elem: '#test8'
+                , url: '/uploadfile/uploads' //改成您自己的上传接口
+                , auto: false //不自动上传
+                , size: 10240
+                , accept: 'images'
+                , bindAction: '#test9'
+                , choose: function (obj) {
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function (index, file, result) {
+                        $('#demo1').attr('src', result); //图片链接（base64）
+                    });
+
+                }
+                , before: function (obj) {
+                    this.data = {'name': $("#name").val()};
+                }
+                , done: function (result) {
+                    if (result.code=='1') {
+                        layer.msg(result.content, {icon: 1});
+                        x_admin_close();
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+
+                }, error: function (result) {
+                    layer.msg('上传失败', {icon: 2});
+                }
+            });
+    });
+</script>
+</html>

@@ -24,11 +24,22 @@
     <select id="IdFindSysNoticeInfo" resultType="com.example.demo.Graduation.entity.SysNoticeEntity">
         SELECT * FROM sys_notice WHERE id=#{id}
     </select>
+    <!--查询启动中的公告-->
+    <select id="FindStarNotice" resultType="com.example.demo.Graduation.entity.SysNoticeEntity">
+        SELECT *  FROM sys_notice WHERE states=1
+    </select>
 
     <!--修改公告-->
     <update id="UpdateNotice">
         UPDATE sys_notice set name=#{name},content=#{content}  WHERE id=#{id}
     </update>
-
+    <!--停止公告-->
+    <update id="StopNotice">
+        UPDATE sys_notice SET  states=0 WHERE id=#{id}
+    </update>
+    <!--启动公告-->
+    <update id="StarNotice">
+         UPDATE sys_notice SET  states=1 WHERE id=#{id}
+    </update>
 
 </mapper>

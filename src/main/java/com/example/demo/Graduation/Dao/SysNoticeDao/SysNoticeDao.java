@@ -26,6 +26,16 @@ public interface SysNoticeDao {
     //删除公告
     boolean DeleteNotice(@Param("id") String id);
 
+    //停止公告
+    boolean StopNotice(@Param("id") String id);
+
+    //查询启动中的公告
+    SysNoticeEntity FindStarNotice(@Param("id") String id);
+
+    //启动公告
+
+    boolean StarNotice(@Param("id") String id);
+
 
 }
 
