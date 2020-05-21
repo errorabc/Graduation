@@ -28,6 +28,10 @@
     <select id="FindStarNotice" resultType="com.example.demo.Graduation.entity.SysNoticeEntity">
         SELECT *  FROM sys_notice WHERE states=1
     </select>
+    <!--显示公告-->
+    <select id="ShowNotice" resultType="com.example.demo.Graduation.entity.SysNoticeEntity">
+        SELECT * FROM sys_notice WHERE states=1
+    </select>
 
     <!--修改公告-->
     <update id="UpdateNotice">

@@ -36,6 +36,9 @@ public interface SysNoticeDao {
 
     boolean StarNotice(@Param("id") String id);
 
+    //显示公告
+    SysNoticeEntity ShowNotice();
+
 
 }
 

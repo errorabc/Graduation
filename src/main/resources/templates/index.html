@@ -12,7 +12,6 @@
     <script th:src="@{/css/jquery.min.js}"></script>
     <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
-
 </head>
 <body>
 <!-- 顶部开始 -->
@@ -48,7 +47,8 @@
                     <i class="iconfont nav_right">&#xe6a7;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a _href="html/welcome.html"><i class="iconfont">&#xe6a7;</i><cite>公告</cite></a></li>
+                    <li><a th:attr="_href='/sysnotice/GetShowNotice'"><i class="iconfont">&#xe6a7;</i><cite>公告</cite></a>
+                    </li>
                 </ul>
             </li>
             <li th:each="menu1 : ${menus}">

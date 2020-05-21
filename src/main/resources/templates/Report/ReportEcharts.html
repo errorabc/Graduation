@@ -3,8 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>ECharts</title>
-    <!-- 引入 echarts.js -->
-    <link rel="stylesheet" th:href="@{/css/font.css}">
     <link rel="stylesheet" th:href="@{/css/xadmin.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
@@ -30,7 +28,7 @@
                     <option value="宠物饰品">宠物饰品</option>
                 </select>
             </div>
-            <input class="layui-input" placeholder="开始日" name="starttime" id="starttime" autocomplete="off">
+            <input class="layui-input" placeholder="开始日" name="starttime" id="starttime" autocomplete="off" la>
             <input class="layui-input" placeholder="截止日" name="endtime" id="endtime" autocomplete="off">
             <button type="button" class="layui-btn layui-btn-primary" onclick="findsale()">查询</button>
             </button>
@@ -45,7 +43,7 @@
         <label id="product_type_title" style="font-size: 18px;"></label>
         <label style="font-size: 18px;">销售情况</label>
     </div>
-    <div id="main" style="width: 600px;height:400px;"></div>
+    <div id="main" style="width: 700px;height:500px;"></div>
 </div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
@@ -55,40 +53,45 @@
         var starttime = $('#starttime').val();
         var endtime = $('#endtime').val();
         var myChart = echarts.init(document.getElementById('main'));
-        if (producttype == 'all') {
-            myChart.setOption(bareconfigure());
-        } else {
-            myChart.setOption(lineconfigure());
-        }
+        $.ajax({
+            url: "/salesrecord/SaleEcharts",
+            async: false,
+            type: 'post',
+            data: {
+                startime: $('#starttime').val(),
+                endtime: $('#endtime').val(),
+                product_type: $('#producttype').val()
+
+            },
+            success: function (result) {
+                if (producttype == 'all') {
+                    var mumber = new Array();
+                    var money = new Array();
+                    for (var i = 0; i < result.length; i++) {
+                        mumber[i] = result[i].mumber
+                        money[i] = result[i].momey
+                    }
+                    myChart.setOption(bar_line(mumber, money));
+                } else {
+                    alert(result);
+                }
+
+            }
+
+        });
+
         $('#strat_time_tile').text(starttime);
         $('#end_time_tile').text(endtime);
         if (producttype == 'all') {
             $('#product_type_title').text('所有商品');
         } else {
             $('#product_type_title').text(producttype);
-            $.ajax({
-                url: "/salesrecord/SaleEcharts",
-                async: false,
-                type: 'post',
-                data: {
-                    product_type: producttype,
-                    starttime: starttime,
-                    endtime: endtime
-                },
-                success: function (result) {
-                    $.each(result, function (index, item) {
-                        console.log(item['create_time'].toString());
-                    })
-                }
-
-            });
         }
     }
 
 
     layui.use('laydate', function () {
         var laydate = layui.laydate;
-
         //执行一个laydate实例
         laydate.render({
             elem: '#starttime' //指定元素
@@ -139,6 +142,111 @@
             }]
         };
         return lineoption;
+    }
+
+    function bar_line(number, momey) {
+        var option = {
+            legend: {
+                data: ['销售数量', '销售金额']
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['宠物食品', '宠物饰品', '宠物寄养']
+            },
+            yAxis: [{
+                type: 'value',
+                name: '数量'
+            }, {
+                type: 'value',
+                name: '金额'
+            }],
+            series: [{
+                name: '销售数量',
+                data: number,
+                type: 'bar',
+                maxSize: 500,
+                barWidth: 60,
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: 'black',
+                        fontSize: 13
+                    }
+                }
+            }, {
+                name: '销售金额',
+                data: momey,
+                type: 'line',
+                maxSize: 1000,
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: 'black',
+                        fontSize: 13
+                    }
+                }
+            }
+            ],
+        };
+        return option;
+    }
+
+    function bar_bar() {
+        var  option = {
+            legend: {
+                data: ['销售数量', '销售金额']
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['宠物食品']
+            },
+            yAxis: [{
+                type: 'value',
+                name: '数量'
+            }, {
+                type: 'value',
+                name: '金额'
+            }],
+            series: [{
+                name: '销售数量',
+                data: [20],
+                type: 'bar',
+                maxSize: 500,
+                barWidth: 60,
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: 'black',
+                        fontSize: 13
+                    }
+                }
+            }, {
+                name: '销售金额',
+                data: [100],
+                type: 'bar',
+                maxSize: 500,
+                barWidth:60,
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: 'black',
+                        fontSize: 13
+                    }
+                }
+            }
+            ],
+        };
+
     }
 </script>
 </body>

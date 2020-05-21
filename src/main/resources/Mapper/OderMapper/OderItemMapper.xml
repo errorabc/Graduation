@@ -26,4 +26,43 @@ values(#{id},#{member_name},#{oder_no},#{product_id},#{product_name},#{product_t
     </select>
 
 
+    <!--查询各种类型商品销售数量-->
+    <select id="SaleMumber" resultType="java.lang.Integer">
+        SELECT COALESCE(SUM(odrim.number),0) FROM
+        oderinfo as odr
+        JOIN oderitem as odrim
+        on odrim.oder_no=odr.oder_no
+        <where>
+            <if test="product_type!='' and product_type!=null">
+                AND odrim.product_type=#{product_type}
+            </if>
+            <if test="startime!=null and startime!=''">
+                AND odr.payment_time>=#{startime}
+            </if>
+            <if test="endtime!=null and endtime!=''">
+                AND odr.payment_time&lt;=#{endtime}
+            </if>
+            AND odr.status=1
+        </where>
+    </select>
+    <select id="SaleMoney" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(odrim.total_price),0) FROM
+        oderinfo as odr
+        JOIN oderitem as odrim
+        on odrim.oder_no=odr.oder_no
+        <where>
+            <if test="product_type!='' and product_type!=null">
+                AND odrim.product_type=#{product_type}
+            </if>
+            <if test="startime!=null and startime!=''">
+                AND odr.payment_time>=#{startime}
+            </if>
+            <if test="endtime!=null and endtime!=''">
+                AND odr.payment_time&lt;=#{endtime}
+            </if>
+            AND odr.status=1
+        </where>
+    </select>
+
+
 </mapper>

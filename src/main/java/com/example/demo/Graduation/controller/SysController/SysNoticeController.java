@@ -93,4 +93,17 @@ public class SysNoticeController {
         return result;
     }
 
+
+    //系统公告
+    @RequestMapping(value = "/GetShowNotice")
+    public String ShowNotice() {
+        return "notice";
+    }
+
+    @PostMapping(value = "/showNotice")
+    @ResponseBody
+    public SysNoticeEntity showNotice() {
+        SysNoticeEntity sysNoticeEntity = sysNoticeService.ShowNotice();
+        return sysNoticeEntity;
+    }
 }

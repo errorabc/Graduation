@@ -96,4 +96,11 @@ public class SysNoticeService {
     }
 
 
+    //显示公告中的公告信息
+    public SysNoticeEntity ShowNotice() {
+        SysNoticeEntity sysNoticeEntity = sysNoticeDao.ShowNotice();
+        return sysNoticeEntity;
+    }
+
+
 }

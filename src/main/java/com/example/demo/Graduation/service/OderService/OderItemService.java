@@ -1,20 +1,22 @@
 package com.example.demo.Graduation.service.OderService;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Graduation.Dao.OderDao.OderDao;
 import com.example.demo.Graduation.Dao.OderDao.OderItemDao;
 import com.example.demo.Graduation.Tool.DateTime;
 import com.example.demo.Graduation.entity.OderEntity;
 import com.example.demo.Graduation.entity.OderItemEntity;
 import com.example.demo.Graduation.entity.Result;
+import com.example.demo.Graduation.entity.SaleEchartsEntity;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class OderItemService {
@@ -56,9 +58,41 @@ public class OderItemService {
         return oderpagelist;
     }
 
-    public List<OderItemEntity> SaleEcharts(OderItemEntity oderItemEntity) {
-        List<OderItemEntity> list = oderItemDao.FindAllOderItemInfo(oderItemEntity);
-        return list;
+    public JSONArray SaleEcharts(SaleEchartsEntity saleEchartsEntity) {
+        if (saleEchartsEntity.getProduct_type().equals("all")) {
+            JSONObject petjy = new JSONObject();
+            petjy.put("name", "宠物寄养");
+            petjy.put("mumber", oderItemDao.SaleMumber("宠物寄养", saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
+            petjy.put("momey", oderItemDao.SaleMoney("宠物寄养", saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
+
+
+            JSONObject petfood = new JSONObject();
+            petfood.put("name", "宠物食品");
+            petfood.put("mumber", oderItemDao.SaleMumber("宠物食品", saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
+            petfood.put("momey", oderItemDao.SaleMoney("宠物食品", saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
+
+
+            JSONObject petsp = new JSONObject();
+            petsp.put("name", "宠物饰品");
+            petsp.put("mumber", oderItemDao.SaleMumber("宠物饰品", saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
+            petsp.put("momey", oderItemDao.SaleMoney("宠物饰品", saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
+
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.add(petjy);
+            jsonArray.add(petfood);
+            jsonArray.add(petsp);
+            return jsonArray;
+        } else {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", saleEchartsEntity.getProduct_type());
+            jsonObject.put("mumber", oderItemDao.SaleMumber(saleEchartsEntity.getProduct_type(), saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
+            jsonObject.put("momey", oderItemDao.SaleMoney(saleEchartsEntity.getProduct_type(), saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.add(jsonObject);
+            return jsonArray;
+        }
+
+
     }
 
 }

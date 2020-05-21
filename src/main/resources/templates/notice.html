@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/font.css}">
+<link rel="stylesheet" th:href="@{/css/xadmin.css}">
+<script src=".." th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+<script src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<div id="notice">
+</div>
+</body>
+<script>
+    $.ajax({
+        url: "/sysnotice/showNotice",
+        anys: false,
+        type: 'post',
+        data: {
+        }, success: function (result) {
+           $('#notice').append(result.content);
+            //console.log(result.content);
+        }
+    })
+</script>
+</html>
