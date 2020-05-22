@@ -172,14 +172,14 @@
                     final_payment: data.field.finalpayment.replace(/\s*/g, ""),
                     remark: data.field.remark.replace(/\s*/g, ""),
                     oder_no: data.field.oder_no.replace(/\s*/g, ""),
-                    payment_type: $('#payment_type option:selected').val()
+                    payment_type: $('#payment_type option:selected').val(),
+                    member_name:data.field.member_name.replace(/\s*/g, "")
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});
                         x_admin_close();
                     } else {
                         layer.msg(result.content, {icon: 2});
-                        x_admin_close();
                     }
                 }
             })

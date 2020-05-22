@@ -63,6 +63,25 @@ values(#{id},#{member_name},#{oder_no},#{product_id},#{product_name},#{product_t
             AND odr.status=1
         </where>
     </select>
+    <select id="ProducttypeFindSaleEchatrsTime" resultType="com.example.demo.Graduation.entity.ProducttypeSaleEchatrs">
+        SELECT odr.payment_time,odr.final_payment FROM
+        oderinfo as odr
+        JOIN oderitem as odrim
+        on odrim.oder_no=odr.oder_no
+        <where>
+            <if test="product_type!='' and product_type!=null">
+                AND odrim.product_type=#{product_type}
+            </if>
+            <if test="startime!=null and startime!=''">
+                AND odr.payment_time>=#{startime}
+            </if>
+            <if test="endtime!=null and endtime!=''">
+                AND odr.payment_time&lt;=#{endtime}
+            </if>
+            AND odr.status=1
+        </where>
+        GROUP BY odr.payment_time,odr.final_payment
+    </select>
 
 
 </mapper>

@@ -15,6 +15,11 @@
     <![endif]-->
 </head>
 <body>
+<div class="x-nav">
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i></a>
+</div>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div class="layui-row" style="margin-top: 20px;margin-left: 20px">
     <form class="layui-form layui-col-md12 x-so">
@@ -43,8 +48,9 @@
         <label id="product_type_title" style="font-size: 18px;"></label>
         <label style="font-size: 18px;">销售情况</label>
     </div>
-    <div id="main" style="width: 700px;height:500px;"></div>
+
 </div>
+<div id="main" style="width: 100%;height:700px;"></div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
 
@@ -71,9 +77,17 @@
                         mumber[i] = result[i].mumber
                         money[i] = result[i].momey
                     }
+                    myChart.clear();
                     myChart.setOption(bar_line(mumber, money));
                 } else {
-                    alert(result);
+                    var time = new Array();
+                    var money = new Array();
+                    for (var i = 0; i < result.length; i++) {
+                        time[i] = result[i].time
+                        money[i] = result[i].money
+                    }
+                    myChart.clear();
+                    myChart.setOption(lineconfigure(time, money));
                 }
 
             }
@@ -129,16 +143,34 @@
     function lineconfigure(xaxisdatas, seriesdatas) {
         // 指定图表的配置项和数据
         var lineoption = {
+            legend: {
+                data: ['销售金额']
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
             xAxis: {
                 type: 'category',
-                data: ['1', '2', '3', '4', '5', '6', '7']
+                data: xaxisdatas,
+                axisLabel : {//坐标轴刻度标签的相关设置。
+                    interval:0,
+                    rotate:"20"
+                }
             },
             yAxis: {
                 type: 'value'
             },
             series: [{
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                type: 'line'
+                data: seriesdatas,
+                type: 'line',
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: 'black',
+                        fontSize: 13
+                    }
+                }
             }]
         };
         return lineoption;
@@ -197,7 +229,7 @@
     }
 
     function bar_bar() {
-        var  option = {
+        var option = {
             legend: {
                 data: ['销售数量', '销售金额']
             },
@@ -234,7 +266,7 @@
                 data: [100],
                 type: 'bar',
                 maxSize: 500,
-                barWidth:60,
+                barWidth: 60,
                 label: {
                     show: true,
                     position: 'top',

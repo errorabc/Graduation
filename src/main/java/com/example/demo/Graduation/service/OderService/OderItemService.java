@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Graduation.Dao.OderDao.OderDao;
 import com.example.demo.Graduation.Dao.OderDao.OderItemDao;
 import com.example.demo.Graduation.Tool.DateTime;
-import com.example.demo.Graduation.entity.OderEntity;
-import com.example.demo.Graduation.entity.OderItemEntity;
-import com.example.demo.Graduation.entity.Result;
-import com.example.demo.Graduation.entity.SaleEchartsEntity;
+import com.example.demo.Graduation.entity.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,12 +80,14 @@ public class OderItemService {
             jsonArray.add(petsp);
             return jsonArray;
         } else {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("name", saleEchartsEntity.getProduct_type());
-            jsonObject.put("mumber", oderItemDao.SaleMumber(saleEchartsEntity.getProduct_type(), saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
-            jsonObject.put("momey", oderItemDao.SaleMoney(saleEchartsEntity.getProduct_type(), saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime()));
             JSONArray jsonArray = new JSONArray();
-            jsonArray.add(jsonObject);
+            List<ProducttypeSaleEchatrs> producttypeSaleEchatrs = oderItemDao.ProducttypeFindSaleEchatrsTime(saleEchartsEntity.getProduct_type(), saleEchartsEntity.getStartime(), saleEchartsEntity.getEndtime());
+            for (ProducttypeSaleEchatrs item : producttypeSaleEchatrs) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("time", item.getPayment_time());
+                jsonObject.put("money", item.getFinal_payment());
+                jsonArray.add(jsonObject);
+            }
             return jsonArray;
         }
 

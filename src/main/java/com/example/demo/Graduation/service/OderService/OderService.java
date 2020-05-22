@@ -1,7 +1,9 @@
 package com.example.demo.Graduation.service.OderService;
 
+import com.example.demo.Graduation.Dao.MemberDao.MemberDao;
 import com.example.demo.Graduation.Dao.OderDao.OderDao;
 import com.example.demo.Graduation.Tool.DateTime;
+import com.example.demo.Graduation.entity.MemberEntity;
 import com.example.demo.Graduation.entity.OderEntity;
 import com.example.demo.Graduation.entity.OderItemEntity;
 import com.example.demo.Graduation.entity.Result;
@@ -20,6 +22,8 @@ import java.util.UUID;
 public class OderService {
     @Autowired
     private OderDao oderDao;
+    @Autowired
+    private MemberDao memberDao;
 
     //添加总订单与子订单
     public PageInfo<OderEntity> FindAllOderInfo(OderEntity oderEntity, int PageNo, int PageSzie) {
@@ -41,10 +45,23 @@ public class OderService {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         oderEntity.setStatus(1);
         oderEntity.setPayment_time(DateTime.strToDateLong(df.format(new Date())));
-        if (oderDao.HandleOder(oderEntity)) {
-            return Result.success(1, "处理成功");
-        } else {
-            return Result.error(0, "处理失败");
+        if (oderEntity.getPayment_type().equals("余额")) {//会员支付
+            MemberEntity memberEntity = memberDao.NameFindMemberInfo(oderEntity.getMember_name());
+            if (memberEntity.getBalance().compareTo(oderEntity.getFinal_payment()) == 1) {
+                if (oderDao.HandleOder(oderEntity)) {
+                    return Result.success(1, "处理成功");
+                } else {
+                    return Result.error(0, "处理失败");
+                }
+            } else {
+                return Result.error(0, "余额不足,请使用其他方法支付");
+            }
+        } else {        //非会员支付
+            if (oderDao.HandleOder(oderEntity)) {
+                return Result.success(1, "处理成功");
+            } else {
+                return Result.error(0, "处理失败");
+            }
         }
 
     }
