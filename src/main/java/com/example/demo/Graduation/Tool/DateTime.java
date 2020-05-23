@@ -4,6 +4,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+//日期工具类
 public class DateTime {
 
     public static Date strToDateLong(String strDate) {

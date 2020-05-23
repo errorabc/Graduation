@@ -91,6 +91,9 @@ SecretKey: AC5GiwKa_MdRgLdydDQgAVJFbY2RJgEFsneFSBpb
 bucket: mmpetshop
 fileurl: http://qaf1h0fv4.bkt.clouddn.com/
 
+#MD5盐值
+md5salt: Yiqiwan
+
 #文件存储
 upload:
   path: E:\Graduation\file\

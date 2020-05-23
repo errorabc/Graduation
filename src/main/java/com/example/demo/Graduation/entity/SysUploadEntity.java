@@ -3,11 +3,11 @@ package com.example.demo.Graduation.entity;
 import java.util.Date;
 
 public class SysUploadEntity {
-    private String id;
-    private String name;
-    private String type;
-    private String url;
-    private Date creatime;
+    private String id;//资源ID
+    private String name;//资源名称
+    private String type;//资源类型
+    private String url;//资源地址
+    private Date creatime;//创建时间
 
     public String getId() {
         return id;

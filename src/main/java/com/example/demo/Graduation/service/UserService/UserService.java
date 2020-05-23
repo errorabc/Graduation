@@ -21,6 +21,8 @@ public class UserService {
     UserDao userDao;
     @Autowired
     RoleDao roleDao;
+    @Autowired
+    PasswordUtil passwordUtil;
 
 
     //查询用户的信息
@@ -67,7 +69,7 @@ public class UserService {
      */
     public Result AddUserInfo(UserEntity userEntity, String name) throws Exception {
         RoleEntity roleEntity = roleDao.RoleNameFindRoleInfo(name);
-        String ConfidentialPassword = PasswordUtil.PasswordConfidential(userEntity.getUsername(), userEntity.getPassword());
+        String ConfidentialPassword = passwordUtil.PasswordConfidential(userEntity.getUsername(), userEntity.getPassword());
         String uuid = UUID.randomUUID().toString();
         userEntity.setId(uuid);
         userEntity.setPassword(ConfidentialPassword);
@@ -137,7 +139,7 @@ public class UserService {
     public Result UpdateUser(UserEntity userEntity, String name) throws Exception {
         RoleEntity roleEntity = roleDao.RoleNameFindRoleInfo(name);//查询角色名称的id
         UserEntity user = userDao.UserIdFindUserinfo(userEntity.getId());//获取用户的信息
-        String ConfidentialPassword = PasswordUtil.PasswordConfidential(user.getUsername(), userEntity.getPassword());//根据密码和盐值生成加密生成新密码
+        String ConfidentialPassword = passwordUtil.PasswordConfidential(user.getUsername(), userEntity.getPassword());//根据密码和盐值生成加密生成新密码
         if (userEntity.getRoleEntity().getName().equals("超级管理员")) {
             return Result.error(0, "超级管理员不可被删除");
         } else {
@@ -158,7 +160,7 @@ public class UserService {
     //修改密码
     public Result UpdatePassword(String username, String password) throws Exception {
         UserEntity userEntity = userDao.UsernameFindUser(username);
-        String ConfidentialPassword = PasswordUtil.PasswordConfidential(username, password);//根据密码和盐值生成加密生成新密码
+        String ConfidentialPassword = passwordUtil.PasswordConfidential(username, password);//根据密码和盐值生成加密生成新密码
         if (userDao.UpdateUserPassword(ConfidentialPassword, userEntity.getId())) {
             return Result.success(1, "密码修改成功");
         } else {

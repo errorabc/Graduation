@@ -1,7 +1,8 @@
 package com.example.demo.Graduation.Tool;
 
 import javax.servlet.http.HttpServletRequest;
-//获取ip
+
+//IP工具类
 public class IpUntil {
 
     public static String getIpAdrress(HttpServletRequest request) {

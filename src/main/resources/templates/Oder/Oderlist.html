@@ -55,17 +55,9 @@
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
-    <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="HandleMultipleOder()"><i class="layui-icon"></i>批量处理订单
-        </button>
-    </xblock>
     <table class="layui-table">
         <thead>
         <tr>
-            <th>
-                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i
-                        class="layui-icon">&#xe605;</i></div>
-            </th>
             <th>订单编号</th>
             <th>订单类型</th>
             <th>商品名称</th>
@@ -81,11 +73,6 @@
         </thead>
         <tbody>
         <tr th:each="oder:${oderlist.list}">
-            <td>
-                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" th:attr="data-id=${oder.oder_no}"><i
-                        class="layui-ico n">&#xe605;</i>
-                </div>
-            </td>
             <td th:text="${oder.oder_no}" t></td>
             <td th:text="${oder.oder_type}"></td>
             <td th:text="${oder.oderi.product_name}"></td>

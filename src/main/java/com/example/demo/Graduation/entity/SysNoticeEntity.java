@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class SysNoticeEntity {
     private String id;
-    private String name;
-    private String content;
-    private int states;
-    private String username;
-    private Date createtime;
+    private String name;//公告名
+    private String content;//公告内容
+    private int states;//公告状态
+    private String username;//操作人
+    private Date createtime;//创建时间
 
     public String getUsername() {
         return username;

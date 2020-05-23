@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 public class PetjewelryEntity {
 
     private String id;
-    private String petjewelryname;
-    private String petjewelrytype;
-    private BigDecimal petjewelryprice;
-    private int petjewelrynumber;
+    private String petjewelryname;  //饰品名称
+    private String petjewelrytype; //饰品类型
+    private BigDecimal petjewelryprice;//饰品单价
+    private int petjewelrynumber;//饰品库存
 
     public int getPetjewelrynumber() {
         return petjewelrynumber;

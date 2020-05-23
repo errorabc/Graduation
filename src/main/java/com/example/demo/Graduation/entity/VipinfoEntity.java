@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class VipinfoEntity {
     private String id;
     private String name;//VIP名
-    private float discount;//折扣率
+    private float discount;//折扣
 
 
     public String getId() {

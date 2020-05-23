@@ -6,6 +6,7 @@ import com.example.demo.Graduation.entity.MenuEntity;
 import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,12 +30,14 @@ public class MenuController {
 
     //跳转到添加目录界面
     @RequestMapping(value = "/AddContents")
+    @RequiresPermissions("menu:add")
     public String AddContents() {
         return "SysMenu/catalogadd";
     }
 
     //跳转到添加菜单界面
     @RequestMapping(value = "/GetAddMenu")
+    @RequiresPermissions("menu:add")
     public String GetAddMenu(@RequestParam("id") String id, Model model) {
         model.addAttribute("id", id);
         return "SysMenu/menuadd";
@@ -42,6 +45,7 @@ public class MenuController {
 
     //跳转到添加按钮界面
     @RequestMapping(value = "/GetAddButton")
+    @RequiresPermissions("menu:add")
     public String GetAddButton(@RequestParam("id") String id, Model model) {
         model.addAttribute("id", id);
         return "SysMenu/buttonadd";
@@ -51,6 +55,7 @@ public class MenuController {
     跳转到修改界面
      */
     @RequestMapping(value = "/GetUpdateResouces")
+    @RequiresPermissions("menu:update")
     public String GetUpdateResouces(Model model, @RequestParam("id") String id) {
         MenuEntity menuEntity = menuService.IDFindResoucesinfo(id);
         model.addAttribute("menuinfo", menuEntity);
@@ -68,6 +73,7 @@ public class MenuController {
     //删除菜单,按钮,或者目录
     @LogAop("删除菜单")
     @PostMapping(value = "/deletemenu")
+    @RequiresPermissions("menu:delete")
     @ResponseBody
     public Result deletemenu(@Param("id") String id) {
         Result result = menuService.DeleteMenu(id);
@@ -99,9 +105,10 @@ public class MenuController {
         return result;
     }
 
-    //添加菜单
+    //添加目录
     @LogAop("添加目录")
     @PostMapping(value = "/AddCatalog")
+    @RequiresPermissions("menu:add")
     @ResponseBody
     public Result AddCatalog(MenuEntity menuEntity) {
         Result result = menuService.AddCatalog(menuEntity);
@@ -111,15 +118,17 @@ public class MenuController {
     //添加菜单
     @LogAop("添加菜单")
     @PostMapping(value = "/AddMenu")
+    @RequiresPermissions("menu:add")
     @ResponseBody
     public Result AddMenu(MenuEntity menuEntity) {
         Result result = menuService.AddMenu(menuEntity);
         return result;
     }
 
-    //添加菜单
+    //添加按钮
     @LogAop("添加按钮")
     @PostMapping(value = "/AddButton")
+    @RequiresPermissions("menu:add")
     @ResponseBody
     public Result AddButton(MenuEntity menuEntity) {
         Result result = menuService.AddButton(menuEntity);
@@ -129,6 +138,7 @@ public class MenuController {
     //修改菜单
     @LogAop("修改菜单")
     @PostMapping(value = "/UpdateMenus")
+    @RequiresPermissions("menu:update")
     @ResponseBody
     public Result UpdateMenus(MenuEntity menuEntity) throws Exception {
         Result result = menuService.UpdateMenus(menuEntity);

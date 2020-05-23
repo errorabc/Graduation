@@ -8,15 +8,15 @@ public class OderEntity {
     private String oder_no;//订单号
     private String oder_type;//订单类型
     private String member_name;//用户名称
-    private BigDecimal payment;//实际支付金额
+    private BigDecimal payment;//应际支付金额
     private String payment_type;//支付方式
     private int status;//订单状态  0是未支付,1是支付失败，2是支付成功，3是交易关闭
     private Date payment_time;//支付时间
     private Date create_time;//创建时间
     private Date update_time;//修改时间
     private String remark;//备注
-    private String starttime;
-    private String endtime;
+    private String starttime;//开始时间
+    private String endtime;//结束时间
     private OderItemEntity oderi;
     private BigDecimal final_payment;//最终支付
 
