@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -90,8 +91,18 @@ public class OderItemService {
             }
             return jsonArray;
         }
+    }
 
 
+    //查询今日的销售金额
+    public BigDecimal ToDaySales() {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String starttime = format.format(new Date());
+        String endtime = format.format(new Date());
+        starttime = starttime + " " + "00:00:00";
+        endtime = endtime + " " + "23:59:59";
+        BigDecimal todaymoney = oderDao.ToDaySales(starttime, endtime);
+        return todaymoney;
     }
 
 }

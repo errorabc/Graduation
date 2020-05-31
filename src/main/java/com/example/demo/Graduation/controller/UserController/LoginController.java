@@ -7,6 +7,7 @@ import com.example.demo.Graduation.entity.JstreeVO;
 import com.example.demo.Graduation.service.MemberService.MemberSerice;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 
+import com.example.demo.Graduation.service.OderService.OderItemService;
 import com.example.demo.Graduation.service.OderService.OderService;
 import com.example.demo.Graduation.service.PetService.PetFoodService;
 import com.example.demo.Graduation.service.PetService.PetFosterService;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +48,8 @@ public class LoginController {
     private PetFosterService petFosterService;
     @Autowired
     private PetJewelryService petJewelryService;
+    @Autowired
+    private OderItemService oderItemService;
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -127,12 +131,14 @@ public class LoginController {
         int petfoodmumber = petFoodService.PetFoodNumber();//宠物食品
         int petfostermumber = petFosterService.FindUnfinishedPetFosterMumber();//未完成的宠物寄养
         int petjewelrymumber = petJewelryService.PetjewelryNumber();//宠物饰品
-        Map<String, Integer> maplist = new HashMap<String, Integer>();
-        maplist.put("unprocessedoder", unprocessedoder);
-        maplist.put("membernumber", membernumber);
-        maplist.put("petfoodmumber", petfoodmumber);
-        maplist.put("petfostermumber", petfostermumber);
-        maplist.put("petjewelrymumber", petjewelrymumber);
+        BigDecimal toDaysales = oderItemService.ToDaySales();//今日销售
+        Map<String, String> maplist = new HashMap<String, String>();
+        maplist.put("unprocessedoder", String.valueOf(unprocessedoder));
+        maplist.put("membernumber", String.valueOf(membernumber));
+        maplist.put("petfoodmumber", String.valueOf(petfoodmumber));
+        maplist.put("petfostermumber", String.valueOf(petfostermumber));
+        maplist.put("petjewelrymumber", String.valueOf(petjewelrymumber));
+        maplist.put("todaysales", String.valueOf(toDaysales));
         return maplist;
     }
 }

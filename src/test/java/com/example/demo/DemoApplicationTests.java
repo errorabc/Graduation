@@ -8,6 +8,7 @@ import org.apache.shiro.util.ByteSource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,11 @@ class DemoApplicationTests {
 
     @Test
     void contextLoads() throws ParseException {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String starttime = format.format(new Date());
+        String endtime = format.format(new Date());
+        System.out.println(starttime+" "+"00:00:00");
+        System.out.println(endtime+" "+"23:59:59");
 
     }
 

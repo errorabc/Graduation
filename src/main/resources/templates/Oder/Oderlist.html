@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-L-admin1.0</title>
+    <title>订单管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -19,9 +19,9 @@
 <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="">首页</a>
-        <a href="">演示</a>
+        <a href="">报表与订单</a>
         <a>
-          <cite>导航元素</cite></a>
+          <cite>订单管理</cite></a>
       </span>
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
        href="javascript:location.replace(location.href);" title="刷新">
@@ -46,6 +46,8 @@
                 <select name="status" id="selectstatus">
                     <option value="0">未支付</option>
                     <option value="1">支付成功</option>
+                    <option value="2">退款失败</option>
+                    <option value="3">退款成功</option>
                 </select>
             </div>
             <input type="text" name="member_name" placeholder="请输入会员名" autocomplete="off" class="layui-input"
@@ -68,6 +70,7 @@
             <th>支付方式</th>
             <th>订单状态</th>
             <th>最终支付</th>
+            <th>退款金额</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -88,8 +91,15 @@
                 <button type="button" class="layui-btn layui-btn-warm" th:if="${oder.status} eq 1  "
                         th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">支付成功
                 </button>
+                <button type="button" class="layui-btn layui-btn-danger" th:if="${oder.status} eq 1  "
+                        th:onclick="ReFund([[${oder.oder_no}]],[[${oder.status}]])">申请退款
+                </button>
+                <button type="button" class="layui-btn layui-btn-normal" th:if="${oder.status} eq 3  ">退款成功
+                </button>
+
             </td>
             <td th:text="${oder.final_payment}"></td>
+            <td th:text="${oder.refundmoney}"></td>
             <td class="td-manage">
                 <a title="查看" th:onclick="DetailsOder([[${oder.oder_no}]])">
                     <i class="layui-icon">&#xe63c;</i>
@@ -201,6 +211,18 @@
                 }
 
             });
+        });
+    }
+
+    function ReFund(id, status) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['1000px', '800px']
+            , title: '申请退款' + '-' + id
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/oderinfo/GetReFund?oder_no=' + id
         });
     }
 </script>

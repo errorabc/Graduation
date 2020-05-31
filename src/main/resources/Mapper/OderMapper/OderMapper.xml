@@ -14,6 +14,7 @@
         <result property="update_time" column="update_time" jdbcType="DATE"></result>
         <result property="remark" column="remark" jdbcType="VARCHAR"></result>
         <result property="final_payment" column="final_payment" jdbcType="DECIMAL"></result>
+        <result property="refundmoney" column="refundmoney" jdbcType="DECIMAL"></result>
         <association property="oderi" javaType="com.example.demo.Graduation.entity.OderItemEntity">
             <id property="id" column="id" jdbcType="VARCHAR"></id>
             <result property="member_name" column="member_name" jdbcType="VARCHAR"></result>
@@ -36,6 +37,10 @@
     <!--处理订单-->
     <update id="HandleOder">
      update oderinfo set status=#{status},payment_time=#{payment_time},payment_type=#{payment_type},final_payment=#{final_payment},remark=#{remark}   where oder_no=#{oder_no}
+    </update>
+    <!--申请退款-->
+    <update id="ApplyRefund">
+    UPDATE oderinfo  SET  status=#{status},refundmoney=#{refundmoney},refundremark=#{refundremark} WHERE oder_no=#{oder_no}
     </update>
 
     <!--查询总订单-->
@@ -80,6 +85,11 @@
     <!--查询未处理的订单数量-->
     <select id="FindUnprocessedOderNumber" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM oderinfo WHERE  status=0
+    </select>
+    
+    <!--今日销售-->
+    <select id="ToDaySales" resultType="java.math.BigDecimal">
+        SELECT SUM(payment) FROM oderinfo  where  status=1 and payment_time>=#{starttime}  AND  payment_time &lt;=#{endtime}
     </select>
 
 

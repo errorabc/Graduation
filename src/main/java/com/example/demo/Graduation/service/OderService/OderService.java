@@ -85,5 +85,21 @@ public class OderService {
         return unprocessedoder;
     }
 
+    //申请退款
+    public Result ReFund(OderEntity oderEntity) {
+        OderEntity oderEntity1 = oderDao.IdFindOderInfo(oderEntity.getOder_no());
+        oderEntity.setStatus(3);
+        if (oderEntity.getRefundmoney().compareTo(oderEntity1.getFinal_payment()) == 1) {
+            return Result.error(0, "退款金额不能超过最终支付金额");
+        } else {
+            if (oderDao.ApplyRefund(oderEntity)) {
+                return Result.success(1, "退款成功");
+            } else {
+                return Result.error(0, "退款失败");
+            }
+
+        }
+    }
+
 
 }

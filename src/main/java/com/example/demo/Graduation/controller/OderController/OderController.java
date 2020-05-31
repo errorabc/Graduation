@@ -1,5 +1,6 @@
 package com.example.demo.Graduation.controller.OderController;
 
+import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.entity.MemberEntity;
 import com.example.demo.Graduation.entity.OderEntity;
 import com.example.demo.Graduation.entity.Result;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Vector;
 
 @Controller
@@ -55,7 +57,6 @@ public class OderController {
     //跳转到批量处理订单界面
     @GetMapping(value = "/GetHandleMultipleOder")
     public String GetHandleMultipleOder(@RequestParam("datas") Vector datas) {
-        System.out.println(datas);
         return "Oder/handlemultipleoder";
     }
 
@@ -79,6 +80,21 @@ public class OderController {
     }
 
 
-    //跳转到批量处理订单界面
+    //跳转到退款申请界面
+    @GetMapping(value = "/GetReFund")
+    public String GetReFund(@RequestParam("oder_no") String oder_no, Model model) {
+        OderEntity oderEntity = oderService.IdFindOderInfo(oder_no);
+        VipinfoEntity vipinfoEntity = memberSerice.NameFindMemberInfo(oderEntity.getMember_name().trim());
+        model.addAttribute("oder", oderEntity);
+        model.addAttribute("vip", vipinfoEntity);
+        return "Oder/refund";
+    }
 
+    @LogAop("退款申请")
+    @PostMapping(value = "/ReFund")
+    @ResponseBody
+    public Result ReFund(OderEntity oderEntity) {
+        Result result = oderService.ReFund(oderEntity);
+        return result;
+    }
 }

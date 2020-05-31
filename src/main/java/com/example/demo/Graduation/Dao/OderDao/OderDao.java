@@ -4,6 +4,7 @@ import com.example.demo.Graduation.entity.OderEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
@@ -31,4 +32,11 @@ public interface OderDao {
 
     //查询未处理的订单数量
     int FindUnprocessedOderNumber();
+
+
+    //今日销售金额
+    BigDecimal ToDaySales(@Param("starttime") String starttime, @Param("endtime") String endtime);
+
+    //申请退款
+    boolean ApplyRefund(OderEntity oderEntity);
 }

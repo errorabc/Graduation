@@ -19,6 +19,24 @@ public class OderEntity {
     private String endtime;//结束时间
     private OderItemEntity oderi;
     private BigDecimal final_payment;//最终支付
+    private BigDecimal refundmoney;//退款金额
+    private String refundremark;//退款备注
+
+    public String getRefundremark() {
+        return refundremark;
+    }
+
+    public void setRefundremark(String refundremark) {
+        this.refundremark = refundremark;
+    }
+
+    public BigDecimal getRefundmoney() {
+        return refundmoney;
+    }
+
+    public void setRefundmoney(BigDecimal refundmoney) {
+        this.refundmoney = refundmoney;
+    }
 
     public BigDecimal getFinal_payment() {
         return final_payment;
