@@ -44,15 +44,17 @@
             </div>
             <div class="layui-input-inline">
                 <select name="status" id="selectstatus">
-                    <option value="0">未支付</option>
+                    <option value="0">所有支付</option>
+                    <option value="10">未支付</option>
                     <option value="1">支付成功</option>
                     <option value="2">退款失败</option>
                     <option value="3">退款成功</option>
                 </select>
             </div>
-            <input type="text" name="member_name" placeholder="请输入会员名" autocomplete="off" class="layui-input"
+            <input type="text" name="member_name" id="member_name" placeholder="请输入会员名" autocomplete="off"
+                   class="layui-input"
                    th:value="${sreachcondition.member_name}">
-            <input type="text" name="oder_no" placeholder="请输入订单号" autocomplete="off" class="layui-input"
+            <input type="text" name="oder_no" id="oder_no" placeholder="请输入订单号" autocomplete="off" class="layui-input"
                    th:value="${sreachcondition.oder_no}">
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
@@ -85,7 +87,7 @@
             <td th:text="${oder.member_name}"></td>
             <td th:text="${oder.payment_type}"></td>
             <td>
-                <button type="button" class="layui-btn layui-btn-normal" th:if="${oder.status} eq 0  "
+                <button type="button" class="layui-btn layui-btn-normal" th:if="${oder.status} eq 10  "
                         th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">未支付
                 </button>
                 <button type="button" class="layui-btn layui-btn-warm" th:if="${oder.status} eq 1  "
@@ -104,7 +106,7 @@
                 <a title="查看" th:onclick="DetailsOder([[${oder.oder_no}]])">
                     <i class="layui-icon">&#xe63c;</i>
                 </a>
-                <a title="删除" th:onclick="DeleteOder([[oder.oder_no]])">
+                <a title="删除" th:onclick="DeleteOder([[${oder.oder_no}]])">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>
@@ -120,16 +122,31 @@
 <script th:inline="javascript">
     var orderlist = [[${oderlist}]];
     var oder = [[${sreachcondition}]];
+    console.log(oder)
     $('#selectoder_type').find('option[value=' + oder.oder_type + ']').prop('selected', true);
     $('#selectstatus').find('option[value=' + oder.status + ']').prop('selected', true);
 
+    var starttime = $('#starttime').val();
+    var endtime = $('#endtime').val();
+    var member_name = $('#member_name').val();
+    var oder_no = $('#oder_no').val();
+    var selectoder_type = $("#selectoder_type").find("option:selected").val();
+    var selectstatus = $("#selectstatus").find("option:selected").val();
+    console.log(starttime)
+    console.log(endtime)
+    console.log(member_name)
+    console.log(oder_no)
+    console.log(selectoder_type)
+    console.log(selectstatus)
     //翻页
     $("#page").paging({
         pageNum: orderlist.pageNum, // 当前页面
         totalNum: orderlist.pages, // 总页码
         totalList: orderlist.total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "/oderinfo?pageNo=" + num;
+            window.location.href = "/oderinfo?pageNo=" + num + "&starttime=" + starttime +
+                "&endtime=" + endtime + "&member_name=" + member_name + "&oder_no=" + oder_no
+                + "&oder_type=" + selectoder_type + "&status=" + selectstatus;
         }
     });
 

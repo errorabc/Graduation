@@ -1,10 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>积分兑换3</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/page.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 </head>
-<body>
-积分兑换
+
+<body class="layui-anim layui-anim-up">
+<div class="x-nav">
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so" th:action="@{/integralexchange}">
+            <div class="layui-input-inline">
+                <select name="type" id="selectoder_type">
+                    <option value="all">所有商品</option>
+                    <option value="食品">食品</option>
+                    <option value="饰品">饰品</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" name="name" placeholder="请输入商品名称" autocomplete="off" class="layui-input"
+                       id="name" th:value="${name}">
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+    <xblock>
+        <button class="layui-btn" th:onclick="addintegral()"><i
+                class="layui-icon"></i>添加
+        </button>
+    </xblock>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>商品类型</th>
+            <th>商品名称</th>
+            <th>兑换积分</th>
+            <th>兑换库存</th>
+            <th>兑换</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="integral : ${integral.list}">
+            <td th:text="${integral.id}"></td>
+            <td th:text="${integral.type}"></td>
+            <td th:text="${integral.name}"></td>
+            <td th:text="${integral.needredeem}"></td>
+            <td th:text="${integral.number}"></td>
+            <td>
+                <button type="button" class="layui-btn layui-btn-normal" th:onclick="addnumber([[${integral.id}]])">补仓
+                </button>
+                <button type="button" class="layui-btn layui-btn-normal" th:onclick="reducenumber([[${integral.id}]])">
+                    减仓
+                </button>
+                <button type="button" class="layui-btn layui-btn-normal" th:onclick="exchange([[${integral.id}]])">兑换
+                </button>
+            </td>
+            <td class="td-manage">
+                <a title="修改" th:onclick="updateintegral([[${integral.id}]])">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" th:onclick="deleteintegral([[${integral.id}]])">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(integral.list)}">
+            <td colspan="9" style="color: red;font-size: 32px;">暂无数据</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page">
+        <div id="page" class="page_div"></div>
+    </div>
+</div>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script th:src="@{/js/pageMe.js}"></script>
+<script th:inline="javascript">
+    var integral = [[${integral}]];
+    var name = $('#name').val().toString().trim();
+    var type = [[${type}]];
+    console.log(type);
+    $('#selectoder_type').find('option[value=' + type + ']').prop('selected', true);
+    //翻页
+    $("#page").paging({
+        pageNum: integral.pageNum, // 当前页面
+        totalNum: integral.pages, // 总页码
+        totalList: integral.total, // 记录总数量
+        callback: function (num) { //回调函数
+            window.location.href = "/integralexchange?pageNo=" + num + "&name=" + name;
+        }
+    });
+
+    /*积分兑换-删除*/
+    function deleteintegral(id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                url: "/integralexchange/DeleteIntegral",
+                async: false,
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        resh()
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+
+            });
+        });
+    }
+
+    //修改
+    function updateintegral(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '修改信息'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/integralexchange/**?id=' + id
+        });
+    }
+
+    //添加
+    function addintegral() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '添加积分兑换'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/integralexchange/GetAddIntegral'
+        });
+    }
+
+    //补仓
+    function addnumber(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '补仓'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/integralexchange/GetAddNumber?id=' + id
+        })
+        ;
+    }
+
+    //减仓
+    function reducenumber(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '减仓'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/integralexchange/GetReduceNumber?id=' + id
+        });
+    }
+
+    //兑换
+    function exchange(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '兑换'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/integralexchange/GetExchange?id=' + id
+        });
+    }
+</script>
 </body>
+
 </html>

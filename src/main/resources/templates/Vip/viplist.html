@@ -58,8 +58,7 @@
         <tr th:each="vip : ${viplist.list}">
             <td th:text="${vip.id}"></td>
             <td th:text="${vip.name}"></td>
-            <td th:text="${vip.discount}">
-            </td>
+            <td th:text="${vip.discount}"></td>
             <td class="td-manage">
                 <button type="button" class="btn btn-info" th:onclick="updatevip([[${vip.id}]])"
                         title="修改" href="javascript:;">修改

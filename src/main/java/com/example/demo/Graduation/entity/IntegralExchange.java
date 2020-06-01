@@ -1,7 +1,7 @@
 package com.example.demo.Graduation.entity;
 
 //积分兑换信息表
-public class Redeeminfo {
+public class IntegralExchange {
 
     private String id;  //商品ID
     private String name;//商品名称

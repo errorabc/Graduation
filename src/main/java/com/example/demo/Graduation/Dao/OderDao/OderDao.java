@@ -39,4 +39,8 @@ public interface OderDao {
 
     //申请退款
     boolean ApplyRefund(OderEntity oderEntity);
+
+
+    //查询商品是否在未处理订单中
+    List<OderEntity> ProductIdFindOderInfo(@Param("product_id")String product_id);
 }

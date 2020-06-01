@@ -10,6 +10,24 @@ public class MemberEntity {
     private BigDecimal balance;//账户余额
     private VipinfoEntity vip;
     private MemberVipEntity mv;
+    private int integral;//会员积分
+    private BigDecimal total_consumption;//总消费
+
+    public BigDecimal getTotal_consumption() {
+        return total_consumption;
+    }
+
+    public void setTotal_consumption(BigDecimal total_consumption) {
+        this.total_consumption = total_consumption;
+    }
+
+    public int getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(int integral) {
+        this.integral = integral;
+    }
 
     public BigDecimal getBalance() {
         return balance;

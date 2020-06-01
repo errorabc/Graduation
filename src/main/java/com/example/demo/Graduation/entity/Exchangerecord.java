@@ -3,7 +3,7 @@ package com.example.demo.Graduation.entity;
 
 import java.util.Date;
 
-//积分兑换信息表
+//积分兑换记录信息表
 public class Exchangerecord {
 
     private String id;//

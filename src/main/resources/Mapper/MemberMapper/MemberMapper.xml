@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.Graduation.Dao.MemberDao.MemberDao">
-
     <resultMap id="member" type="com.example.demo.Graduation.entity.MemberEntity">
         <id property="id" column="id" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="balance" column="balance" jdbcType="DECIMAL"/>
+        <result property="integral" column="integral" jdbcType="INTEGER"/>
+        <result property="total_consumption" column="total_consumption" jdbcType="DECIMAL"/>
         <association property="vip" javaType="com.example.demo.Graduation.entity.VipinfoEntity">
             <id property="id" column="vip.id" jdbcType="VARCHAR"/>
             <result property="name" column="vip.name" jdbcType="VARCHAR"/>
@@ -21,7 +22,7 @@
     </resultMap>
     <!--添加会员-->
     <insert id="AddMember">
-        INSERT INTO memberinfo VALUES(#{id},#{name},#{phone},#{email})
+        INSERT INTO memberinfo(id,name,phone,email) VALUES(#{id},#{name},#{phone},#{email})
     </insert>
     <!--添加会员与VIP信息关联-->
     <insert id="AddMemberVip">
@@ -91,6 +92,15 @@
     <!--修改余额-->
     <update id="Recharge">
     update memberinfo set balance=#{money} where id=#{id} and name=#{name}
+    </update>
+
+    <!--修改积分-->
+    <update id="UpdateIntegral">
+         update memberinfo set integral=#{integral} where id=#{id} and name=#{name}
+    </update>
+    <!--修改总余额-->
+    <update id="UpdateTotalConsumption">
+    update memberinfo set total_consumption=#{money} where id=#{id} and name=#{name}
     </update>
 
 

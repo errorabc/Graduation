@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.MemberDao.IntegralDao">
+    <!--添加积分兑换-->
+    <insert id="AddIntegral">
+        INSERT INTO redeeminfo VALUES(#{id},#{name},#{type},#{needredeem},#{number})
+    </insert>
+    <!--修改库存数量-->
+    <update id="UpdateNumber">
+        UPDATE redeeminfo SET number=#{number} WHERE id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="DeleteIntegral">
+     DELETE FROM redeeminfo WHERE id=#{id}
+    </delete>
+
+    <select id="FinAllIntegralInfo" resultType="com.example.demo.Graduation.entity.IntegralExchange">
+        SELECT * FROM redeeminfo
+        <where>
+            <if test="name!='' and name!=null">
+                AND name like concat('%',#{name},'%')
+            </if>
+            <if test="type!='all' and type!=null and type!=''">
+                AND type=#{type}
+            </if>
+        </where>
+    </select>
+    <!--id查询积分信息-->
+    <select id="IdFindIntegralExchangeInfo" resultType="com.example.demo.Graduation.entity.IntegralExchange">
+        SELECT * FROM redeeminfo WHERE id=#{id}
+    </select>
+</mapper>

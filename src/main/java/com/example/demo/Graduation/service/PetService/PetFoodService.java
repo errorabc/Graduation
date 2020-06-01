@@ -1,11 +1,14 @@
 package com.example.demo.Graduation.service.PetService;
 
+import com.example.demo.Graduation.Dao.OderDao.OderDao;
 import com.example.demo.Graduation.Dao.PetDao.PetFoodDao;
 import com.example.demo.Graduation.Tool.DateTime;
+import com.example.demo.Graduation.entity.OderEntity;
 import com.example.demo.Graduation.entity.OderItemEntity;
 import com.example.demo.Graduation.entity.PetfoodEntity;
 import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.service.OderService.OderItemService;
+import com.example.demo.Graduation.service.OderService.OderService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,8 @@ public class PetFoodService {
     private PetFoodDao petFoodDao;
     @Autowired
     private OderItemService oderItemService;
+    @Autowired
+    private OderDao oderDao;
 
     //查询
     public PageInfo<PetfoodEntity> FindAllPetFoodInfo(int PageNo, int PageSzie, PetfoodEntity petfoodEntity) {
@@ -57,15 +62,21 @@ public class PetFoodService {
     //删除食品信息
     public Result DeletePetFood(String id) {
         PetfoodEntity petfoodEntity = petFoodDao.IdFindPetFoodInfo(id);
-        if (petfoodEntity.getFoodnumber() == 0) {
-            if (petFoodDao.DeletePetFood(id)) {
-                return Result.success(1, "删除成功");
-            } else {
-                return Result.error(0, "删除失败");
-            }
+        List<OderEntity> oderlist = oderDao.ProductIdFindOderInfo(id);
+        if (oderlist.size() > 0) {
+            return Result.error(0, "此商品在未处理订单中,不可被删除");
         } else {
-            return Result.error(0, "库存没有清空为0,无法删除");
+            if (petfoodEntity.getFoodnumber() == 0) {
+                if (petFoodDao.DeletePetFood(id)) {
+                    return Result.success(1, "删除成功");
+                } else {
+                    return Result.error(0, "删除失败");
+                }
+            } else {
+                return Result.error(0, "库存没有清空为0,无法删除");
+            }
         }
+
     }
 
     //根绝ID查询食品信息

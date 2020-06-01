@@ -24,8 +24,7 @@ public interface OderItemDao {
 
     List<ProducttypeSaleEchatrs>   ProducttypeFindSaleEchatrsTime(@Param("product_type")String product_type,@Param("startime")String startime,@Param("endtime")String endtime);
 
-
-
+    OderItemEntity IdFindOderItemInfo(@Param("oder_no")String oder_no);
 
 
 

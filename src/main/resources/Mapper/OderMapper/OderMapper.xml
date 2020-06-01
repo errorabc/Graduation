@@ -52,7 +52,7 @@
             <if test="oder_type!='all' and oder_type!=null and oder_type!=''">
                 and oder.oder_type=#{oder_type}
             </if>
-            <if test="status!='' and status!=null">
+            <if test="status!='' and status!=null and status!='0'">
                 and oder.status=#{status}
             </if>
             <if test="member_name!='' and member_name!=null">
@@ -84,12 +84,20 @@
     </select>
     <!--查询未处理的订单数量-->
     <select id="FindUnprocessedOderNumber" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM oderinfo WHERE  status=0
+        SELECT COUNT(*) FROM oderinfo WHERE  status=10
     </select>
     
     <!--今日销售-->
     <select id="ToDaySales" resultType="java.math.BigDecimal">
         SELECT SUM(payment) FROM oderinfo  where  status=1 and payment_time>=#{starttime}  AND  payment_time &lt;=#{endtime}
+    </select>
+    <!--查询商品是否在未处理订单中-->
+    <select id="ProductIdFindOderInfo" resultType="com.example.demo.Graduation.entity.OderEntity">
+        SELECT oder.*
+        FROM oderinfo as oder
+        JOIN oderitem as oderi
+        on oder.oder_no=oderi.oder_no
+        WHERE  oder.status=10 and oderi.product_id=#{product_id}
     </select>
 
 

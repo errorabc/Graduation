@@ -51,5 +51,11 @@ public interface MemberDao {
     //会员余额充值
     boolean Recharge(@Param("id") String id, @Param("name") String name, @Param("money") BigDecimal money);
 
+    //修改积分
+    boolean UpdateIntegral(@Param("id") String id, @Param("name") String name, @Param("integral") int integral);
+
+    //修改总消费
+    boolean UpdateTotalConsumption(@Param("id") String id, @Param("name") String name, @Param("money") BigDecimal money);
+
 
 }

@@ -82,6 +82,10 @@ values(#{id},#{member_name},#{oder_no},#{product_id},#{product_name},#{product_t
         </where>
         GROUP BY odr.payment_time,odr.final_payment
     </select>
+    <!--订单ID查询子订单信息-->
+    <select id="IdFindOderItemInfo" resultType="com.example.demo.Graduation.entity.OderItemEntity">
+    SELECT * FROM oderitem WHERE oder_no=#{oder_no}
+    </select>
 
 
 </mapper>
