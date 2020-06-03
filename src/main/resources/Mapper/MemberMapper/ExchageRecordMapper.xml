@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.MemberDao.ExchageRecordDao">
+
+    <!--添加记录-->
+    <insert id="AddExchageRecord">
+    INSERT INTO exchangerecord VALUES(#{id},#{product_id},#{product_name},#{product_type},#{membername},#{number},#{redeem_time})
+    </insert>
+    <!--查询-->
+    <select id="FindAllExchageRecordInfo" resultType="com.example.demo.Graduation.entity.Exchangerecord">
+        SELECT * FROM exchangerecord
+        <where>
+            <if test="membername!='' and membername!=null">
+             membername  like   concat('%',#{membername},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

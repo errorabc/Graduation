@@ -1,13 +1,20 @@
 package com.example.demo.Graduation.service.MemberService;
 
+import com.example.demo.Graduation.Dao.MemberDao.ExchageRecordDao;
 import com.example.demo.Graduation.Dao.MemberDao.IntegralDao;
+import com.example.demo.Graduation.Dao.MemberDao.MemberDao;
+import com.example.demo.Graduation.Tool.DateTime;
+import com.example.demo.Graduation.entity.Exchangerecord;
 import com.example.demo.Graduation.entity.IntegralExchange;
+import com.example.demo.Graduation.entity.MemberEntity;
 import com.example.demo.Graduation.entity.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +22,10 @@ import java.util.UUID;
 public class IntegralExchangeService {
     @Autowired
     private IntegralDao integralDao;
+    @Autowired
+    private MemberDao memberDao;
+    @Autowired
+    private ExchageRecordDao exchageRecordDao;
 
     //查询
     public PageInfo<IntegralExchange> FinAllIntegralInfo(int pageNo, int pageSize, IntegralExchange integralExchange) {
@@ -80,5 +91,43 @@ public class IntegralExchangeService {
         } else {
             return Result.error(0, "库存没清空,无法删除");
         }
+    }
+
+
+    //积分兑换
+    public Result Exchange(String id, String member_name, int number) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        IntegralExchange integralExchange = integralDao.IdFindIntegralExchangeInfo(id);
+        MemberEntity memberEntity = memberDao.NameFindMemberInfo(member_name.trim());
+        if (null != memberEntity) {//判断是否为会员
+            if (number > integralExchange.getNumber()) {//判断库存数量
+                return Result.error(0, "库存不足");
+            } else {
+                if ((number * integralExchange.getNeedredeem()) > memberEntity.getIntegral()) {//判断积分是否充足
+                    return Result.error(0, "积分不足");
+                } else {
+                    //扣除积分
+                    memberDao.UpdateIntegral(id, member_name, memberEntity.getIntegral() - (number * integralExchange.getNeedredeem()));
+                    Exchangerecord exchangerecord = new Exchangerecord();
+                    exchangerecord.setId(UUID.randomUUID().toString());
+                    exchangerecord.setMembername(member_name);
+                    exchangerecord.setNumber(number);
+                    exchangerecord.setProduct_id(integralExchange.getId());
+                    exchangerecord.setProduct_name(integralExchange.getName());
+                    exchangerecord.setProduct_type(integralExchange.getType());
+                    exchangerecord.setRedeem_time(DateTime.strToDateLong(df.format(new Date())));
+                    exchangerecord.setRedeemintegral(number * integralExchange.getNeedredeem());
+                    //保存兑换记录
+                    exchageRecordDao.AddExchageRecord(exchangerecord);
+                    //减少库存
+                    integralDao.UpdateNumber(id, integralExchange.getNumber() - number);
+                    return Result.success(1, "兑换成功");
+                }
+
+            }
+        } else {
+            return Result.error(0, "非会员不能兑换");
+        }
+
     }
 }

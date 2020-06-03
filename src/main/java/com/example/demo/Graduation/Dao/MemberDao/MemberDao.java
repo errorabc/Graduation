@@ -58,4 +58,5 @@ public interface MemberDao {
     boolean UpdateTotalConsumption(@Param("id") String id, @Param("name") String name, @Param("money") BigDecimal money);
 
 
+
 }

@@ -9,6 +9,9 @@
     <update id="UpdateNumber">
         UPDATE redeeminfo SET number=#{number} WHERE id=#{id}
     </update>
+
+    <update id="Exchange"></update>
+
     <!--删除-->
     <delete id="DeleteIntegral">
      DELETE FROM redeeminfo WHERE id=#{id}

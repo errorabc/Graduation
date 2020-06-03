@@ -83,7 +83,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="exchangemember" name="exchangemember"
-                       autocomplete="off" class="layui-input" lay-verify="required|reducenumber">
+                       autocomplete="off" class="layui-input" lay-verify="required|exchangemember">
             </div>
         </div>
 
@@ -102,18 +102,19 @@
         //自定义验证规则
         form.verify({
             reducenumber: [/(^[1-9]\d*$)/, '数量只能为正整数'],
+            reducemember: [/.*[0-9]{1,}.*/, '会员名中要带有数字']
         });
 
         //监听提交
         form.on('submit(add)', function (data) {
             $.ajax({
-                url: "/integralexchange/ReduceNumber",
+                url: "/integralexchange/exchange",
                 type: "post",
                 anys: false,
                 data: {
                     id: data.field.id.replace(/\s*/g, ""),
-                    exchangenumber: data.field.exchangenumber.replace(/\s*/g, ""),
-                    exchangemember: data.field.exchangemember.replace(/\s*/g, "")
+                    number:data.field.exchangenumber.replace(/\s*/g, ""),
+                    member_name:data.field.exchangemember.replace(/\s*/g, "")
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});

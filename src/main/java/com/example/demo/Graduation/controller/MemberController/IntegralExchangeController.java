@@ -87,8 +87,17 @@ public class IntegralExchangeController {
     @PostMapping(value = "/DeleteIntegral")
     @ResponseBody
     public Result DeleteIntegral(@RequestParam("id") String id) {
-        Result result=integralExchangeService.DeleteIntegral(id);
+        Result result = integralExchangeService.DeleteIntegral(id);
         return result;
     }
+
+    //积分兑换
+    @PostMapping(value = "/exchange")
+    @ResponseBody
+    public Result exchange(@RequestParam("id") String id, @RequestParam("member_name") String member_name,@RequestParam("number")int number) {
+        Result result = integralExchangeService.Exchange(id,member_name,number);
+        return result;
+    }
+
 
 }

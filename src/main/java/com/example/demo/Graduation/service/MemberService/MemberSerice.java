@@ -134,5 +134,7 @@ public class MemberSerice {
             return Result.error(0, "该会员不存在");
         }
     }
+
+
 }
 

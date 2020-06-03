@@ -1,7 +1,10 @@
 package com.example.demo.Graduation.controller.PetController;
 
+import com.example.demo.Graduation.Tool.SendSms;
+import com.example.demo.Graduation.entity.MemberEntity;
 import com.example.demo.Graduation.entity.PetfosterEntity;
 import com.example.demo.Graduation.entity.Result;
+import com.example.demo.Graduation.service.MemberService.MemberSerice;
 import com.example.demo.Graduation.service.PetService.PetFosterService;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
@@ -18,6 +21,10 @@ import java.text.SimpleDateFormat;
 public class PetFosterController {
     @Autowired
     private PetFosterService petFosterService;
+    @Autowired
+    private SendSms sendSms;
+    @Autowired
+    private MemberSerice memberSerice;
 
     @RequestMapping(value = "")
     public String petfosterlist(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize, PetfosterEntity petfosterEntity) {
@@ -99,6 +106,13 @@ public class PetFosterController {
     }
 
 
+    //发送短信
+    @PostMapping(value = "/SendSms")
+    @ResponseBody
+    public Result SendSms(@RequestParam("phone")String phone) {
+        Result result = sendSms.TxSendMessage(phone);
+        return result;
+    }
 
 
 }

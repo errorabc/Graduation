@@ -7,13 +7,21 @@ import java.util.Date;
 public class Exchangerecord {
 
     private String id;//
-    private String productId;//商品ID
-    private String productName;//商品名称
-    private String productType;//商品类型
+    private String product_id;//商品ID
+    private String product_name;//商品名称
+    private String product_type;//商品类型
     private String membername;//兑换会员名
     private int number;//兑换数量
-    private Date redeemTime;//兑换时间
+    private Date redeem_time;//兑换时间
+    private int redeemintegral;//兑换积分
 
+    public int getRedeemintegral() {
+        return redeemintegral;
+    }
+
+    public void setRedeemintegral(int redeemintegral) {
+        this.redeemintegral = redeemintegral;
+    }
 
     public String getId() {
         return id;
@@ -23,33 +31,29 @@ public class Exchangerecord {
         this.id = id;
     }
 
-
-    public String getProductId() {
-        return productId;
+    public String getProduct_id() {
+        return product_id;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
     }
 
-
-    public String getProductName() {
-        return productName;
+    public String getProduct_name() {
+        return product_name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
-
-    public String getProductType() {
-        return productType;
+    public String getProduct_type() {
+        return product_type;
     }
 
-    public void setProductType(String productType) {
-        this.productType = productType;
+    public void setProduct_type(String product_type) {
+        this.product_type = product_type;
     }
-
 
     public String getMembername() {
         return membername;
@@ -67,11 +71,11 @@ public class Exchangerecord {
         this.number = number;
     }
 
-    public Date getRedeemTime() {
-        return redeemTime;
+    public Date getRedeem_time() {
+        return redeem_time;
     }
 
-    public void setRedeemTime(Date redeemTime) {
-        this.redeemTime = redeemTime;
+    public void setRedeem_time(Date redeem_time) {
+        this.redeem_time = redeem_time;
     }
 }

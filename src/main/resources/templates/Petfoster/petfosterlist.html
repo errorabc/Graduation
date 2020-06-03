@@ -72,9 +72,10 @@
             <td>
                 <button type="button" class="layui-btn layui-btn-warm" th:if="${petfoster.state} eq  1">寄养结束
                 </button>
-                <button type="button" class="layui-btn layui-btn-warm" th:if="${petfoster.state} eq  0"
+                <button type="button" class="layui-btn layui-btn-normal" th:if="${petfoster.state} eq  0"
                         th:onclick="StopFoster([[${petfoster.id}]])">寄养中
                 </button>
+                <button type="button" class="layui-btn layui-btn-danger" th:if="${petfoster.state} eq  0" th:onclick="SendSms([[${petfoster.feederphone}]])">发送短信</button>
             </td>
             <td class="td-manage">
                 <a title="修改" th:onclick="updatepetfoster([[${petfoster.id}]])">
@@ -169,6 +170,29 @@
                 type: 'post',
                 data: {
                     id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        resh()
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+
+            });
+        });
+    }
+
+    //发送短信
+    function SendSms(phone) {
+        layer.confirm('您确认要发送短信吗？', function (index) {
+            $.ajax({
+                url: "/petfoster/SendSms",
+                async: false,
+                type: 'post',
+                data: {
+                    phone: phone
                 },
                 success: function (result) {
                     if (result.code == "1") {

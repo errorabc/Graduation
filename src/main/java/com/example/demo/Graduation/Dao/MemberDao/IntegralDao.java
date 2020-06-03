@@ -18,7 +18,10 @@ public interface IntegralDao {
     IntegralExchange IdFindIntegralExchangeInfo(@Param("id") String id);
 
     //补仓
-    boolean UpdateNumber(@Param("id") String id,@Param("number")int number);
+    boolean UpdateNumber(@Param("id") String id, @Param("number") int number);
 
+    //删除积分兑换信息
     boolean DeleteIntegral(@Param("id") String id);
+
+    boolean Exchange(@Param("id") String id,@Param("member_name") String member_name);
 }
