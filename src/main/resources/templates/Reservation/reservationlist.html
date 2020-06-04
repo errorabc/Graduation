@@ -1,10 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>预约管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/css/page.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 </head>
-<body>
 
+<body class="layui-anim layui-anim-up">
+<div class="x-nav">
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so" th:action="@{/reservation}">
+            <div class="layui-input-inline">
+                <input type="text" name="name" placeholder="请输入会员名" autocomplete="off" class="layui-input"
+                       id="name" th:value="${name}">
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>预约人</th>
+            <th>预约类型</th>
+            <th>预约时间</th>
+            <th>预约内容</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${reservation.list}">
+            <td th:text="${reservation.id}"></td>
+            <td th:text="${reservation.reservation_name}"></td>
+            <td th:text="${reservation.reservation_type}"></td>
+            <td th:text="${#dates.format(reservation.reservation_time,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${reservation.reservation_content}"></td>
+            <td >
+                <button type="button" class="layui-btn layui-btn-normal" th:if="${reservation.status} eq 0">未处理</button>
+                <button type="button" class="layui-btn layui-btn-warm" th:if="${reservation.status} eq 1">处理完成</button>
+            </td>
+            <td>
+                <a title="详情" th:onclick="detailsreservation([[${reservation.id}]])">
+                    <i class="layui-icon"> &#xe63c;</i>
+                </a>
+                <a title="修改" th:onclick="updatereservation([[${reservation.id}]])">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" th:onclick="deletereservation([[${reservation.id}]])">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(reservation.list)}">
+            <td colspan="9" style="color: red;font-size: 32px;">暂无数据</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page">
+        <div id="page" class="page_div"></div>
+    </div>
+</div>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script th:src="@{/js/pageMe.js}"></script>
+<script th:inline="javascript">
+    var reservation = [[${reservation}]];
+    var name = $('#name').val().toString().trim();
+    //翻页
+    $("#page").paging({
+        pageNum: reservation.pageNum, // 当前页面
+        totalNum: reservation.pages, // 总页码
+        totalList: reservation.total, // 记录总数量
+        callback: function (num) { //回调函数
+            window.location.href = "/reservation?pageNo=" + num + "&name=" + name;
+        }
+    });
+</script>
 </body>
+
 </html>
