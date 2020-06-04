@@ -17,12 +17,6 @@
 
 <body>
 <div class="x-nav">
-      <span class="layui-breadcrumb">
-        <a href="">首页</a>
-        <a href="">报表与订单</a>
-        <a>
-          <cite>订单管理</cite></a>
-      </span>
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
        href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
@@ -30,10 +24,12 @@
 <div class="x-body">
     <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so" th:action="@{/oderinfo}">
+            <div class="layui-input-inline">
             <input class="layui-input" placeholder="开始日" name="starttime" id="starttime" autocomplete="off"
                    th:value="${sreachcondition.starttime}">
             <input class="layui-input" placeholder="截止日" name="endtime" id="endtime" autocomplete="off"
                    th:value="${sreachcondition.endtime}">
+            </div>
             <div class="layui-input-inline">
                 <select name="oder_type" id="selectoder_type">
                     <option value="all">所有订单</option>
@@ -51,11 +47,16 @@
                     <option value="3">退款成功</option>
                 </select>
             </div>
-            <input type="text" name="member_name" id="member_name" placeholder="请输入会员名" autocomplete="off"
-                   class="layui-input"
-                   th:value="${sreachcondition.member_name}">
-            <input type="text" name="oder_no" id="oder_no" placeholder="请输入订单号" autocomplete="off" class="layui-input"
-                   th:value="${sreachcondition.oder_no}">
+            <div class="layui-input-inline">
+                <input type="text" name="member_name" id="member_name" placeholder="请输入会员名" autocomplete="off"
+                       class="layui-input"
+                       th:value="${sreachcondition.member_name}">
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" name="oder_no" id="oder_no" placeholder="请输入订单号" autocomplete="off"
+                       class="layui-input"
+                       th:value="${sreachcondition.oder_no}">
+            </div>
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
@@ -104,7 +105,7 @@
             <td th:text="${oder.refundmoney}"></td>
             <td class="td-manage">
                 <a title="查看" th:onclick="DetailsOder([[${oder.oder_no}]])">
-                    <i class="layui-icon">&#xe63c;</i>
+                    <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a title="删除" th:onclick="DeleteOder([[${oder.oder_no}]])">
                     <i class="layui-icon">&#xe640;</i>
@@ -122,7 +123,6 @@
 <script th:inline="javascript">
     var orderlist = [[${oderlist}]];
     var oder = [[${sreachcondition}]];
-    console.log(oder)
     $('#selectoder_type').find('option[value=' + oder.oder_type + ']').prop('selected', true);
     $('#selectstatus').find('option[value=' + oder.status + ']').prop('selected', true);
 
@@ -132,12 +132,6 @@
     var oder_no = $('#oder_no').val();
     var selectoder_type = $("#selectoder_type").find("option:selected").val();
     var selectstatus = $("#selectstatus").find("option:selected").val();
-    console.log(starttime)
-    console.log(endtime)
-    console.log(member_name)
-    console.log(oder_no)
-    console.log(selectoder_type)
-    console.log(selectstatus)
     //翻页
     $("#page").paging({
         pageNum: orderlist.pageNum, // 当前页面

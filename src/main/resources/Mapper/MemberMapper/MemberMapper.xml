@@ -22,7 +22,7 @@
     </resultMap>
     <!--添加会员-->
     <insert id="AddMember">
-        INSERT INTO memberinfo(id,name,phone,email) VALUES(#{id},#{name},#{phone},#{email})
+        INSERT INTO memberinfo(id,name,phone,email,total_consumption) VALUES(#{id},#{name},#{phone},#{email},#{total_consumption})
     </insert>
     <!--添加会员与VIP信息关联-->
     <insert id="AddMemberVip">

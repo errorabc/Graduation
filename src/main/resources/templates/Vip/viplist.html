@@ -13,17 +13,6 @@
     <script th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
-    <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body class="layui-anim layui-anim-up">
@@ -51,6 +40,7 @@
             <th>ID</th>
             <th>VIP名称</th>
             <th>折扣</th>
+            <th>年最低消费</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -59,13 +49,14 @@
             <td th:text="${vip.id}"></td>
             <td th:text="${vip.name}"></td>
             <td th:text="${vip.discount}"></td>
+            <td th:text="${vip.miconsumption}"></td>
             <td class="td-manage">
-                <button type="button" class="btn btn-info" th:onclick="updatevip([[${vip.id}]])"
-                        title="修改" href="javascript:;">修改
-                </button>
-                <button type="button" class="btn btn-danger" th:onclick="deletevip([[${vip.id}]])"
-                        href="javascript:;">删除
-                </button>
+                <a title="修改" th:onclick="updatevip([[${vip.id}]])">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" th:onclick="deletevip([[${vip.id}]])">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(viplist.list)}">

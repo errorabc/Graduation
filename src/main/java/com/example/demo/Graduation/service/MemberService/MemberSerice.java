@@ -34,7 +34,9 @@ public class MemberSerice {
 
     //添加会员
     public Result AddMember(MemberEntity memberEntity, String vipid) {
+        VipinfoEntity vip = vipDao.IdFindVipInfo(vipid);
         memberEntity.setId(UUID.randomUUID().toString());
+        memberEntity.setTotal_consumption(vip.getMiconsumption());
         if (memberDao.AddMember(memberEntity) && memberDao.AddMemberVip(UUID.randomUUID().toString(), vipid, memberEntity.getId())) {
             return Result.success(1, "添加成功");
         } else {
@@ -71,15 +73,20 @@ public class MemberSerice {
     //修改会员信息
     public Result UpdateMember(MemberEntity memberEntity, String vipid) {
         MemberEntity member = memberDao.VerificationMemberName(memberEntity.getName().trim());
+        VipinfoEntity vip = vipDao.IdFindVipInfo(vipid);
         if (null != member) {
-            if (member.getId().equals(memberEntity.getId())) {
-                if (memberDao.UpdateMember(memberEntity) && memberDao.UpdateMemberVip(vipid, memberEntity.getId())) {
-                    return Result.success(1, "修改成功");
+            if (member.getTotal_consumption().compareTo(vip.getMiconsumption()) > -1) {
+                if (member.getId().equals(memberEntity.getId())) {
+                    if (memberDao.UpdateMember(memberEntity) && memberDao.UpdateMemberVip(vipid, memberEntity.getId())) {
+                        return Result.success(1, "修改成功");
+                    } else {
+                        return Result.error(0, "修改失败");
+                    }
                 } else {
-                    return Result.error(0, "修改失败");
+                    return Result.error(0, "该账号已存在");
                 }
             } else {
-                return Result.error(0, "该账号已存在");
+                return Result.error(0, "消费额不够，无法提升会员等级");
             }
         } else {
             if (memberDao.UpdateMember(memberEntity) && memberDao.UpdateMemberVip(vipid, memberEntity.getId())) {

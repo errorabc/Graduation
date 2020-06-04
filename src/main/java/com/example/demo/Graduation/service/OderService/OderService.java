@@ -52,6 +52,7 @@ public class OderService {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         oderEntity.setStatus(1);
         oderEntity.setPayment_time(DateTime.strToDateLong(df.format(new Date())));
+        oderEntity.setUpdate_time(DateTime.strToDateLong(df.format(new Date())));
         MemberEntity memberEntity = memberDao.NameFindMemberInfo(oderEntity.getMember_name());
         if (null != memberEntity) {
             ///会员余额付款
@@ -140,8 +141,10 @@ public class OderService {
 
     //申请退款
     public Result ReFund(OderEntity oderEntity) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         OderEntity oderEntity1 = oderDao.IdFindOderInfo(oderEntity.getOder_no());
         oderEntity.setStatus(3);
+        oderEntity.setUpdate_time(DateTime.strToDateLong(df.format(new Date())));
         if (oderEntity.getRefundmoney().compareTo(oderEntity1.getFinal_payment()) == 1) {
             return Result.error(0, "退款金额不能超过最终支付金额");
         } else {

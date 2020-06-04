@@ -3,18 +3,22 @@
 <mapper namespace="com.example.demo.Graduation.Dao.OderDao.OderItemDao">
     <!--添加-->
     <insert id="AddOderItem">
-insert into oderitem(id,member_name,oder_no,product_id,product_name,product_type,current_oder_price,number,total_price,create_time,update_time)
-values(#{id},#{member_name},#{oder_no},#{product_id},#{product_name},#{product_type},#{current_oder_price},#{number},#{total_price},#{create_time},#{update_time})
+    INSERT INTO oderitem ( id, member_name, oder_no, product_id, product_name, product_type, current_oder_price, number, total_price, create_time, update_time )
+    VALUES
+	(#{id},#{member_name},#{oder_no},#{product_id},#{product_name},#{product_type},#{current_oder_price},#{number},#{total_price},#{create_time},#{update_time})
     </insert>
     <!--查询-->
     <select id="FindAllOderItemInfo" resultType="com.example.demo.Graduation.entity.OderItemEntity">
-        select * from oderitem
+        select oderitem.* from oderitem
+        join oderinfo
+        on oderinfo.oder_no=oderitem.oder_no
         <where>
+            oderinfo.status!=10
             <if test="starttime!=null and starttime!=''">
                 and oderitem.create_time>=#{starttime}
             </if>
             <if test="endtime!=null and endtime!=''">
-                and oderitem.create_time&lt;=#{endtime}    <!--&lt;等于<-->
+                and oderitem.create_time&lt;=#{endtime}
             </if>
             <if test="member_name!='' and member_name!=null">
                 and oderitem.member_name=#{member_name}
@@ -22,7 +26,9 @@ values(#{id},#{member_name},#{oder_no},#{product_id},#{product_name},#{product_t
             <if test="product_type!='all' and product_type!=null and product_type!=''">
                 and oderitem.product_type=#{product_type}
             </if>
+
         </where>
+        ORDER BY payment_time DESC
     </select>
 
 

@@ -65,6 +65,7 @@ public class VipService {
     }
 
 
+    //修改VIP信息
     public Result UpdateVip(VipinfoEntity vipinfoEntity) {
         VipinfoEntity VerficationEntity = vipDao.VerificationVipName(vipinfoEntity.getName());
         if (null != vipinfoEntity) {

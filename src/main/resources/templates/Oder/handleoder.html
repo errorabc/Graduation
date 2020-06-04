@@ -12,12 +12,6 @@
     <script src=".." th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/r espond.min.js"></script>
-
-    <![endif]-->
 </head>
 <body>
 <form class="layui-form">
@@ -121,6 +115,7 @@
         </label>
         <div class="layui-input-inline" style="width: 50%">
             <select name="payment_type" id="payment_type">
+                <option value="余额" th:if="!${vip.name} ne 非会员 ">余额</option>
                 <option value="支付宝">支付宝</option>
                 <option value="微信">微信</option>
                 <option value="现金">现金</option>
@@ -150,10 +145,10 @@
 </form>
 </body>
 <script>
-    var foodprice = $('#membervip').val();
+    /*var foodprice = $('#membervip').val();
     if (foodprice!= '非会员') {
         $("#payment_type").append("<option value='余额'>余额</option>"); //为Select追加一个Option(下拉项)
-    }
+    }*/
     layui.use(['form', 'layer'], function () {
         var form = layui.form,
             layer = layui.layer;

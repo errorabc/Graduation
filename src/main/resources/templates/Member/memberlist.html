@@ -56,19 +56,20 @@
             <td th:text="${member.email}"></td>
             <td th:text="${member.vip.name}"></td>
             <td th:text="${member.balance}"></td>
-            <td th:text="${member.balance}"></td>
+            <td th:text="${member.total_consumption}"></td>
             <td th:text="${member.integral}"></td>
             <td class="td-manage">
-                <button type="button" class="layui-btn" th:onclick="updatemember([[${member.id}]])"
-                        title="修改" shiro:hasPermission="member:update">修改
-                </button>
-                <button type="button" class="layui-btn layui-btn-danger" th:onclick="deletemember([[${member.id}]])"
-                        shiro:hasPermission="member:delete">删除
-                </button>
-                <button type="button" class="layui-btn layui-btn-warm" th:onclick="recharge([[${member.id}]])"
-                        shiro:hasPermission="member:recharge">充值
-                </button>
-
+                <a title="修改"  th:onclick="updatemember([[${member.id}]])" shiro:hasPermission="member:update">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" th:onclick="deletemember([[${member.id}]])"
+                   shiro:hasPermission="member:delete">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
+                <a title="充值" th:onclick="recharge([[${member.id}]])"
+                   shiro:hasPermission="member:recharge">
+                    <i class="layui-icon">&#xe65e;</i>
+                </a>
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(memberlist.list)}">

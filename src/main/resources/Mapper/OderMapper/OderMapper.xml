@@ -36,11 +36,11 @@
     </insert>
     <!--处理订单-->
     <update id="HandleOder">
-     update oderinfo set status=#{status},payment_time=#{payment_time},payment_type=#{payment_type},final_payment=#{final_payment},remark=#{remark}   where oder_no=#{oder_no}
+     update oderinfo set status=#{status},payment_time=#{payment_time},payment_type=#{payment_type},final_payment=#{final_payment},remark=#{remark},update_time=#{update_time}  where oder_no=#{oder_no}
     </update>
     <!--申请退款-->
     <update id="ApplyRefund">
-    UPDATE oderinfo  SET  status=#{status},refundmoney=#{refundmoney},refundremark=#{refundremark} WHERE oder_no=#{oder_no}
+    UPDATE oderinfo  SET  status=#{status},refundmoney=#{refundmoney},refundremark=#{refundremark},update_time=#{update_time} WHERE oder_no=#{oder_no}
     </update>
 
     <!--查询总订单-->

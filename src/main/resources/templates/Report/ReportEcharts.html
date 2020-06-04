@@ -2,17 +2,13 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>ECharts</title>
+    <title>报表管理</title>
     <link rel="stylesheet" th:href="@{/css/xadmin.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
     <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
 </head>
 <body>
 <div class="x-nav">
@@ -20,11 +16,9 @@
        href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
 </div>
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div class="layui-row" style="margin-top: 20px;margin-left: 20px">
     <form class="layui-form layui-col-md12 x-so">
         <div>
-            <label style="font-size: 16px">商品类型</label>
             <div class="layui-input-inline">
                 <select id="producttype" name="producttype">
                     <option value="all">所有商品</option>
@@ -33,8 +27,10 @@
                     <option value="宠物饰品">宠物饰品</option>
                 </select>
             </div>
+            <div class="layui-input-inline">
             <input class="layui-input" placeholder="开始日" name="starttime" id="starttime" autocomplete="off" la>
             <input class="layui-input" placeholder="截止日" name="endtime" id="endtime" autocomplete="off">
+            </div>
             <button type="button" class="layui-btn layui-btn-primary" onclick="findsale()">查询</button>
             </button>
         </div>

@@ -6,7 +6,15 @@ public class VipinfoEntity {
     private String id;
     private String name;//VIP名
     private float discount;//折扣
+    private BigDecimal miconsumption;//最低消费
 
+    public BigDecimal getMiconsumption() {
+        return miconsumption;
+    }
+
+    public void setMiconsumption(BigDecimal miconsumption) {
+        this.miconsumption = miconsumption;
+    }
 
     public String getId() {
         return id;
