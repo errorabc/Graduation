@@ -11,4 +11,17 @@ public interface ReservationDao {
     //查询
     List<Reservation> FinAllReservationinfo(@Param("reservation_name") String reservation_name);
 
+    //关闭预告
+    boolean UpdateReservationStatus(@Param("id") String id);
+
+    //删除预告
+    boolean DeleteReservation(@Param("id") String id);
+
+    //ID查询预约信息
+    Reservation IdFindReservation(@Param("id") String id);
+
+
+    //添加
+    boolean AddReservation(Reservation reservation);
+
 }

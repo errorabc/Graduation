@@ -94,8 +94,25 @@ public class IntegralExchangeController {
     //积分兑换
     @PostMapping(value = "/exchange")
     @ResponseBody
-    public Result exchange(@RequestParam("id") String id, @RequestParam("member_name") String member_name,@RequestParam("number")int number) {
-        Result result = integralExchangeService.Exchange(id,member_name,number);
+    public Result exchange(@RequestParam("id") String id, @RequestParam("member_name") String member_name, @RequestParam("number") int number) {
+        Result result = integralExchangeService.Exchange(id, member_name, number);
+        return result;
+    }
+
+
+    //跳转到修改界面
+    @GetMapping(value = "/GetUpdateIntegral")
+    public String GetUpdateIntegral(@RequestParam("id") String id, Model model) {
+        IntegralExchange integralExchange = integralExchangeService.IdFindIntegralExchangeInfo(id);
+        model.addAttribute("integral", integralExchange);
+        return "Integral/Integralupdate";
+    }
+
+    //修改积分兑换
+    @PostMapping(value = "/UpdateIntegral")
+    @ResponseBody
+    public Result UpdateIntegral(@RequestParam("id") String id, @RequestParam("type") String type, @RequestParam("needredeem") int needredeem, @RequestParam("name") String name) {
+        Result result = integralExchangeService.UpdateIntegral(id, type, needredeem, name);
         return result;
     }
 

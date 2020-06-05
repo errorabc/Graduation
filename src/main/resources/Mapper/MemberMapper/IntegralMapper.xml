@@ -11,6 +11,10 @@
     </update>
 
     <update id="Exchange"></update>
+    <!--修改积分兑换-->
+    <update id="UpdateIntegral">
+        UPDATE redeeminfo SET name=#{name},type=#{type},needredeem=#{needredeem} where   id=#{id}
+    </update>
 
     <!--删除-->
     <delete id="DeleteIntegral">

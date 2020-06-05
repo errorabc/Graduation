@@ -31,6 +31,11 @@
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
+    <xblock>
+        <button class="layui-btn" th:onclick="AddReservation()"><i
+                class="layui-icon"></i>添加
+        </button>
+    </xblock>
     <table class="layui-table">
         <thead>
         <tr>
@@ -50,15 +55,17 @@
             <td th:text="${reservation.reservation_type}"></td>
             <td th:text="${#dates.format(reservation.reservation_time,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${reservation.reservation_content}"></td>
-            <td >
-                <button type="button" class="layui-btn layui-btn-normal" th:if="${reservation.status} eq 0">未处理</button>
+            <td>
+                <button type="button" class="layui-btn layui-btn-normal" th:if="${reservation.status} eq 0"
+                        th:onclick="stopreservation([[${reservation.id}]])">未处理
+                </button>
                 <button type="button" class="layui-btn layui-btn-warm" th:if="${reservation.status} eq 1">处理完成</button>
             </td>
             <td>
                 <a title="详情" th:onclick="detailsreservation([[${reservation.id}]])">
                     <i class="layui-icon"> &#xe63c;</i>
                 </a>
-                <a title="修改" th:onclick="updatereservation([[${reservation.id}]])">
+                <a title="修改" th:onclick="updatereservation([[${reservation.id}]],[[${reservation.status}]])">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a title="删除" th:onclick="deletereservation([[${reservation.id}]])">
@@ -89,6 +96,81 @@
             window.location.href = "/reservation?pageNo=" + num + "&name=" + name;
         }
     });
+
+
+    //停止预约
+    function stopreservation(id) {
+        layer.confirm('确认要关闭预约吗？', function (index) {
+            $.ajax({
+                url: "/reservation/StopReservation",
+                async: false,
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        resh()
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+
+            });
+        });
+    }
+
+    //删除
+    function deletereservation(id) {
+        layer.confirm('确认要删除预约吗？', function (index) {
+            $.ajax({
+                url: "/reservation/DeleteReservation",
+                async: false,
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.code == "1") {
+                        layer.msg(result.content, {icon: 1});
+                        resh()
+                    } else {
+                        layer.msg(result.content, {icon: 2});
+                    }
+                }
+
+            });
+        });
+    }
+
+
+    //修改预告
+    function updatereservation(id, status) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '450px']
+            , title: '修改预约'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/reservation/GetUpdateReservation?id=' + id
+        });
+    }
+
+    //添加
+    function AddReservation() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '700px']
+            , title: '添加预约'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/reservation/GetAddReservation'
+        });
+    }
+
 </script>
 </body>
 

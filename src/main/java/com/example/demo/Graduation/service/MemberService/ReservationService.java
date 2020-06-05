@@ -1,13 +1,18 @@
 package com.example.demo.Graduation.service.MemberService;
 
 import com.example.demo.Graduation.Dao.MemberDao.ReservationDao;
+import com.example.demo.Graduation.Tool.DateTime;
 import com.example.demo.Graduation.entity.Reservation;
+import com.example.demo.Graduation.entity.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ReservationService {
@@ -21,4 +26,42 @@ public class ReservationService {
         PageInfo<Reservation> pagelist = new PageInfo<Reservation>(list);
         return pagelist;
     }
+
+
+    //停止预告
+    public Result StopReservation(String id) {
+        if (reservationDao.UpdateReservationStatus(id)) {
+            return Result.success(1, "关闭成功");
+        } else {
+            return Result.error(0, "关闭失败");
+        }
+    }
+
+    //删除预告
+    public Result DeleteReservation(String id) {
+        if (reservationDao.DeleteReservation(id)) {
+            return Result.success(1, "删除成功");
+        } else {
+            return Result.error(0, "删除失败");
+        }
+    }
+
+    //ID查询预告信息
+    public Reservation IdFindReservation(String id) {
+        Reservation reservation = reservationDao.IdFindReservation(id);
+        return reservation;
+    }
+
+    //添加预约
+    public Result AddReservation(Reservation reservation,String time) throws  Exception {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        reservation.setId(UUID.randomUUID().toString());
+        reservation.setReservation_time(df.parse(time));
+        if (reservationDao.AddReservation(reservation)) {
+            return Result.success(1, "添加成功");
+        } else {
+            return Result.error(0, "添加失败");
+        }
+    }
+
 }

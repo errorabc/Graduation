@@ -10,6 +10,15 @@ public class Reservation {
     private String reservation_type;//预约类型
     private String reservation_content;//预约内容
     private int status;//预约状态
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getId() {
         return id;

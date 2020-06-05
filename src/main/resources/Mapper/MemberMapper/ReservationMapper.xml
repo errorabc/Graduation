@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.Graduation.Dao.MemberDao.ReservationDao">
+    <!--添加-->
+    <insert id="AddReservation">
+    INSERT INTO reservationinfo (
+	id,
+	reservation_name,
+	reservation_time,
+    reservation_type,
+    reservation_content) VALUES
+    (#{id},
+    #{reservation_name},
+    #{reservation_time},
+    #{reservation_type},
+    #{reservation_content}
+    )
+    </insert>
+    <!--停止预告-->
+    <update id="UpdateReservationStatus">
+        UPDATE reservationinfo SET status=1  WHERE id=#{id}
+    </update>
+
+    <delete id="DeleteReservation">
+        DELETE FROM reservationinfo WHERE id=#{id}
+    </delete>
     <!--查询-->
     <select id="FinAllReservationinfo" resultType="com.example.demo.Graduation.entity.Reservation">
         SELECT * FROM reservationinfo
@@ -10,5 +33,9 @@
             </if>
         </where>
         ORDER BY reservation_time ASC
+    </select>
+
+    <select id="IdFindReservation" resultType="com.example.demo.Graduation.entity.Reservation">
+        SELECT * FROM reservationinfo WHERE id=#{id}
     </select>
 </mapper>

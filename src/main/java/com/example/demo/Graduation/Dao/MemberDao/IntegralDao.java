@@ -23,5 +23,10 @@ public interface IntegralDao {
     //删除积分兑换信息
     boolean DeleteIntegral(@Param("id") String id);
 
-    boolean Exchange(@Param("id") String id,@Param("member_name") String member_name);
+    //
+    boolean Exchange(@Param("id") String id, @Param("member_name") String member_name);
+
+    //修改积分兑换信息
+    boolean  UpdateIntegral(@Param("id") String id, @Param("type") String type,@Param("needredeem")int needredeem, @Param("name") String name);
+
 }

@@ -130,4 +130,16 @@ public class IntegralExchangeService {
         }
 
     }
+
+    //修改积分兑换
+    public Result UpdateIntegral(String id, String type, int needredeem, String name) {
+
+        if (integralDao.UpdateIntegral(id, type, needredeem, name)) {
+            return Result.success(1, "修改成功");
+        } else {
+            return Result.error(0, "修改失败");
+        }
+
+    }
+
 }
