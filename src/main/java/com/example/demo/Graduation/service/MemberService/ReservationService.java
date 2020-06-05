@@ -53,7 +53,7 @@ public class ReservationService {
     }
 
     //添加预约
-    public Result AddReservation(Reservation reservation,String time) throws  Exception {
+    public Result AddReservation(Reservation reservation, String time) throws Exception {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         reservation.setId(UUID.randomUUID().toString());
         reservation.setReservation_time(df.parse(time));
@@ -62,6 +62,24 @@ public class ReservationService {
         } else {
             return Result.error(0, "添加失败");
         }
+    }
+
+    //修改
+    public Result UpdateReservation(Reservation reservation) throws  Exception{
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        Reservation re = reservationDao.IdFindReservation(reservation.getId());
+        reservation.setReservation_time(df.parse(reservation.getTime()));
+        if (null != re) {
+            if (reservationDao.UpdateReservation(reservation)) {
+                return Result.success(1, "修改成功");
+            } else {
+                return Result.error(0, "修改失败");
+            }
+
+        } else {
+            return Result.error(0, "该预约不存在");
+        }
+
     }
 
 }

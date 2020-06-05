@@ -24,4 +24,7 @@ public interface ReservationDao {
     //添加
     boolean AddReservation(Reservation reservation);
 
+    //修改
+    boolean UpdateReservation(Reservation reservation);
+
 }

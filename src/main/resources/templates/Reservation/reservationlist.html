@@ -36,11 +36,12 @@
                 class="layui-icon"></i>添加
         </button>
     </xblock>
-    <table class="layui-table">
+    <table class="layui-table" style="table-layout: fixed;word-wrap: break-word">
         <thead>
         <tr>
             <th>ID</th>
             <th>预约人</th>
+            <th>预约人手机</th>
             <th>预约类型</th>
             <th>预约时间</th>
             <th>预约内容</th>
@@ -52,8 +53,9 @@
         <tr th:each="reservation : ${reservation.list}">
             <td th:text="${reservation.id}"></td>
             <td th:text="${reservation.reservation_name}"></td>
+            <td th:text="${reservation.phone}"></td>
             <td th:text="${reservation.reservation_type}"></td>
-            <td th:text="${#dates.format(reservation.reservation_time,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(reservation.reservation_time,'yyyy-MM-dd')}"></td>
             <td th:text="${reservation.reservation_content}"></td>
             <td>
                 <button type="button" class="layui-btn layui-btn-normal" th:if="${reservation.status} eq 0"
@@ -149,7 +151,7 @@
     function updatereservation(id, status) {
         layer.open({
             type: 2 //Page层类型
-            , area: ['800px', '450px']
+            , area: ['800px', '650px']
             , title: '修改预约'
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
@@ -162,12 +164,25 @@
     function AddReservation() {
         layer.open({
             type: 2 //Page层类型
-            , area: ['800px', '700px']
+            , area: ['800px', '650px']
             , title: '添加预约'
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
             , content: '/reservation/GetAddReservation'
+        });
+    }
+
+    //详情
+    function detailsreservation(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '650px']
+            , title: '预约详情'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/reservation/GetDetailsReservation?id=' + id
         });
     }
 

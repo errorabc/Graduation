@@ -8,17 +8,27 @@
 	reservation_name,
 	reservation_time,
     reservation_type,
-    reservation_content) VALUES
+    reservation_content,
+    phone
+    ) VALUES
     (#{id},
     #{reservation_name},
     #{reservation_time},
     #{reservation_type},
-    #{reservation_content}
+    #{reservation_content},
+    #{phone}
     )
     </insert>
     <!--停止预告-->
     <update id="UpdateReservationStatus">
         UPDATE reservationinfo SET status=1  WHERE id=#{id}
+    </update>
+
+    <!--修改预约信息-->
+    <update id="UpdateReservation">
+    UPDATE reservationinfo
+    SET reservation_name=#{reservation_name},reservation_time=#{reservation_time},reservation_type=#{reservation_type},reservation_content=#{reservation_content},phone=#{phone}
+    WHERE id=#{id}
     </update>
 
     <delete id="DeleteReservation">

@@ -4,7 +4,6 @@ import com.example.demo.Graduation.entity.Reservation;
 import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.service.MemberService.ReservationService;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,9 +58,24 @@ public class ReservationController {
     //添加预约
     @PostMapping(value = "/AddReservation")
     @ResponseBody
-    public Result AddReservation(Reservation reservation,@RequestParam("time")String time) throws Exception {
-        System.out.println("aaaaaaa");
-        Result result = reservationService.AddReservation(reservation,time);
+    public Result AddReservation(Reservation reservation, @RequestParam("time") String time) throws Exception {
+        Result result = reservationService.AddReservation(reservation, time);
+        return result;
+    }
+
+    //跳转到详情界面
+    @GetMapping(value = "/GetDetailsReservation")
+    public String GetDetailsReservation(@RequestParam("id") String id, Model model) {
+        Reservation reservation = reservationService.IdFindReservation(id);
+        model.addAttribute("reservation", reservation);
+        return "Reservation/sreservationdetail";
+    }
+
+    //修改
+    @PostMapping(value = "/UpdateReservation")
+    @ResponseBody
+    public Result UpdateReservation(Reservation reservation) throws Exception {
+        Result result = reservationService.UpdateReservation(reservation);
         return result;
     }
 

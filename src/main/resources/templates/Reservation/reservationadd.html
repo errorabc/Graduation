@@ -26,6 +26,15 @@
                        autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label for="phone" class="layui-form-label">
+                <span class="x-red">*</span>预约人手机
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="phone" name="phone" lay-verify="required|phone"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
 
         <div class="layui-form-item">
             <label for="reservation_type" class="layui-form-label">
@@ -67,7 +76,7 @@
 </div>
 </body>
 <script>
-    layui.use(['form', 'layer','laydate'], function () {
+    layui.use(['form', 'layer', 'laydate'], function () {
         $ = layui.jquery;
         var form = layui.form,
             layer = layui.layer,
@@ -104,7 +113,8 @@
                     reservation_name: data.field.reservation_name.replace(/\s*/g, ""),
                     time: data.field.reservation_time.replace(/\s*/g, ""),
                     reservation_type: data.field.reservation_type.replace(/\s*/g, ""),
-                    reservation_content: data.field.reservation_content.replace(/\s*/g, "")
+                    reservation_content: data.field.reservation_content.replace(/\s*/g, ""),
+                    phone: data.field.phone.replace(/\s*/g, "")
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});

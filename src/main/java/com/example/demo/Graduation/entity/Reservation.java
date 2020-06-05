@@ -11,6 +11,15 @@ public class Reservation {
     private String reservation_content;//预约内容
     private int status;//预约状态
     private String time;
+    private String phone;//手机
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getTime() {
         return time;
