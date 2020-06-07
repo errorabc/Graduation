@@ -1,8 +1,10 @@
 package com.example.demo.Graduation.controller.PetController;
 
+import com.example.demo.Graduation.entity.Activity;
 import com.example.demo.Graduation.entity.PetfoodEntity;
 import com.example.demo.Graduation.entity.PetfosterEntity;
 import com.example.demo.Graduation.entity.Result;
+import com.example.demo.Graduation.service.MemberService.ActivityService;
 import com.example.demo.Graduation.service.PetService.PetFoodService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/PetFoodinfo")
 public class PetFoodController {
 
     @Autowired
     private PetFoodService petFoodService;
+    @Autowired
+    private ActivityService activityService;
 
     //查询
     @RequestMapping(value = "")
@@ -73,7 +79,10 @@ public class PetFoodController {
     @GetMapping(value = "/GetReduceStock")
     public String GetReduceStock(@RequestParam("id") String id, Model model) {
         PetfoodEntity petfood = petFoodService.IdFindPetFoodInfo(id);
+        List<Activity> activityList = activityService.FindUnderwayActivity();
+        model.addAttribute("activity", activityList);
         model.addAttribute("petfood", petfood);
+
         return "PetFood/ReduceStock";
     }
 
@@ -89,8 +98,8 @@ public class PetFoodController {
     //减少库存
     @PostMapping(value = "/ReduceStock")
     @ResponseBody
-    public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number,@RequestParam("member_name") String member_name) {
-        Result result = petFoodService.ReduceStock(id, number,member_name);
+    public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number,@RequestParam("member_name") String member_name,@RequestParam("activityid") String activityid) {
+        Result result = petFoodService.ReduceStock(id, number,member_name,activityid);
         return result;
     }
 

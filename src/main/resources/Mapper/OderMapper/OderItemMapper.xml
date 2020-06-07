@@ -3,9 +3,9 @@
 <mapper namespace="com.example.demo.Graduation.Dao.OderDao.OderItemDao">
     <!--添加-->
     <insert id="AddOderItem">
-    INSERT INTO oderitem ( id, member_name, oder_no, product_id, product_name, product_type, current_oder_price, number, total_price, create_time, update_time )
+    INSERT INTO oderitem ( id, member_name, oder_no, product_id, product_name, product_type, current_oder_price, number, total_price, create_time, update_time,activityname)
     VALUES
-	(#{id},#{member_name},#{oder_no},#{product_id},#{product_name},#{product_type},#{current_oder_price},#{number},#{total_price},#{create_time},#{update_time})
+	(#{id},#{member_name},#{oder_no},#{product_id},#{product_name},#{product_type},#{current_oder_price},#{number},#{total_price},#{create_time},#{update_time},#{activityname})
     </insert>
     <!--查询-->
     <select id="FindAllOderItemInfo" resultType="com.example.demo.Graduation.entity.OderItemEntity">

@@ -21,6 +21,24 @@ public class OderEntity {
     private BigDecimal final_payment;//最终支付
     private BigDecimal refundmoney;//退款金额
     private String refundremark;//退款备注
+    private String activityname;//参加活动名称
+    private int activity_discount;
+
+    public int getActivity_discount() {
+        return activity_discount;
+    }
+
+    public void setActivity_discount(int activity_discount) {
+        this.activity_discount = activity_discount;
+    }
+
+    public String getActivityname() {
+        return activityname;
+    }
+
+    public void setActivityname(String activityname) {
+        this.activityname = activityname;
+    }
 
     public String getRefundremark() {
         return refundremark;

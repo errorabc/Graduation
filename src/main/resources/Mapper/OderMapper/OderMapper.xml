@@ -15,6 +15,7 @@
         <result property="remark" column="remark" jdbcType="VARCHAR"></result>
         <result property="final_payment" column="final_payment" jdbcType="DECIMAL"></result>
         <result property="refundmoney" column="refundmoney" jdbcType="DECIMAL"></result>
+        <result property="activityname" column="activityname" jdbcType="VARCHAR"></result>
         <association property="oderi" javaType="com.example.demo.Graduation.entity.OderItemEntity">
             <id property="id" column="id" jdbcType="VARCHAR"></id>
             <result property="member_name" column="member_name" jdbcType="VARCHAR"></result>
@@ -27,12 +28,13 @@
             <result property="total_price" column="total_price" jdbcType="DECIMAL"></result>
             <result property="create_time" column="create_time" jdbcType="DATE"></result>
             <result property="update_time" column="update_time" jdbcType="DATE"></result>
+            <result property="activityname" column="activityname" jdbcType="VARCHAR"></result>
         </association>
     </resultMap>
     <!--添加总订单-->
     <insert id="AddOder">
-      insert into oderinfo(id,oder_no,member_name,payment,payment_type,status,payment_time,create_time,update_time,remark,oder_type)
-      values(#{id},#{oder_no},#{member_name},#{payment},#{payment_type},#{status},#{payment_time},#{create_time},#{update_time},#{remark},#{oder_type})
+      insert into oderinfo(id,oder_no,member_name,payment,payment_type,status,payment_time,create_time,update_time,remark,oder_type,activityname)
+      values(#{id},#{oder_no},#{member_name},#{payment},#{payment_type},#{status},#{payment_time},#{create_time},#{update_time},#{remark},#{oder_type},#{activityname})
     </insert>
     <!--处理订单-->
     <update id="HandleOder">
@@ -68,7 +70,7 @@
                 and oder.create_time&lt;=#{endtime}    <!--&lt;等于<-->
             </if>
         </where>
-        order by status asc
+        order by status DESC
     </select>
     <!--ID查询订单信息-->
     <select id="IdFindOderInfo" resultMap="odermap">
@@ -86,7 +88,7 @@
     <select id="FindUnprocessedOderNumber" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM oderinfo WHERE  status=10
     </select>
-    
+
     <!--今日销售-->
     <select id="ToDaySales" resultType="java.math.BigDecimal">
         SELECT SUM(payment) FROM oderinfo  where  status=1 and payment_time>=#{starttime}  AND  payment_time &lt;=#{endtime}

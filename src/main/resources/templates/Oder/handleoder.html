@@ -105,7 +105,7 @@
         </label>
         <div class="layui-input-inline" style="width: 50%">
             <input type="text" id="actualpayment" name="actualpayment"
-                   autocomplete="off" class="layui-input" th:value="${oder.oderi.total_price * (vip.discount/100)}"
+                   autocomplete="off" class="layui-input" th:value="${(oder.oderi.total_price*(vip.discount/100)*(activity.activity_discount/100))}"
                    readonly>
         </div>
     </div>
@@ -124,6 +124,16 @@
     </div>
 
     <div class="layui-form-item">
+        <label for="activity" class="layui-form-label">
+            <span class="x-red">*</span>活动
+        </label>
+        <div class="layui-input-inline" style="width: 50%">
+            <input type="text" id="activity" name="activity"
+                   autocomplete="off" class="layui-input" th:value="${oder.oderi.activityname}"
+                   readonly>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label for="finalpayment" class="layui-form-label">
             <span class="x-red">*</span>最终支付
         </label>
@@ -136,7 +146,7 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">支付备注</label>
         <div class="layui-input-block">
-            <textarea placeholder="如果有特殊情况,请" class="layui-textarea" name="remark"></textarea>
+            <textarea placeholder="如果有特殊情况,请备注" class="layui-textarea" name="remark"></textarea>
         </div>
     </div>
     <div class="layui-form-item" style="margin-left: 15%">
@@ -144,11 +154,14 @@
     </div>
 </form>
 </body>
+<script th:inline="javascript">
+    var activity = [[${activity}]];
+    console.log(activity);
+    $.each(activity, function (index, item) {
+        $('#activity').append(" <option  value=" + item['id'] + ">" + item['activity_name'] + "</option>")
+    })
+</script>
 <script>
-    /*var foodprice = $('#membervip').val();
-    if (foodprice!= '非会员') {
-        $("#payment_type").append("<option value='余额'>余额</option>"); //为Select追加一个Option(下拉项)
-    }*/
     layui.use(['form', 'layer'], function () {
         var form = layui.form,
             layer = layui.layer;
@@ -168,7 +181,7 @@
                     remark: data.field.remark.replace(/\s*/g, ""),
                     oder_no: data.field.oder_no.replace(/\s*/g, ""),
                     payment_type: $('#payment_type option:selected').val(),
-                    member_name:data.field.member_name.replace(/\s*/g, "")
+                    member_name: data.field.member_name.replace(/\s*/g, "")
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});

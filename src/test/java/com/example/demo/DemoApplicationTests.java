@@ -20,13 +20,8 @@ import java.util.UUID;
 class DemoApplicationTests {
 
     @Test
-    void contextLoads() throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String starttime = format.format(new Date());
-        String endtime = format.format(new Date());
-        System.out.println(starttime+" "+"00:00:00");
-        System.out.println(endtime+" "+"23:59:59");
 
+    void contextLoads() throws ParseException {
     }
 
 }

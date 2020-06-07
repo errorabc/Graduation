@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Graduation.Dao.MemberDao.ActivityDao">
+    <!--添加活动-->
+    <insert id="AddActivity">
+    INSERT into activityinfo(id,activity_name,activity_starttime,activity_endtime,activity_content,activity_discount)
+    VALUES(#{id},#{activity_name},#{activity_starttime},#{activity_endtime},#{activity_content},#{activity_discount})
+    </insert>
+    <!--停止活动-->
+    <update id="UpdateActivityStatus">
+    UPDATE activityinfo SET activity_status=1 WHERE id=#{id}
+    </update>
+    <!--修改活动信息-->
+    <update id="UpdateActivity">
+        UPDATE activityinfo set activity_name=#{activity_name},activity_starttime=#{activity_starttime},activity_endtime=#{activity_endtime},
+        activity_discount=#{activity_discount},activity_discount=#{activity_discount}  WHERE id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="DeleteActivity">
+        DELETE FROM activityinfo WHERE id=#{id}
+    </delete>
+
+    <select id="FinAllActivityInfo" resultType="com.example.demo.Graduation.entity.Activity">
+        SELECT * FROM activityinfo
+        <where>
+            activity_name like CONCAT('%',#{name},'%')
+        </where>
+        ORDER BY activity_endtime ASC
+    </select>
+    <!--活动名查询信息-->
+    <select id="NameFindActivityInfo" resultType="com.example.demo.Graduation.entity.Activity">
+     SELECT * FROM activityinfo WHERE activity_name=#{name}
+    </select>
+    <!--ID查询信息-->
+    <select id="IdFindActivityInfo" resultType="com.example.demo.Graduation.entity.Activity">
+    SELECT * FROM activityinfo WHERE id=#{id}
+    </select>
+    <select id="FindUnderwayActivity" resultType="com.example.demo.Graduation.entity.Activity">
+        SELECT * FROM activityinfo WHERE  activity_status=0 and #{time}>=activity_starttime AND  #{time}&lt;=activity_endtime
+    </select>
+</mapper>

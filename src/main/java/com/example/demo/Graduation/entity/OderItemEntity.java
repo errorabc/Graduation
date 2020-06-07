@@ -17,6 +17,15 @@ public class OderItemEntity {
     private Date create_time;//创建时间
     private Date update_time;//更新时间
     private String starttime;
+    private String activityname;//参加活动名称
+
+    public String getActivityname() {
+        return activityname;
+    }
+
+    public void setActivityname(String activityname) {
+        this.activityname = activityname;
+    }
 
     public String getStarttime() {
         return starttime;

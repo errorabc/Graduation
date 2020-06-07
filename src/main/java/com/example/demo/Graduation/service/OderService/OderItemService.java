@@ -38,6 +38,7 @@ public class OderItemService {
             oderEntity.setPayment_time(DateTime.strToDateLong(df.format(new Date())));
             oderEntity.setCreate_time(DateTime.strToDateLong(df.format(new Date())));
             oderEntity.setUpdate_time(DateTime.strToDateLong(df.format(new Date())));
+            oderEntity.setActivityname(oderItemEntity.getActivityname());
             if (oderDao.AddOder(oderEntity)) {//添加总订单
                 return Result.success(1, "订单添加成功");
             } else {

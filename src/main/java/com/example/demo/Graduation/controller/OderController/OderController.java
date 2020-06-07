@@ -1,10 +1,8 @@
 package com.example.demo.Graduation.controller.OderController;
 
 import com.example.demo.Graduation.Annotation.LogAop;
-import com.example.demo.Graduation.entity.MemberEntity;
-import com.example.demo.Graduation.entity.OderEntity;
-import com.example.demo.Graduation.entity.Result;
-import com.example.demo.Graduation.entity.VipinfoEntity;
+import com.example.demo.Graduation.entity.*;
+import com.example.demo.Graduation.service.MemberService.ActivityService;
 import com.example.demo.Graduation.service.MemberService.MemberSerice;
 import com.example.demo.Graduation.service.OderService.OderService;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Vector;
 
 @Controller
@@ -24,6 +23,8 @@ public class OderController {
     private OderService oderService;
     @Autowired
     private MemberSerice memberSerice;
+    @Autowired
+    private ActivityService activityService;
 
 
     @RequestMapping(value = "")
@@ -40,8 +41,10 @@ public class OderController {
     public String GetHandleOder(@RequestParam("id") String id, Model model) {
         OderEntity oderEntity = oderService.IdFindOderInfo(id);
         VipinfoEntity vipinfoEntity = memberSerice.NameFindMemberInfo(oderEntity.getMember_name().trim());
+        Activity activity=activityService.NameFindActivityInfo(oderEntity.getActivityname());
         model.addAttribute("oder", oderEntity);
         model.addAttribute("vip", vipinfoEntity);
+        model.addAttribute("activity", activity);
         return "Oder/handleoder";
     }
 
