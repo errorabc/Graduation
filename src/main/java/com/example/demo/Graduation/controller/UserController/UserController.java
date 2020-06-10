@@ -46,8 +46,8 @@ public class UserController {
 
     //跳转到添加用户界面
     @RequiresPermissions("sys:user:add")
-    @RequestMapping("/addusers")
-    public String AddUsers(Model model) {
+    @RequestMapping("/Getaddusers")
+    public String Getaddusers(Model model) {
         try {
             String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
             List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);
@@ -73,7 +73,7 @@ public class UserController {
     添加用户
      */
     @LogAop("添加用户")
-    @PostMapping(value = "/AddUserInfo")
+    @PostMapping(value = "/addusers")
     @RequiresPermissions("sys:user:add")
     @ResponseBody
     public Result AddUserInfo(UserEntity userEntity, @RequestParam("name") String name) throws Exception {
@@ -115,7 +115,7 @@ public class UserController {
     /*
     跳转到用户修改界面
      */
-    @RequestMapping(value = "/UpdateUserInfo")
+    @RequestMapping(value = "/GetUpdateUser")
     public String GetUpdateUser(String id, Model model) {
         String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
         UserEntity userEntity = userService.UserIdFindUserinfo(id);//用户id查询用户信息
@@ -137,7 +137,7 @@ public class UserController {
 
 
     //跳转到修改密码界面
-    @GetMapping(value = "GetUpdatePassword")
+    @GetMapping(value = "/GetUpdatePassword")
     public String GetUpdatePassword(Model model) {
         String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
         UserEntity userEntity = userService.UserNameFindUserInfo(LoginUsername);

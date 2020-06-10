@@ -72,6 +72,17 @@
         </div>
 
         <div class="layui-form-item">
+            <label for="activity" class="layui-form-label">
+                <span class="x-red">*</span>活动
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <select name="activity" id="activity">
+                    <option value="不参加活动">不参加活动</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <label for="AddNumber" class="layui-form-label">
                 <span class="x-red">*</span>减少量
             </label>
@@ -96,6 +107,12 @@
     </form>
 </div>
 </body>
+<script th:inline="javascript">
+    var activity = [[${activity}]];
+    $.each(activity, function (index, item) {
+        $('#activity').append(" <option  value=" + item['id'] + ">" + item['activity_name'] + "</option>")
+    })
+</script>
 <script>
     layui.use(['form', 'layer'], function () {
         var form = layui.form,
@@ -116,7 +133,8 @@
                 data: {
                     IncreasNumber: data.field.AddNumber.replace(/\s*/g, ""),
                     id: data.field.id.replace(/\s*/g, ""),
-                    member_name: data.field.membername.replace(/\s*/g, "")
+                    member_name: data.field.membername.replace(/\s*/g, ""),
+                    activityid: $("#activity").find("option:selected").val()
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});

@@ -17,7 +17,7 @@
             <span class="x-red">*</span>公告名
         </label>
         <div class="layui-input-inline">
-            <input type="text" id="name" name="name" lay-verify="required"
+            <input type="text" id="name" name="name" lay-verify="required|name"
                    autocomplete="off" class="layui-input" style="width: 500px">
         </div>
         <div class="layui-form-mid layui-word-aux">
@@ -46,6 +46,16 @@
         var form = layui.form
             , layer = layui.layer;
 
+        form.verify({
+            name: function (value) {
+                if (value.length < 2) {
+                    return '公告名至少得2个字符啊';
+                }
+                if (value.length > 8) {
+                    return '公告名不得超过8个字符';
+                }
+            }
+        });
         //监听提交
         form.on('submit(add)', function (data) {
             $.ajax({
@@ -53,7 +63,7 @@
                 anys: false,
                 type: 'post',
                 data: {
-                    name: data.field.name,
+                    name: data.field.name.replace(/\s*/g, ""),
                     content: editor.txt.html()
                 }, success: function (result) {
                     if (result.code == '1') {

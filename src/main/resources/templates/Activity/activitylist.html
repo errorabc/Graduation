@@ -126,7 +126,7 @@
 
     //删除
     function deleteactivity(id) {
-        layer.confirm('确认要删除预约吗？', function (index) {
+        layer.confirm('确认要删除活动吗？', function (index) {
             $.ajax({
                 url: "/activity/DeleteActivity",
                 async: false,
@@ -156,7 +156,7 @@
             layer.open({
                 type: 2 //Page层类型
                 , area: ['800px', '700px']
-                , title: '修改预约'
+                , title: '修改活动'
                 , shade: 0.6 //遮罩透明度
                 , maxmin: true //允许全屏最小化
                 , anim: 1 //0-6的动画形式，-1不开启
@@ -170,7 +170,7 @@
         layer.open({
             type: 2 //Page层类型
             , area: ['800px', '700px']
-            , title: '添加预约'
+            , title: '添加活动'
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
@@ -183,7 +183,7 @@
         layer.open({
             type: 2 //Page层类型
             , area: ['800px', '700px']
-            , title: '预约详情'
+            , title: '活动详情'
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启

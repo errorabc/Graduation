@@ -29,6 +29,7 @@ public class SysUploadFileController {
     public String GetUploadList(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize, @RequestParam(value = "name", defaultValue = "") String name) {
         PageInfo<SysUploadEntity> sysuploadpage = sysUploadService.FindAllUploadInfo(pageNo, pageSize, name);
         model.addAttribute("sysuploadlist", sysuploadpage);
+
         model.addAttribute("name", name);
         return "SysUpload/uploadfilelist";
     }
@@ -73,6 +74,7 @@ public class SysUploadFileController {
         return "SysUpload/addupload";
     }
 
+    //删除资源
     @PostMapping(value = "/DeleteUploads")
     @ResponseBody
     public Result DeleteUploads(@RequestParam("id") String id) {

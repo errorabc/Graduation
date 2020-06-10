@@ -30,7 +30,7 @@
                 <span class="x-red">*</span>ID
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="vipid" name="vipid" required lay-verify="vipid"
+                <input type="text" id="vipid" name="vipid"  lay-verify="required|vipid"
                        autocomplete="off" class="layui-input" th:value="${vipinfo.id}" readonly="readonly">
             </div>
         </div>
@@ -40,7 +40,7 @@
                 <span class="x-red">*</span>VIP名
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="vipname" name="vipname" required lay-verify="vipname"
+                <input type="text" id="vipname" name="vipname"  lay-verify="required|vipname"
                        autocomplete="off" class="layui-input" th:value="${vipinfo.name}">
             </div>
             <div class="layui-form-mid layui-word-aux">
@@ -53,8 +53,18 @@
                 <span class="x-red">*</span>折扣
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="discount" name="discount" required lay-verify="discount"
+                <input type="text" id="discount" name="discount"  lay-verify="required|discount"
                        autocomplete="off" class="layui-input" th:value="${#numbers.formatInteger(vipinfo.discount,0)}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="miconsumption" class="layui-form-label">
+                <span class="x-red">*</span>最低消费
+            </label>
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="miconsumption" name="miconsumption"  lay-verify="required|miconsumption"
+                       autocomplete="off" class="layui-input" th:value="${#numbers.formatInteger(vipinfo.miconsumption,0)}">
             </div>
         </div>
 
@@ -79,7 +89,8 @@
                     return '不允许大于8个字符';
                 }
             }
-            , discount: [/^(?:0|[1-9][0-9]?|100)$/, '折扣率只能为0-100以内正整数']
+            , discount: [/^(?:0|[1-9][0-9]?|100)$/, '折扣率只能为0-100以内正整数'],
+            miconsumption:[/(^[0-9]\d*$)/, '最低消费只能为正整数']
         });
 
         //监听提交
@@ -89,9 +100,10 @@
                 type: "post",
                 anys: false,
                 data: {
-                    id: data.field.vipid,
-                    name: data.field.vipname,
-                    discount: data.field.discount
+                    id: data.field.vipid.replace(/\s*/g, ""),
+                    name: data.field.vipname.replace(/\s*/g, ""),
+                    discount: data.field.discount.replace(/\s*/g, ""),
+                    miconsumption:data.field.discount.replace(/\s*/g, "")
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});

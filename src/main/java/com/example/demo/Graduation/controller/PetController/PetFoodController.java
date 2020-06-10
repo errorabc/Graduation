@@ -82,7 +82,6 @@ public class PetFoodController {
         List<Activity> activityList = activityService.FindUnderwayActivity();
         model.addAttribute("activity", activityList);
         model.addAttribute("petfood", petfood);
-
         return "PetFood/ReduceStock";
     }
 

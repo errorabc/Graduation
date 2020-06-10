@@ -6,8 +6,8 @@ import java.util.Date;
 
 public class RoleEntity {
     private String id;
-    private String name;
-    private String description;
+    private String name;//名称
+    private String description;//备注
     private Date createtime;
     private Date updatetime;
     private Long roletree;

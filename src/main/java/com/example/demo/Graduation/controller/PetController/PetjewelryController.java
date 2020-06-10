@@ -1,8 +1,10 @@
 package com.example.demo.Graduation.controller.PetController;
 
+import com.example.demo.Graduation.entity.Activity;
 import com.example.demo.Graduation.entity.PetfoodEntity;
 import com.example.demo.Graduation.entity.PetjewelryEntity;
 import com.example.demo.Graduation.entity.Result;
+import com.example.demo.Graduation.service.MemberService.ActivityService;
 import com.example.demo.Graduation.service.PetService.PetFoodService;
 import com.example.demo.Graduation.service.PetService.PetJewelryService;
 import com.github.pagehelper.PageInfo;
@@ -12,11 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/petjewelry")
 public class PetjewelryController {
     @Autowired
     private PetJewelryService petJewelryService;
+    @Autowired
+    private ActivityService activityService;
 
     @RequestMapping(value = "")
     public String petjewelrylist(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize, PetjewelryEntity petjewelryEntity) {
@@ -67,7 +73,7 @@ public class PetjewelryController {
         return "PetJewelry/IncreaseStock";
     }
 
-    //添加
+    //添加库存
     @PostMapping(value = "/IncreaseStock")
     @ResponseBody
     public Result IncreaseStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number) {
@@ -79,6 +85,8 @@ public class PetjewelryController {
     @GetMapping("/GetReduceStock")
     public String GetReduceStock(@RequestParam("id") String id, Model model) {
         PetjewelryEntity petjewelryEntity = petJewelryService.IdFindPetjewelryInfo(id);
+        List<Activity> activityList = activityService.FindUnderwayActivity();
+        model.addAttribute("activity", activityList);
         model.addAttribute("petjewelry", petjewelryEntity);
         return "PetJewelry/ReduceStock";
     }
@@ -87,8 +95,8 @@ public class PetjewelryController {
     //减少库存
     @PostMapping(value = "/ReduceStock")
     @ResponseBody
-    public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number, @RequestParam("member_name") String member_name) {
-        Result result = petJewelryService.ReduceStock(id, number, member_name);
+    public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number, @RequestParam("member_name") String member_name,@RequestParam("activityid") String activityid) {
+        Result result = petJewelryService.ReduceStock(id, number, member_name,activityid);
         return result;
     }
 

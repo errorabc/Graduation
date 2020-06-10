@@ -34,7 +34,6 @@ public class RoleService {
 
     public List<RoleEntity> DifferentRoleFindRoleInfo(String username) {
         RoleEntity roleEntity = userDao.Finduserinfo2(username);//根据用户的账号查询用户的信息
-        System.out.println(roleEntity.getName() + "    权限");
         List<RoleEntity> roleEntityList = roleDao.DifferentRoleFindRoleInfo(roleEntity.getName());
         return roleEntityList;
     }

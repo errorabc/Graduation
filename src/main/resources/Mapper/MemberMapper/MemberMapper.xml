@@ -26,7 +26,7 @@
     </insert>
     <!--添加会员与VIP信息关联-->
     <insert id="AddMemberVip">
-     INSERT INTO membervip VALUES(#{id},#{vipid},#{memberid})
+     INSERT INTO member_vip VALUES(#{id},#{vipid},#{memberid})
     </insert>
     <!--修改会员信息-->
     <update id="UpdateMember">
@@ -40,14 +40,14 @@
 
     <!--删除会员和VIP关联信息-->
     <delete id="DeleteMemberVip">
-        DELETE FROM membervip WHERE memberid=#{id}
+        DELETE FROM member_vip WHERE memberid=#{id}
     </delete>
 
 
     <!--查询会员信息-->
     <select id="MemberAllInfo" resultMap="member">
         SELECT m.*,vip.name as 'vip.name' FROM memberinfo as m
-        JOIN membervip as mv
+        JOIN member_vip as mv
         ON mv.memberid=m.id
         JOIN vipinfo as vip
         ON vip.id=mv.vipid
@@ -65,7 +65,7 @@
     <!--根据会员ID查询会员信息-->
     <select id="IdFIndMemberInfo" resultMap="member">
         SELECT m.*,vip.name as 'vip.name',vip.id as 'vip.id' FROM memberinfo as m
-        JOIN membervip as mv
+        JOIN member_vip as mv
         ON mv.memberid=m.id
         JOIN vipinfo as vip
         ON vip.id=mv.vipid
@@ -78,7 +78,7 @@
     <!--会员名查询会员信息-->
     <select id="NameFindMemberInfo" resultMap="member">
         SELECT   m.*,vip.name as 'vip.name',vip.discount as 'discount' FROM memberinfo as m
-        JOIN membervip as mv
+        JOIN member_vip as mv
         ON mv.memberid=m.id
         JOIN vipinfo as vip
         ON vip.id=mv.vipid
@@ -87,7 +87,7 @@
 
     <!--修改会员和VIP关联-->
     <update id="UpdateMemberVip">
-        UPDATE membervip SET vipid=#{vipid} WHERE  memberid=#{memberid}
+        UPDATE member_vip SET vipid=#{vipid} WHERE  memberid=#{memberid}
     </update>
     <!--修改余额-->
     <update id="Recharge">

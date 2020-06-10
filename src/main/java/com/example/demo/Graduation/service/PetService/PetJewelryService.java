@@ -1,12 +1,10 @@
 package com.example.demo.Graduation.service.PetService;
 
+import com.example.demo.Graduation.Dao.MemberDao.ActivityDao;
 import com.example.demo.Graduation.Dao.PetDao.PetFoodDao;
 import com.example.demo.Graduation.Dao.PetDao.PetJewelryDao;
 import com.example.demo.Graduation.Tool.DateTime;
-import com.example.demo.Graduation.entity.OderItemEntity;
-import com.example.demo.Graduation.entity.PetfoodEntity;
-import com.example.demo.Graduation.entity.PetjewelryEntity;
-import com.example.demo.Graduation.entity.Result;
+import com.example.demo.Graduation.entity.*;
 import com.example.demo.Graduation.service.OderService.OderItemService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,6 +25,8 @@ public class PetJewelryService {
     private PetJewelryDao petJewelryDao;
     @Autowired
     private OderItemService oderItemService;
+    @Autowired
+    private ActivityDao activityDao;
 
     //查询
     public PageInfo<PetjewelryEntity> FindAllPetFoodInfo(int PageNo, int PageSzie, PetjewelryEntity petjewelryEntity) {
@@ -89,7 +89,7 @@ public class PetJewelryService {
 
 
     //减少库存
-    public Result ReduceStock(String id, int IncreasNumber, String member_name) {
+    public Result ReduceStock(String id, int IncreasNumber, String member_name,String activityid) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         PetjewelryEntity petjewelryEntity = petJewelryDao.IdFindPetjewelryInfo(id);
         if (petjewelryEntity.getPetjewelrynumber() - IncreasNumber < 0) {
@@ -108,8 +108,13 @@ public class PetJewelryService {
                 oderItemEntity.setTotal_price(petjewelryEntity.getPetjewelryprice().multiply(new BigDecimal(IncreasNumber)));
                 oderItemEntity.setCreate_time(DateTime.strToDateLong(df.format(new Date())));
                 oderItemEntity.setUpdate_time(DateTime.strToDateLong(df.format(new Date())));
+                if (activityid.equals("不参加活动")) {
+                    oderItemEntity.setActivityname("不参与活动");
+                } else {
+                    Activity activity = activityDao.IdFindActivityInfo(activityid);
+                    oderItemEntity.setActivityname(activity.getActivity_name());
+                }
                 Result result = oderItemService.AddOderItem(oderItemEntity);//添加子订单
-
                 return Result.success(1, "减少库存成功");
             } else {
                 return Result.error(0, "减少库存失败");

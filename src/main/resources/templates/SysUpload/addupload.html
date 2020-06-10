@@ -16,7 +16,7 @@
             <span class="x-red">*</span>资源名称
         </label>
         <div class="layui-input-inline">
-            <input type="text" id="name" name="name" lay-verify="required"
+            <input type="text" id="name" name="name" lay-verify="required|name"
                    autocomplete="off" class="layui-input" style="width: 500px">
         </div>
     </div>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="layui-upload-list" style="margin-top:2%;margin-left: 3%">
-        <img class="layui-upload-img" id="demo1" style="height: 400px;width: 400px">
+        <img class="layui-upload-img" id="demo1" style="height: 400px;width: 580px">
         <p id="demoText"></p>
     </div>
 
@@ -41,6 +41,19 @@
             , upload = layui.upload
             , form = layui.form
             , layer = layui.layer;
+
+        form.verify({
+            name: function (value) {
+                if (value.length < 2) {
+                    return '资源名称至少得2个字符啊';
+                }
+                if (value.length > 8) {
+                    return '资源名称不得超过8个字符';
+                }
+            }
+        });
+
+
 
         upload
             .render({
