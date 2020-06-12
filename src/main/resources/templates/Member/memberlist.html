@@ -37,7 +37,7 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>会员名</th>
             <th>会员手机</th>
             <th>会员邮箱</th>
@@ -50,7 +50,7 @@
         </thead>
         <tbody>
         <tr th:each="member : ${memberlist.list}">
-            <td th:text="${member.id}"></td>
+            <td th:text="${member.id}" hidden></td>
             <td th:text="${member.name}"></td>
             <td th:text="${member.phone}"></td>
             <td th:text="${member.email}"></td>

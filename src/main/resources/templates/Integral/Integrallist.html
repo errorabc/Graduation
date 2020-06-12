@@ -46,7 +46,7 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>商品类型</th>
             <th>商品名称</th>
             <th>兑换积分</th>
@@ -57,7 +57,7 @@
         </thead>
         <tbody>
         <tr th:each="integral : ${integral.list}">
-            <td th:text="${integral.id}"></td>
+            <td th:text="${integral.id}" hidden></td>
             <td th:text="${integral.type}"></td>
             <td th:text="${integral.name}"></td>
             <td th:text="${integral.needredeem}"></td>

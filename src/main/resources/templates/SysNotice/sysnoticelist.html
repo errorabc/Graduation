@@ -36,7 +36,7 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>公告名</th>
             <th>创建人</th>
             <th>创建时间</th>
@@ -46,7 +46,7 @@
         </thead>
         <tbody>
         <tr th:each="notice : ${sysnoticelist.list}">
-            <td th:text="${notice.id}"></td>
+            <td th:text="${notice.id}" hidden></td>
             <td th:text="${notice.name}"></td>
             <td th:text="${notice.username}"></td>
             <td th:text="${#dates.format(notice.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>

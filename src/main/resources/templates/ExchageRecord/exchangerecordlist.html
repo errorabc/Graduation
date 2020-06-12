@@ -34,7 +34,7 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>商品ID</th>
             <th>商品名称</th>
             <th>商品类型</th>
@@ -46,7 +46,7 @@
         </thead>
         <tbody>
         <tr th:each="exrecord : ${exrecord.list}">
-            <td th:text="${exrecord.id}"></td>
+            <td th:text="${exrecord.id}" hidden></td>
             <td th:text="${exrecord.product_id}"></td>
             <td th:text="${exrecord.product_name}"></td>
             <td th:text="${exrecord.product_type}"></td>

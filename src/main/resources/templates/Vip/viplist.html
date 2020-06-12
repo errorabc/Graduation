@@ -37,7 +37,7 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>VIP名称</th>
             <th>折扣</th>
             <th>年最低消费</th>
@@ -46,7 +46,7 @@
         </thead>
         <tbody>
         <tr th:each="vip : ${viplist.list}">
-            <td th:text="${vip.id}"></td>
+            <td th:text="${vip.id}" hidden></td>
             <td th:text="${vip.name}"></td>
             <td th:text="${vip.discount}"></td>
             <td th:text="${vip.miconsumption}"></td>

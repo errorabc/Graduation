@@ -36,7 +36,7 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>资源名</th>
             <th>类型</th>
             <th>地址</th>
@@ -46,7 +46,7 @@
         </thead>
         <tbody>
         <tr th:each="upload : ${sysuploadlist.list}">
-            <td th:text="${upload.id}"></td>
+            <td th:text="${upload.id}" hidden></td>
             <td th:text="${upload.name}"></td>
             <td th:text="${upload.type}"></td>
             <td th:text="${upload.url}">

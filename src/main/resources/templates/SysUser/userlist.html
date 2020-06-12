@@ -38,7 +38,7 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>账号</th>
             <th>角色</th>
             <th>状态</th>
@@ -48,7 +48,7 @@
         </thead>
         <tbody>
         <tr th:each="user : ${userinfo.list}">
-            <td th:text="${user.id}"></td>
+            <td th:text="${user.id}" hidden></td>
             <td th:text="${user.username}"></td>
             <td th:text="${user.roleEntity.name}"></td>
             <td class="td-status" th:if="${user.status} eq  1">

@@ -1,7 +1,9 @@
 package com.example.demo.Graduation.service.PetService;
 
+import com.example.demo.Graduation.Dao.OderDao.OderDao;
 import com.example.demo.Graduation.Dao.PetDao.PetFosterDao;
 import com.example.demo.Graduation.Tool.DateTime;
+import com.example.demo.Graduation.entity.OderEntity;
 import com.example.demo.Graduation.entity.OderItemEntity;
 import com.example.demo.Graduation.entity.PetfosterEntity;
 import com.example.demo.Graduation.entity.Result;
@@ -25,6 +27,8 @@ public class PetFosterService {
     private PetFosterDao petFosterDao;
     @Autowired
     private OderItemService oderItemService;
+    @Autowired
+    private OderDao oderDao;
 
 
     //查询
@@ -72,10 +76,15 @@ public class PetFosterService {
 
     //删除
     public Result DeletePetFoster(String id) {
-        if (petFosterDao.DeletePetFoster(id)) {
-            return Result.success(1, "删除成功");
+        List<OderEntity> oderlist = oderDao.ProductIdFindOderInfo(id);
+        if (oderlist.size() > 0) {
+            return Result.error(0, "此商品在未处理订单中,不可被删除");
         } else {
-            return Result.error(0, "删除失败");
+            if (petFosterDao.DeletePetFoster(id)) {
+                return Result.success(1, "删除成功");
+            } else {
+                return Result.error(0, "删除失败");
+            }
         }
     }
 

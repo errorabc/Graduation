@@ -102,6 +102,9 @@
         WHERE  oder.status=10 and oderi.product_id=#{product_id}
     </select>
 
+    <select id="FindMenberOder" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM oderinfo WHERE status=10 AND member_name=#{member_name}
+    </select>
 
     <!--删除总订单-->
     <delete id="DeleteOder">

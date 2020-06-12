@@ -38,7 +38,7 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <th>id</th>
+            <th hidden>id</th>
             <th>角色名</th>
             <th>说明</th>
             <th>创建时间</th>
@@ -47,7 +47,7 @@
         </thead>
         <tbody>
         <tr th:each="role:${rolelist.list}">
-            <td th:text="${role.id}"></td>
+            <td th:text="${role.id}" hidden></td>
             <td th:text="${role.name}"></td>
             <td th:text="${role.description}"></td>
             <td th:text="${#dates.format(role.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>

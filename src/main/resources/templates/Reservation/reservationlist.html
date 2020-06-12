@@ -39,7 +39,7 @@
     <table class="layui-table" style="table-layout: fixed;word-wrap: break-word">
         <thead>
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>预约人</th>
             <th>预约人手机</th>
             <th>预约类型</th>
@@ -51,7 +51,7 @@
         </thead>
         <tbody>
         <tr th:each="reservation : ${reservation.list}">
-            <td th:text="${reservation.id}"></td>
+            <td th:text="${reservation.id}" hidden></td>
             <td th:text="${reservation.reservation_name}"></td>
             <td th:text="${reservation.phone}"></td>
             <td th:text="${reservation.reservation_type}"></td>

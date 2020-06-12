@@ -1,6 +1,7 @@
 package com.example.demo.Graduation.service.PetService;
 
 import com.example.demo.Graduation.Dao.MemberDao.ActivityDao;
+import com.example.demo.Graduation.Dao.OderDao.OderDao;
 import com.example.demo.Graduation.Dao.PetDao.PetFoodDao;
 import com.example.demo.Graduation.Dao.PetDao.PetJewelryDao;
 import com.example.demo.Graduation.Tool.DateTime;
@@ -27,6 +28,8 @@ public class PetJewelryService {
     private OderItemService oderItemService;
     @Autowired
     private ActivityDao activityDao;
+    @Autowired
+    private OderDao oderDao;
 
     //查询
     public PageInfo<PetjewelryEntity> FindAllPetFoodInfo(int PageNo, int PageSzie, PetjewelryEntity petjewelryEntity) {
@@ -59,16 +62,20 @@ public class PetJewelryService {
     //删除
     public Result DeletePetjewelry(String id) {
         PetjewelryEntity petjewelryEntity = petJewelryDao.IdFindPetjewelryInfo(id);
-        if (petjewelryEntity.getPetjewelrynumber() == 0) {
-            if (petJewelryDao.DeletePetjewelry(id)) {
-                return Result.success(1, "删除成功");
-            } else {
-                return Result.error(0, "删除失败");
-            }
+        List<OderEntity> oderlist = oderDao.ProductIdFindOderInfo(id);
+        if (oderlist.size() > 0) {
+            return Result.error(0, "此商品在未处理订单中,不可被删除");
         } else {
-            return Result.error(0, "库存没有清空为0,无法删除");
+            if (petjewelryEntity.getPetjewelrynumber() == 0) {
+                if (petJewelryDao.DeletePetjewelry(id)) {
+                    return Result.success(1, "删除成功");
+                } else {
+                    return Result.error(0, "删除失败");
+                }
+            } else {
+                return Result.error(0, "库存没有清空为0,无法删除");
+            }
         }
-
     }
 
     //ID查询饰品信息
@@ -89,7 +96,7 @@ public class PetJewelryService {
 
 
     //减少库存
-    public Result ReduceStock(String id, int IncreasNumber, String member_name,String activityid) {
+    public Result ReduceStock(String id, int IncreasNumber, String member_name, String activityid) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         PetjewelryEntity petjewelryEntity = petJewelryDao.IdFindPetjewelryInfo(id);
         if (petjewelryEntity.getPetjewelrynumber() - IncreasNumber < 0) {
@@ -150,7 +157,7 @@ public class PetJewelryService {
 
     //查询饰品种类的数量
     public int PetjewelryNumber() {
-        int flag=petJewelryDao.PetjewelryNumber();
+        int flag = petJewelryDao.PetjewelryNumber();
         return flag;
     }
 }

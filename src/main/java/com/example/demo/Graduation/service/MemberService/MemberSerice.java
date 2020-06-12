@@ -1,11 +1,10 @@
 package com.example.demo.Graduation.service.MemberService;
 
 import com.example.demo.Graduation.Dao.MemberDao.MemberDao;
+import com.example.demo.Graduation.Dao.OderDao.OderDao;
 import com.example.demo.Graduation.Dao.VipDao.VipDao;
-import com.example.demo.Graduation.entity.MemberEntity;
-import com.example.demo.Graduation.entity.MenuEntity;
-import com.example.demo.Graduation.entity.Result;
-import com.example.demo.Graduation.entity.VipinfoEntity;
+import com.example.demo.Graduation.entity.*;
+import com.example.demo.Graduation.service.OderService.OderService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jdk.nashorn.internal.objects.NativeUint8Array;
@@ -23,6 +22,8 @@ public class MemberSerice {
     private MemberDao memberDao;
     @Autowired
     private VipDao vipDao;
+    @Autowired
+    private OderDao oderDao;
 
     //查询
     public PageInfo<MemberEntity> GetMemberInfoList(int pageNo, int pageSize, String name) {
@@ -59,14 +60,20 @@ public class MemberSerice {
 
     //删除会员信息
     public Result DeleteMember(String id) {
-        if (memberDao.DeleteMemberVip(id)) {
-            if (memberDao.DeleteMember(id)) {
-                return Result.success(1, "删除成功");
+        MemberEntity memberEntity = memberDao.IdFIndMemberInfo(id);
+        int flag = oderDao.FindMenberOder(memberEntity.getName());
+        if (flag == 0) {
+            if (memberDao.DeleteMemberVip(id)) {
+                if (memberDao.DeleteMember(id)) {
+                    return Result.success(1, "删除成功");
+                } else {
+                    return Result.error(0, "删除失败");
+                }
             } else {
                 return Result.error(0, "删除失败");
             }
         } else {
-            return Result.error(0, "删除失败");
+            return Result.error(0, "该会员有未完成的订单，不可被删除");
         }
     }
 
