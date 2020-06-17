@@ -81,10 +81,10 @@
                     type: 'post',
                     sync: false,
                     data: {
-                        name: menuname,
-                        url: menuurl,
-                        permission: menupermission,
-                        sort: menusort
+                        name: menuname.replace(/\s*/g, ""),
+                        url: menuurl.replace(/\s*/g, ""),
+                        permission: menupermission.replace(/\s*/g, ""),
+                        sort: menusort.replace(/\s*/g, "")
                     },
                     success: function (result) {
                         if (result.code == "1") {
@@ -114,7 +114,7 @@
                     type: "post",
                     sync: false,
                     data: {
-                        name: menuname
+                        name: menuname.replace(/\s*/g, "")
                     }, success: function (result) {
                         if (result.code == "1") {
                             $('#VerificationMenuName').css('color', 'green').text("目录名可以使用");
@@ -145,7 +145,7 @@
                     type: "post",
                     sync: false,
                     data: {
-                        url: menuurl
+                        url: menuurl.replace(/\s*/g, "")
                     }, success: function (result) {
                         if (result.code == "1") {
                             $('#VerificationMenuUrl').css('color', 'green').text("目录地址可以使用");
@@ -165,6 +165,7 @@
             $('#VerificationMenuUrl').css('color', 'red').text("目录地址不能为空");
         }
     })
+
     //菜单权限验证
     $("#menupermission").blur(function () {
         var menupermission = $('#menupermission').val().toString().trim();
@@ -175,7 +176,7 @@
                     type: "post",
                     sync: false,
                     data: {
-                        permission: menupermission
+                        permission: menupermission.replace(/\s*/g, "")
                     }, success: function (result) {
                         if (result.code == "1") {
                             $('#VerificationMenupermission').css('color', 'green').text("目录权限可以使用");

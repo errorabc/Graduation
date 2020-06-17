@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <style type="text/css">
 </style>
 <head>
@@ -16,7 +17,6 @@
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 </head>
-
 <body class="layui-anim layui-anim-up">
 <div class="x-nav">
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
@@ -35,8 +35,8 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加食品','/PetFoodinfo/GetAddPetFood',1000,450)"><i
-                class="layui-icon"></i>添加
+        <button class="layui-btn" onclick="AddPetFood()"><i
+                class="layui-icon"></i>添加
         </button>
     </xblock>
     <table class="layui-table">
@@ -134,7 +134,7 @@
     }
 
 
-    //加库存
+    //补仓食品
     function IncreaseStock(id) {
         layer.open({
             type: 2 //Page层类型
@@ -148,7 +148,7 @@
     }
 
 
-    //减库存
+    //减仓食品
     function ReduceStock(id) {
         layer.open({
             type: 2 //Page层类型
@@ -161,7 +161,7 @@
         });
     }
 
-    //报废
+    //报废食品
     function Scrap(id) {
         layer.open({
             type: 2 //Page层类型
@@ -171,6 +171,20 @@
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
             , content: '/PetFoodinfo/GetScrap?id=' + id
+        });
+    }
+
+
+    //添加食品
+    function AddPetFood() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['600px', '450px']
+            , title: '添加食品'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/PetFoodinfo/GetAddPetFood'
         });
     }
 

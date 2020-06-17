@@ -7,28 +7,39 @@
 <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 <head>
     <meta charset="UTF-8">
-    <title>添加资源</title>
+    <title>修改资源</title>
 </head>
 <body>
 <form class="layui-form">
+
+    <div class="layui-form-item" style="margin-top: 2%">
+        <label for="id" class="layui-form-label">
+            <span class="x-red">*</span>资源名称
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="id" name="id"
+                   autocomplete="off" class="layui-input" style="width: 500px" th:value="${sysUpload.id}" readonly>
+        </div>
+    </div>
+
     <div class="layui-form-item" style="margin-top: 2%">
         <label for="name" class="layui-form-label">
             <span class="x-red">*</span>资源名称
         </label>
         <div class="layui-input-inline">
             <input type="text" id="name" name="name" lay-verify="required|name"
-                   autocomplete="off" class="layui-input" style="width: 500px"placeholder="2-20个字符">
+                   autocomplete="off" class="layui-input" style="width: 500px" th:value="${sysUpload.name}" placeholder="2-20个字符">
         </div>
     </div>
 
     <div class="layui-form-item" style="margin-top:2%;margin-left: 3%">
-        <button type="button" class="layui-btn layui-btn-normal" id="test8" >
+        <button type="button" class="layui-btn layui-btn-normal" id="test8" lay-verify="required" >
             选择文件
         </button>
     </div>
 
     <div class="layui-upload-list" style="margin-top:2%;margin-left: 3%">
-        <img class="layui-upload-img" id="demo1" style="height: 400px;width: 580px">
+        <img class="layui-upload-img" id="demo1" style="height: 400px;width:1000px" th:src="${sysUpload.url}">
         <p id="demoText"></p>
     </div>
 
@@ -57,20 +68,23 @@
         upload
             .render({
                 elem: '#test8'
-                , url: '/uploadfile/uploads' //改成您自己的上传接口
+                , url: '/uploadfile/UpdateUploads' //改成您自己的上传接口
                 , auto: false //不自动上传
                 , size: 10240
                 , accept: 'images'
                 , bindAction: '#test9'
                 , choose: function (obj) {
-                    //预读本地文件示例，不支持ie8
+                    //预 读本地文件示例，不支持ie8
                     obj.preview(function (index, file, result) {
                         $('#demo1').attr('src', result); //图片链接（base64）
                     });
 
                 }
                 , before: function (obj) {
-                    this.data = {'name': $("#name").val()};
+                    this.data = {
+                        'name': $("#name").val(),
+                        'id': $("#id").val()
+                    };
                 }
                 , done: function (result) {
                     if (result.code=='1') {

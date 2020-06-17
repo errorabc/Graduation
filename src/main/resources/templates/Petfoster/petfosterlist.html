@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <style type="text/css">
 </style>
 <head>
@@ -34,7 +35,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加寄养','/petfoster/GetAddPetFoster',1000,700)"><i
+        <button class="layui-btn" onclick="AddPetFoster()"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -75,7 +76,9 @@
                 <button type="button" class="layui-btn layui-btn-normal" th:if="${petfoster.state} eq  0"
                         th:onclick="StopFoster([[${petfoster.id}]])">寄养中
                 </button>
-                <button type="button" class="layui-btn layui-btn-danger" th:if="${petfoster.state} eq  0" th:onclick="SendSms([[${petfoster.feederphone}]])">发送短信</button>
+                <button type="button" class="layui-btn layui-btn-danger" th:if="${petfoster.state} eq  0"
+                        th:onclick="SendSms([[${petfoster.feederphone}]])">发送短信
+                </button>
             </td>
             <td class="td-manage">
                 <a title="修改" th:onclick="updatepetfoster([[${petfoster.id}]])">
@@ -111,12 +114,12 @@
         }
     });
 
-    //详情
+    //寄养详情
     function detailspetfoster(id) {
         layer.open({
             type: 2 //Page层类型
             , area: ['1000px', '700px']
-            , title: '详情' + '-' + id
+            , title: '寄养详情' + '-' + id
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
@@ -153,7 +156,7 @@
         layer.open({
             type: 2 //Page层类型
             , area: ['1000px', '700px']
-            , title: '修改' + '-' + id
+            , title: '修改寄养' + '-' + id
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
@@ -207,6 +210,19 @@
         });
     }
 
+
+    //添加详情
+    function AddPetFoster() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['800px', '700px']
+            , title: '添加寄养'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/petfoster/GetAddPetFoster'
+        });
+    }
 </script>
 </body>
 </html>

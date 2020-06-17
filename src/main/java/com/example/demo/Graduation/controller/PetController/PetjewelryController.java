@@ -43,7 +43,7 @@ public class PetjewelryController {
     @PostMapping(value = "/AddPetjewelry")
     @ResponseBody
     public Result AddPetjewelry(PetjewelryEntity petjewelryEntity) {
-        Result result = petJewelryService.AdddPetFood(petjewelryEntity);
+        Result result = petJewelryService.AddPetJewelry(petjewelryEntity);
         return result;
     }
 
@@ -103,7 +103,7 @@ public class PetjewelryController {
 
     //跳转到报废库存界面
     @GetMapping(value = "/GetScrap")
-    public String GetScrap(@RequestParam("id") String id, Model model) {
+        public String GetScrap(@RequestParam("id") String id, Model model) {
         PetjewelryEntity petjewelryEntity = petJewelryService.IdFindPetjewelryInfo(id);
         model.addAttribute("petjewelry", petjewelryEntity);
         return "PetJewelry/Scrap";

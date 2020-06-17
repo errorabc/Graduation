@@ -21,36 +21,31 @@
             <label for="username" class="layui-form-label">
                 <span class="x-red">*</span>账号
             </label>
-            <div class="layui-input-inline">
-                <input type="text" id="username" name="username" lay-verify="username||required"
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="text" id="username" name="username" lay-verify="username|required"
                        autocomplete="off" class="layui-input" placeholder="必须6到12位数字和字母">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 <span id="VerificationUsername"></span>
             </div>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item" >
             <label for="password" class="layui-form-label">
                 <span class="x-red">*</span>密码
             </label>
-            <div class="layui-input-inline">
-                <input type="password" id="password" name="password" lay-verify="password||required"
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="password" id="password" name="password" lay-verify="password|required"
                        autocomplete="off" class="layui-input" placeholder="必须6到12位数字和字母">
             </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="x-red">*</span>密码为必填项
-            </div>
+
         </div>
         <div class="layui-form-item">
             <label for="enterpassword" class="layui-form-label">
                 <span class="x-red">*</span>确认密码
             </label>
-            <div class="layui-input-inline">
-                <input type="password" id="enterpassword" name="enterpassword" lay-verify="enterpassword||required"
+            <div class="layui-input-inline" style="width: 50%">
+                <input type="password" id="enterpassword" name="enterpassword" lay-verify="enterpassword|required"
                        autocomplete="off" class="layui-input" placeholder="必须6到12位数字和字母">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="x-red">*</span>确认密码为必填项
             </div>
         </div>
         <div class="layui-form-item">
@@ -69,7 +64,6 @@
 </body>
 <script th:inline="javascript">
     var rolenamelist = [[${rolenamelist}]];
-    var menualllist = [[${menualllist}]];
     $.each(rolenamelist, function (index, item) {
         $('#radiolist').append(" <input type='radio'    lay-verify='required|otherReq' name='role' value=" + item['name'] + " title=" + item['name'] + ">")
     });

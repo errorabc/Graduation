@@ -56,11 +56,11 @@
                 <a title="查看" th:onclick="details([[${upload.url}]])">
                     <i class="layui-icon">&#xe63c;</i>
                 </a>
-                <a title="编辑" th:onclick="UpdateNotice([[${upload.id}]],[[${upload.name}]])"
+                <a title="编辑" th:onclick="UpdateUpload([[${upload.id}]],[[${upload.name}]])"
                 >
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" th:onclick="DeleteNotice([[${upload.id}]],[[${upload.name}]])"
+                <a title="删除" th:onclick="DeleteUpload([[${upload.id}]],[[${upload.name}]])"
                 >
                     <i class="layui-icon">&#xe640;</i>
                 </a>
@@ -91,7 +91,7 @@
     });
 
     //删除资源
-    function DeleteNotice(id, name) {
+    function DeleteUpload(id, name) {
         layer.confirm('确认要删除吗？' + " " + name, function (index) {
             $.ajax({
                 url: "/uploadfile/DeleteUploads",
@@ -130,6 +130,20 @@
     //资源详情
     function details(url) {
         window.open(url);
+    }
+
+
+    //修改资源
+    function UpdateUpload(id) {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['1200px', '700px']
+            , title: '修改资源'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/uploadfile/GetUpdateUploads?id='+id
+        });
     }
 
 </script>

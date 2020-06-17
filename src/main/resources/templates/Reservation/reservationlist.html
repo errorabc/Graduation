@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>预约管理</title>
@@ -55,7 +56,7 @@
             <td th:text="${reservation.reservation_name}"></td>
             <td th:text="${reservation.phone}"></td>
             <td th:text="${reservation.reservation_type}"></td>
-            <td th:text="${#dates.format(reservation.reservation_time,'yyyy-MM-dd')}"></td>
+            <td th:text="${#dates.format(reservation.reservation_time,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${reservation.reservation_content}"></td>
             <td>
                 <button type="button" class="layui-btn layui-btn-normal" th:if="${reservation.status} eq 0"
@@ -123,7 +124,7 @@
         });
     }
 
-    //删除
+    //删除预约
     function deletereservation(id) {
         layer.confirm('确认要删除预约吗？', function (index) {
             $.ajax({
@@ -160,7 +161,7 @@
         });
     }
 
-    //添加
+    //添加预约
     function AddReservation() {
         layer.open({
             type: 2 //Page层类型
@@ -173,7 +174,7 @@
         });
     }
 
-    //详情
+    //预约详情
     function detailsreservation(id) {
         layer.open({
             type: 2 //Page层类型

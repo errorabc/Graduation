@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>角色管理</title>
@@ -35,7 +36,7 @@
                 class="layui-icon"></i>添加
         </button>
     </xblock>
-    <table class="layui-table">
+    <table class="layui-table" style="table-layout: fixed;word-wrap: break-word">
         <thead>
         <tr>
             <th hidden>id</th>
@@ -49,7 +50,7 @@
         <tr th:each="role:${rolelist.list}">
             <td th:text="${role.id}" hidden></td>
             <td th:text="${role.name}"></td>
-            <td th:text="${role.description}"></td>
+            <td th:text="${role.description}" ></td>
             <td th:text="${#dates.format(role.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${#dates.format(role.updatetime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td class="td-manage">
@@ -85,6 +86,7 @@
         }
     });
 
+    //修改角色
     function updaterole(id) {
         layer.open({
             type: 2 //Page层类型
@@ -97,7 +99,7 @@
         });
     }
 
-    //删除
+    //删除角色
     function deleterole(id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({

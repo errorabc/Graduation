@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>VIP管理</title>
@@ -14,7 +15,6 @@
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 </head>
-
 <body class="layui-anim layui-anim-up">
 <div class="x-nav">
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
@@ -30,7 +30,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加','/VipInfo/GetAddVip',800,450)"><i
+        <button class="layui-btn" onclick="AddVip()"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -83,7 +83,7 @@
         }
     });
 
-    /*用户-删除*/
+    //删除VIP信息
     function deletevip(id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
@@ -106,7 +106,7 @@
         });
     }
 
-    //修改
+    //修改vip信息
     function updatevip(id) {
         layer.open({
             type: 2 //Page层类型
@@ -116,6 +116,20 @@
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
             , content: '/VipInfo/GetUpdateVip?id=' + id
+        });
+    }
+
+
+    //添加VIP
+    function AddVip() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['600px', '450px']
+            , title: '添加VIP'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/VipInfo/GetAddVip'
         });
     }
 </script>

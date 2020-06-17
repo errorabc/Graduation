@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <style type="text/css">
 </style>
 <head>
@@ -35,7 +36,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加饰品','/petjewelry/GetAddPetjewelry',1000,450)"><i
+        <button class="layui-btn" onclick="AddPetjewelry()"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -125,7 +126,7 @@
         layer.open({
             type: 2 //Page层类型
             , area: ['1000px', '700px']
-            , title: '修改' + '-' + id
+            , title: '修改饰品' + '-' + id
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
@@ -134,7 +135,7 @@
     }
 
 
-    //加库存
+    //补仓饰品
     function IncreaseStock(id) {
         layer.open({
             type: 2 //Page层类型
@@ -148,7 +149,7 @@
     }
 
 
-    //减库存
+    //减仓饰品
     function ReduceStock(id) {
         layer.open({
             type: 2 //Page层类型
@@ -161,7 +162,7 @@
         });
     }
 
-    //报废
+    //报废饰品
     function Scrap(id) {
         layer.open({
             type: 2 //Page层类型
@@ -171,6 +172,19 @@
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
             , content: '/petjewelry/GetScrap?id=' + id
+        });
+    }
+
+    //添加饰品
+    function AddPetjewelry() {
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['600px', '450px']
+            , title: '添加饰品'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: true //允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: '/petjewelry/GetAddPetjewelry'
         });
     }
 

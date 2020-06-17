@@ -58,8 +58,7 @@ public class LoginController {
         return "login";
     }
 
-    //登录
-    @LogAop("登录")
+
     @PostMapping(value = "/loginin")
     public String loginin(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);

@@ -40,7 +40,7 @@ public class PetJewelryService {
     }
 
     //添加
-    public Result AdddPetFood(PetjewelryEntity petjewelryEntity) {
+    public Result AddPetJewelry(PetjewelryEntity petjewelryEntity) {
         petjewelryEntity.setId(UUID.randomUUID().toString());
         if (petJewelryDao.AdddPetJewelry(petjewelryEntity)) {
             return Result.success(1, "添加成功");

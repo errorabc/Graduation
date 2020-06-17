@@ -23,7 +23,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="name" name="name" lay-verify="required|name"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="0-20个字符">
             </div>
 
         </div>
@@ -44,7 +44,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="needredeem" name="needredeem" lay-verify="required|needredeem"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="只能位正整数">
             </div>
         </div>
         <div class="layui-form-item">
@@ -71,7 +71,15 @@
         //自定义验证规则
         form.verify({
             needredeem: [/(^[1-9]\d*$)/, '兑换积分只能为正整数'],
-            number: [/(^[1-9]\d*$)/, '库存只能为正整数']
+            number: [/(^[1-9]\d*$)/, '库存只能为正整数'],
+            name: function (value) {
+                if (value.length < 2) {
+                    return '商品名至少得2个字符';
+                }
+                if (value.length >20) {
+                    return '商品名不得超过20个字符';
+                }
+            }
         });
 
         //监听提交

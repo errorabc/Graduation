@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>活动管理</title>
@@ -14,7 +15,6 @@
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 </head>
-
 <body class="layui-anim layui-anim-up">
 <div class="x-nav">
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
@@ -59,9 +59,11 @@
             <td th:text="${activity.activity_discount}"></td>
             <td>
                 <button type="button" class="layui-btn layui-btn-normal" th:if="${activity.activity_status} eq 0"
-                        th:onclick="stopactivity([[${activity.id}]])">正在进行
+                        th:onclick="stopactivity([[${activity.id}]])">
+                    正在进行
                 </button>
-                <button type="button" class="layui-btn layui-btn-warm" th:if="${activity.activity_status} eq 1">已经结束
+                <button type="button" class="layui-btn layui-btn-warm" th:if="${activity.activity_status} eq 1">
+                    已经结束
                 </button>
             </td>
             <td>
@@ -90,6 +92,7 @@
 <script th:inline="javascript">
     var activity = [[${activity}]];
     var name = $('#name').val().toString().trim();
+
     //翻页
     $("#page").paging({
         pageNum: activity.pageNum, // 当前页面
@@ -124,7 +127,7 @@
         });
     }
 
-    //删除
+    //删除活动
     function deleteactivity(id) {
         layer.confirm('确认要删除活动吗？', function (index) {
             $.ajax({
@@ -148,7 +151,7 @@
     }
 
 
-    //修改预告
+    //修改活动
     function updateactivity(id, status) {
         if (status == 1) {
             layer.msg("关闭后不可被修改", {icon: 2});
@@ -165,7 +168,7 @@
         }
     }
 
-    //添加
+    //添加活动
     function AddActivity() {
         layer.open({
             type: 2 //Page层类型
@@ -178,7 +181,7 @@
         });
     }
 
-    //详情
+    //活动详情
     function detailactivity(id) {
         layer.open({
             type: 2 //Page层类型

@@ -35,13 +35,13 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="rolename" name="rolename" required lay-verify="rolename"
-                       autocomplete="off" class="layui-input" th:value="${role.name}">
+                       autocomplete="off" class="layui-input" th:value="${role.name}" placeholder="2-8个字符">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label" for="description">角色备注</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" name="description" id="description"
+                <textarea placeholder="不超过50个字符" class="layui-textarea" name="description" id="description"
                           lay-verify="description" th:text="${role.description}"></textarea>
             </div>
         </div>

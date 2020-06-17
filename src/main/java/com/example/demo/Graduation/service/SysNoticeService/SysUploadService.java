@@ -122,4 +122,11 @@ public class SysUploadService {
     }
 
 
+    //Id查询信息
+    public SysUploadEntity IdFindUploadInfo(String id){
+        SysUploadEntity sysUploadEntity = sysUploadDao.IdFindUploadInfo(id);
+        return sysUploadEntity;
+    }
+
+
 }

@@ -11,7 +11,6 @@ public class PasswordUtil {
     private String md5salt;
 
     public   String PasswordConfidential(String username, String password) throws Exception {
-
         if (password == null || password == "") {
 
         } else {

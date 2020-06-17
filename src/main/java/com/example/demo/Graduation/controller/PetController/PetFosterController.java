@@ -23,8 +23,7 @@ public class PetFosterController {
     private PetFosterService petFosterService;
     @Autowired
     private SendSms sendSms;
-    @Autowired
-    private MemberSerice memberSerice;
+
 
     @RequestMapping(value = "")
     public String petfosterlist(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize, PetfosterEntity petfosterEntity) {

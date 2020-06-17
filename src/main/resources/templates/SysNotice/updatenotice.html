@@ -29,11 +29,17 @@
             <span class="x-red">*</span>公告名
         </label>
         <div class="layui-input-inline">
-            <input type="text" id="name" name="name" lay-verify="required"
-                   autocomplete="off" class="layui-input" style="width: 500px" th:value="${notice.name}">
+            <input type="text" id="name" name="name" lay-verify="required|name"
+                   autocomplete="off" class="layui-input" style="width: 500px" th:value="${notice.name}"
+                   placeholder="2-20个字符">
         </div>
     </div>
-
+    <label class="layui-form-label">
+        <span class="x-red">*</span>公告内容:
+    </label>
+    <br/>
+    <br/>
+    <br/>
     <div id="editor" style="margin-left: 5%">
     </div>
     <div class="layui-form-item" style="margin-left: 100px">
@@ -53,6 +59,18 @@
         $ = layui.jquery;
         var form = layui.form
             , layer = layui.layer;
+
+        form.verify({
+            name: function (value) {
+                if (value.length < 2) {
+                    return '公告名至少得2个字符啊';
+                }
+                if (value.length > 20) {
+                    return '公告名不得超过20个字符';
+                }
+            }
+        });
+
 
         //监听提交
         form.on('submit(update)', function (data) {

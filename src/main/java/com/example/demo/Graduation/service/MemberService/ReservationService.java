@@ -39,10 +39,15 @@ public class ReservationService {
 
     //删除预告
     public Result DeleteReservation(String id) {
-        if (reservationDao.DeleteReservation(id)) {
-            return Result.success(1, "删除成功");
+        Reservation reservation = reservationDao.IdFindReservation(id);
+        if (reservation.getStatus() == 0) {
+            return Result.error(0, "未被处理,不能被删除");
         } else {
-            return Result.error(0, "删除失败");
+            if (reservationDao.DeleteReservation(id)) {
+                return Result.success(1, "删除成功");
+            } else {
+                return Result.error(0, "删除失败");
+            }
         }
     }
 
@@ -65,7 +70,7 @@ public class ReservationService {
     }
 
     //修改
-    public Result UpdateReservation(Reservation reservation) throws  Exception{
+    public Result UpdateReservation(Reservation reservation) throws Exception {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         Reservation re = reservationDao.IdFindReservation(reservation.getId());
         reservation.setReservation_time(df.parse(reservation.getTime()));

@@ -23,7 +23,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="reservation_name" name="reservation_name" lay-verify="required|reservation_name"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="会员名+手机号后四位">
             </div>
         </div>
         <div class="layui-form-item">
@@ -56,8 +56,10 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input class="layui-input" placeholder="预约时间" name="reservation_time" id="reservation_time"
-                       autocomplete="off" lay-verify="required"
+                       autocomplete="off" lay-verify="required|reservation_time"
                 >
+                <input type="text" class="layui-input" id="starttime_time" name="starttime_time" placeholder="HH:mm:ss"
+                       lay-verify="required" autocomplete="off">
             </div>
         </div>
         <div class="layui-form-item">
@@ -81,10 +83,13 @@
         var form = layui.form,
             layer = layui.layer,
             laydate = layui.laydate
-        //自定义验证规则
-        //常规用法
+
         laydate.render({
             elem: '#reservation_time'
+        });
+        laydate.render({
+            elem: '#starttime_time'
+            , type: 'time'
         });
 
         form.verify({
@@ -100,6 +105,9 @@
                 if (value.length > 100) {
                     return "不能超过100个字符";
                 }
+            },
+            reservation_time:function (value) {
+                console.log(value)
             }
         });
 
@@ -111,7 +119,7 @@
                 anys: false,
                 data: {
                     reservation_name: data.field.reservation_name.replace(/\s*/g, ""),
-                    time: data.field.reservation_time.replace(/\s*/g, ""),
+                    time: data.field.reservation_time.replace(/\s*/g, "")+" "+data.field.starttime_time.replace(/\s*/g, ""),
                     reservation_type: data.field.reservation_type.replace(/\s*/g, ""),
                     reservation_content: data.field.reservation_content.replace(/\s*/g, ""),
                     phone: data.field.phone.replace(/\s*/g, "")

@@ -18,16 +18,22 @@
         </label>
         <div class="layui-input-inline">
             <input type="text" id="name" name="name" lay-verify="required|name"
-                   autocomplete="off" class="layui-input" style="width: 500px">
+                   autocomplete="off" class="layui-input" style="width: 500px" placeholder="2-20个字符">
         </div>
         <div class="layui-form-mid layui-word-aux">
             <span id="VerificationUsername"></span>
         </div>
 
     </div>
-
+    <label class="layui-form-label">
+        <span class="x-red">*</span>公告内容:
+    </label>
+    <br/>
+    <br/>
+    <br/>
     <div id="editor" style="margin-left: 5%">
     </div>
+
 
     <div class="layui-form-item" style="margin-left: 100px">
         <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
@@ -51,8 +57,8 @@
                 if (value.length < 2) {
                     return '公告名至少得2个字符啊';
                 }
-                if (value.length > 8) {
-                    return '公告名不得超过8个字符';
+                if (value.length >20) {
+                    return '公告名不得超过20个字符';
                 }
             }
         });

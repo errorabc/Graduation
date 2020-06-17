@@ -13,7 +13,6 @@
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 </head>
-
 <body>
 <div class="x-body">
     <form class="layui-form">
@@ -23,7 +22,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="activity_name" name="activity_name" lay-verify="required|activity_name"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="2-20个字符">
             </div>
         </div>
         <div class="layui-form-item">
@@ -61,7 +60,7 @@
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="activity_discount" name="activity_discount"
                        lay-verify="required|activity_discount"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="0-100以内正整数">
             </div>
         </div>
 
@@ -70,7 +69,7 @@
                 <span class="x-red">*</span>活动内容
             </label>
             <div class="layui-input-block" style="width: 50%">
-                <textarea placeholder="请输入内容" class="layui-textarea" id="activity_content"
+                <textarea placeholder="不超过100个字符" class="layui-textarea" id="activity_content"
                           name="activity_content" lay-verify="required|activity_content"></textarea>
             </div>
         </div>
@@ -86,8 +85,6 @@
         var form = layui.form,
             layer = layui.layer,
             laydate = layui.laydate
-        //自定义验证规则
-        //常规用法
         laydate.render({
             elem: '#activity_starttime'
         });

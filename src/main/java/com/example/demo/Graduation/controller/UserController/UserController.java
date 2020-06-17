@@ -27,11 +27,9 @@ import java.util.List;
 @RequestMapping("/userinfo")
 public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    MenuService menuService;
-    @Autowired
-    RoleService roleService;
+    private RoleService roleService;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     //跳转到用户管理界面
@@ -51,9 +49,7 @@ public class UserController {
         try {
             String LoginUsername = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
             List<RoleEntity> roleEntityList = roleService.DifferentRoleFindRoleInfo(LoginUsername);
-            List<MenuEntity> menuEntityList = menuService.FindAllsMenu();
             model.addAttribute("rolenamelist", roleEntityList);
-            model.addAttribute("menualllist", menuEntityList);
         } catch (AuthorizationException a) {
             a.printStackTrace();
         }

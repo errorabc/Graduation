@@ -36,7 +36,7 @@ public class SysUploadFileController {
 
 
     //上传资源
-    @PostMapping(value = "uploads")
+    @PostMapping(value = "/uploads")
     @ResponseBody
     public Result uploads(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) throws Exception {
         if (file.isEmpty()) {
@@ -64,7 +64,6 @@ public class SysUploadFileController {
             e.printStackTrace();
             return Result.error(0, "上传失败");
         }
-
     }
 
 
@@ -90,4 +89,46 @@ public class SysUploadFileController {
             return Result.error(0, "删除失败");
         }
     }
+
+    //修改资源
+    @GetMapping(value = "/GetUpdateUploads")
+    public String UpdateUploads(@RequestParam("id") String id, Model model) {
+        SysUploadEntity sysUploadEntity = sysUploadService.IdFindUploadInfo(id);
+        model.addAttribute("sysUpload",sysUploadEntity);
+        return "SysUpload/updateupload";
+    }
+
+
+    //上传资源
+    @PostMapping(value = "/UpdateUploads")
+    @ResponseBody
+    public Result UpdateUploads(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,@RequestParam("id") String id) throws Exception {
+        if (file.isEmpty()) {
+            return Result.error(0, "文件为空");
+        }
+        String fileName = file.getOriginalFilename();  // 文件名
+        String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
+        fileName = UUID.randomUUID().toString() + suffixName;
+        String filePath = uploadPath;
+        File dest = new File(filePath + fileName);
+        try {
+            file.transferTo(dest);
+            Result result = sysUploadService.AddQiNiuResource(filePath + fileName, fileName);
+            if (result.getCode() == 1) {
+                Result resultUpload = sysUploadService.AddUploadReource(name, fileurl + fileName);
+                if (resultUpload.getCode() == 1) {
+                    return Result.success(1, "上传成功");
+                } else {
+                    return Result.error(0, "上传失败");
+                }
+            } else {
+                return Result.error(0, "上传失败");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.error(0, "上传失败");
+        }
+    }
+
+
 }

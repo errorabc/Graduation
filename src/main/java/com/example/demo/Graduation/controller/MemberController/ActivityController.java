@@ -1,5 +1,6 @@
 package com.example.demo.Graduation.controller.MemberController;
 
+import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.entity.Activity;
 import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.service.MemberService.ActivityService;
@@ -40,6 +41,7 @@ public class ActivityController {
     }
 
     //添加活动
+    @LogAop("添加活动")
     @PostMapping(value = "/AddActivity")
     @ResponseBody
     public Result AddActivity(Activity activity) throws Exception {

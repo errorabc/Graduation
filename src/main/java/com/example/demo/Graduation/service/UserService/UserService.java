@@ -42,9 +42,10 @@ public class UserService {
 
     //不同权限的获取不同的用户信息
     public PageInfo RoleFindUserinfo(int PageNo, int PageSzie, String username, String name) {
-        String rolename = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
+        String loginname = (String) SecurityUtils.getSubject().getPrincipal();//当前登录的用户
+        UserEntity userEntity=userDao.FindUserInfo(loginname);//当前登陆用户的权限
         PageHelper.startPage(PageNo, PageSzie);
-        List<UserEntity> userEntityList = userDao.UserNameFindUserInfo(username, rolename, name);
+        List<UserEntity> userEntityList = userDao.UserNameFindUserInfo(username, userEntity.getRoleEntity().getName(), name);
         PageInfo<UserEntity> pagelist = new PageInfo<UserEntity>(userEntityList);
         return pagelist;
     }

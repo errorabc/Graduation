@@ -59,7 +59,7 @@
             <td th:text="${member.total_consumption}"></td>
             <td th:text="${member.integral}"></td>
             <td class="td-manage">
-                <a title="修改"  th:onclick="updatemember([[${member.id}]])" shiro:hasPermission="member:update">
+                <a title="修改" th:onclick="updatemember([[${member.id}]])" shiro:hasPermission="member:update">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a title="删除" th:onclick="deletemember([[${member.id}]])"
@@ -124,7 +124,7 @@
         layer.open({
             type: 2 //Page层类型
             , area: ['800px', '450px']
-            , title: '修改信息'
+            , title: '修改会员'
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
@@ -132,6 +132,7 @@
         });
     }
 
+    //会员充值
     function recharge(id) {
         layer.open({
             type: 2 //Page层类型
@@ -144,6 +145,8 @@
         });
     }
 
+
+    //添加会员
     function addmember() {
         layer.open({
             type: 2 //Page层类型

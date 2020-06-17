@@ -26,9 +26,9 @@
             <label for="rolename" class="layui-form-label">
                 <span>角色名称</span>
             </label>
-            <div class="layui-input-inline">
+            <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="rolename" name="rolename" lay-verify="required|rolename"
-                       autocomplete="off" class="layui-input" placeholder="请输入内容">
+                       autocomplete="off" class="layui-input" placeholder="2-8个字符" >
             </div>
             <div class="layui-form-mid layui-word-aux">
                 <span id="VerificationRoleName"></span>
@@ -37,7 +37,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label" for="description">角色备注</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" name="description" id="description"
+                <textarea placeholder="不超过50个字符" class="layui-textarea" name="description" id="description"
                           lay-verify="description"></textarea>
             </div>
         </div>
@@ -125,7 +125,7 @@
                     type: "post",
                     anys: false,
                     data: {
-                        name: rolename,
+                        name: rolename.replace(/\s*/g, ""),
                     }, success: function (result) {
                         if (result.code == '1') {
                             $('#VerificationRoleName').css('color', 'green').text("角色名可以使用");
@@ -178,7 +178,4 @@
 
 </script>
 </body>
-<script th:inline="javascript">
-
-</script>
 </html>

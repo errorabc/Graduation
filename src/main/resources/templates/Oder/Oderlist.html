@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>订单管理</title>
@@ -14,7 +15,6 @@
     <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 </head>
-
 <body>
 <div class="x-nav">
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
@@ -122,7 +122,6 @@
 <script th:inline="javascript">
     var orderlist = [[${oderlist}]];
     var oder = [[${sreachcondition}]];
-    console.log(orderlist);
     $('#selectoder_type').find('option[value=' + oder.oder_type + ']').prop('selected', true);
     $('#selectstatus').find('option[value=' + oder.status + ']').prop('selected', true);
 
@@ -225,6 +224,7 @@
         });
     }
 
+    //申请退款
     function ReFund(id, status) {
         layer.open({
             type: 2 //Page层类型
