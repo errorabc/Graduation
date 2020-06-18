@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.Map;
-
+//发送短信
 @Service
 public class SendSms {
     @Value("${TXSecretId}")

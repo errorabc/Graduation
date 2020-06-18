@@ -1,5 +1,6 @@
 package com.example.demo.Graduation.controller.PetController;
 
+import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.Tool.SendSms;
 import com.example.demo.Graduation.entity.MemberEntity;
 import com.example.demo.Graduation.entity.PetfosterEntity;
@@ -8,6 +9,7 @@ import com.example.demo.Graduation.service.MemberService.MemberSerice;
 import com.example.demo.Graduation.service.PetService.PetFosterService;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +43,8 @@ public class PetFosterController {
     }
 
     //添加寄养
+    @LogAop("添加宠物寄养信息")
+    @RequiresPermissions("petfoster:add")
     @PostMapping(value = "/AddPetFoster")
     @ResponseBody
     public Result AddPetFoster(PetfosterEntity petfosterEntity, @RequestParam("endtime") String endtime) {
@@ -64,6 +68,8 @@ public class PetFosterController {
     }
 
     //删除
+    @LogAop("删除宠物寄养信息")
+    @RequiresPermissions("petfoster:delete")
     @PostMapping(value = "/DeletePetFoster")
     @ResponseBody
     public Result DeletePetFoster(@RequestParam("id") String id) {
@@ -82,6 +88,8 @@ public class PetFosterController {
 
 
     //修改寄养信息
+    @LogAop("修改宠物寄养信息")
+    @RequiresPermissions("petfoster:update")
     @PostMapping(value = "/UpdatePetFoster")
     @ResponseBody
     public Result UpdatePetFoster(PetfosterEntity petfosterEntity, @RequestParam("endtime") String endtime, @RequestParam("starttime") String starttime) {
@@ -97,6 +105,8 @@ public class PetFosterController {
 
 
     //结束寄养
+    @LogAop("结束宠物寄养")
+    @RequiresPermissions("petfoster:stop")
     @PostMapping(value = "/StopFoster")
     @ResponseBody
     public Result StopFoster(@RequestParam("id") String id) {
@@ -106,6 +116,8 @@ public class PetFosterController {
 
 
     //发送短信
+    @LogAop("发送短信")
+    @RequiresPermissions("petfoster:sendsms")
     @PostMapping(value = "/SendSms")
     @ResponseBody
     public Result SendSms(@RequestParam("phone")String phone) {

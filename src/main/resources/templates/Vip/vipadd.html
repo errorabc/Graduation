@@ -23,7 +23,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="vipname" name="vipname" lay-verify="required|vipname"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="4-20个字符">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 <span id="VerificationVipName"></span>
@@ -35,10 +35,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="discount" name="discount" lay-verify="required|discount"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span id="VerificationDiscount"></span>
+                       autocomplete="off" class="layui-input" placeholder="0-100正整数">
             </div>
         </div>
         <div class="layui-form-item">
@@ -47,7 +44,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="miconsumption" name="miconsumption" lay-verify="required|miconsumption"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="只能为正整数">
             </div>
         </div>
         <div class="layui-form-item" style="margin-left: 100px">
@@ -68,8 +65,8 @@
                 if (value.length < 4) {
                     return '至少4个字符';
                 }
-                if (value.length > 8) {
-                    return '不允许大于8个字符';
+                if (value.length > 20) {
+                    return '不允许大于20个字符';
                 }
             }
             , discount: [/^(?:0|[1-9][0-9]?|100)$/, '折扣率只能为0-100以内正整数'],
@@ -85,7 +82,7 @@
                 data: {
                     name: data.field.vipname.replace(/\s*/g, ""),
                     discount: data.field.discount.replace(/\s*/g, ""),
-                    miconsumption:data.field.miconsumption.replace(/\s*/g, "")
+                    miconsumption: data.field.miconsumption.replace(/\s*/g, "")
                 }, success: function (result) {
                     if (result.code == '1') {
                         layer.msg(result.content, {icon: 1});
@@ -115,7 +112,7 @@
                         async: false,
                         type: 'post',
                         data: {
-                            name: vipname
+                            name: vipname.replace(/\s*/g, "")
                         },
                         success: function (result) {
                             if (result.code == "1") {

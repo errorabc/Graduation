@@ -23,7 +23,7 @@
                 <span class="x-red">*</span>饲主名
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="feedername" name="feedername" lay-verify="required|feedername"
+                <input type="text" id="feedername" name="feedername" lay-verify="required|feedername" placeholder="姓名+手机号后四位"
                        autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
@@ -37,7 +37,7 @@
             </label>
             <div>
                 <div class="layui-input-inline">
-                    <input type="text" id="pettype" name="pettype" lay-verify="required|pettype"
+                    <input type="text" id="pettype" name="pettype" lay-verify="required|pettype" placeholder="2-20个字符"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     <span>宠物种族</span>
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="pettype2" name="pettype2" lay-verify="required|pettype2"
+                    <input type="text" id="pettype2" name="pettype2" lay-verify="required|pettype2" placeholder="2-20个字符"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -61,7 +61,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="petcage" name="petcage" lay-verify="required|petcage"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="2-10个字符">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 <span id="VerificationPetCage"></span>
@@ -95,7 +95,7 @@
                 <span class="x-red">*</span>寄养价格
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="fosterprice" name="fosterprice" lay-verify="required|fosterprice"
+                <input type="text" id="fosterprice" name="fosterprice" lay-verify="required|fosterprice" placeholder="正整数或者2位小数"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -113,7 +113,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">寄养备注</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" id="fosterremark" name="fosterremark"></textarea>
+                <textarea placeholder="不超过100个字符" class="layui-textarea" id="fosterremark" name="fosterremark" lay-verify="fosterremark"></textarea>
             </div>
         </div>
         <div class="layui-form-item" style="margin-left: 30%">
@@ -133,7 +133,36 @@
         //自定义验证规则
         form.verify({
             feedername: [/.*[0-9]{4,}.*/, '会员名格式:姓名+手机号后四位'],
-            fosterprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '价格必须为正整数或者2位小数']
+            fosterprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '价格必须为正整数或者2位小数'],
+            pettype: function (value) {
+                if (value.length < 2) {
+                    return '宠物类型至少得2个字符';
+                }
+                if (value.length > 20) {
+                    return '宠物类型不得超过20个字符';
+                }
+            },
+            pettype2: function (value) {
+                if (value.length < 2) {
+                    return '宠物种族至少得2个字符';
+                }
+                if (value.length > 20) {
+                    return '宠物种族不得超过2 0个字符';
+                }
+            },
+            petcage:function (value) {
+                if (value.length < 2) {
+                    return '笼子编号至少得2个字符';
+                }
+                if (value.length > 10) {
+                    return '笼子编号不得超过10个字符';
+                }
+            },
+            fosterremark:function (value) {
+                if (value.length >100) {
+                    return '备注不允许超过100个字符';
+                }
+            }
         });
         //执行一个laydate实例
         laydate.render({

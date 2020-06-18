@@ -18,7 +18,6 @@
 <br/>
 <br/>
 <table id="demo"></table>
-
 <!-- 全局js -->
 <script type="text/javascript" th:src="@{/bootstrap/libs/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/bootstrap/libs/v3/bootstrap.min.js}"></script>
@@ -32,7 +31,7 @@
         type: "GET",
         height: 1000,
         expandFirst: false, //第一列是否展开
-        url: "menuinfo/FindAllMenu",
+        url: "/menuinfo/FindAllMenu",
         columns: [{
             checkbox: true
         },
@@ -100,9 +99,9 @@
                 align: "center",
                 formatter: function (value, row, index) {
                     var actions = [];
-                    actions.push('<a class="btn btn-success btn-xs "  onclick="updatemenu(\'' + row.id + '\',\'' + row.menuType + '\',\'' + row.menuName + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                    actions.push('<a class="btn btn-info btn-xs "  onclick="addmenu(\'' + row.id + '\',\'' + row.menuType + '\',\'' + row.menuName + '\')" href="#"><i class="fa fa-plus"></i>新增</a> ');
-                    actions.push('<a class="btn btn-danger btn-xs "   onclick="deletemenu(\'' + row.id + '\',\'' + row.menuType + '\')"   href="#"><i class="fa fa-remove" ></i>删除</a>');
+                    actions.push('<a class="btn btn-success btn-xs "  onclick="updatemenu(\'' + row.id + '\',\'' + row.menuType + '\',\'' + row.menuName + '\')"><i class="fa fa-edit" shiro:hasPermission="menu:update"></i>编辑</a> ');
+                    actions.push('<a class="btn btn-info btn-xs "  onclick="addmenu(\'' + row.id + '\',\'' + row.menuType + '\',\'' + row.menuName + '\')" href="#"><i class="fa fa-plus" shiro:hasPermission="menu:add" ></i>新增</a> ');
+                    actions.push('<a class="btn btn-danger btn-xs "   onclick="deletemenu(\'' + row.id + '\',\'' + row.menuType + '\')"   href="#"><i class="fa fa-remove" shiro:hasPermission="menu:delete"></i>删除</a>');
                     return actions.join('');
                 }
             }],

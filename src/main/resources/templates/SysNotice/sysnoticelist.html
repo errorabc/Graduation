@@ -30,7 +30,7 @@
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
-    <button class="layui-btn" onclick="AddNotice()"><i
+    <button class="layui-btn" onclick="AddNotice()" shiro:hasPermission="sys:notice:add"><i
             class="layui-icon"></i>添加公告
     </button>
     <table class="layui-table">
@@ -62,11 +62,11 @@
                 <a title="查看" th:onclick="details([[${notice.id}]])">
                     <i class="layui-icon">&#xe63c;</i>
                 </a>
-                <a title="编辑" th:onclick="UpdateNotice([[${notice.id}]],[[${notice.name}]])"
+                <a title="编辑" th:onclick="UpdateNotice([[${notice.id}]],[[${notice.name}]])" shiro:hasPermission="sys:notice:update"
                 >
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" th:onclick="DeleteNotice([[${notice.id}]],[[${notice.name}]])"
+                <a title="删除" th:onclick="DeleteNotice([[${notice.id}]],[[${notice.name}]])" shiro:hasPermission="sys:notice:delete"
                 >
                     <i class="layui-icon">&#xe640;</i>
                 </a>

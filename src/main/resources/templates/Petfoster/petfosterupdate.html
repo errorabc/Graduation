@@ -31,7 +31,8 @@
             <label class="layui-form-label" style="width: 10%">饲主名<span style="color: red">*</span></label>
             <div class="layui-input-block">
                 <input type="text" name="feedername" lay-verify="required|feedername" autocomplete="off"
-                       class="layui-input" style="width: 80%" th:value="${petfoster.feedername}" id="feedername">
+                       class="layui-input" style="width: 80%" th:value="${petfoster.feedername}" id="feedername"
+                       placeholder="姓名+手机号后四位">
             </div>
         </div>
 
@@ -49,8 +50,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label" style="width: 10%">宠物类型<span style="color: red">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="pettype" lay-verify="required" autocomplete="off"
-                       class="layui-input" style="width: 80%" th:value="${petfoster.pettype}" id="pettype">
+                <input type="text" name="pettype" lay-verify="required|pettype" autocomplete="off"
+                       class="layui-input" style="width: 80%" th:value="${petfoster.pettype}" id="pettype"
+                       placeholder="2-20个字符">
             </div>
         </div>
 
@@ -58,8 +60,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label" style="width: 10%">宠物笼子<span style="color: red">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="petcage" lay-verify="required" autocomplete="off"
-                       class="layui-input" style="width: 80%" th:value="${petfoster.petcage}" id="petcage">
+                <input type="text" name="petcage" lay-verify="required|petcage" autocomplete="off"
+                       class="layui-input" style="width: 80%" th:value="${petfoster.petcage}" id="petcage" placeholder="2-20个字符">
             </div>
         </div>
 
@@ -88,7 +90,7 @@
             <div class="layui-input-block">
                 <input type="text" id="fosterprice" name="fosterprice" lay-verify="required|fosterprice"
                        style="width: 80%"
-                       autocomplete="off" class="layui-input" th:value="${petfoster.fosterprice}">
+                       autocomplete="off" class="layui-input" th:value="${petfoster.fosterprice}" placeholder="正整数或者2位小数">
             </div>
         </div>
 
@@ -96,7 +98,7 @@
             <label class="layui-form-label" style="width: 10%">寄养备注<span style="color: red">*</span></label>
             <div class="layui-input-block">
                 <textarea autocomplete="off" name="fosterremark" class="layui-textarea" style="width: 80%"
-                          th:text="${petfoster.fosterremark}" id="fosterremark"></textarea>
+                          th:text="${petfoster.fosterremark}" id="fosterremark" lay-verify="fosterremark" placeholder="不超过100个字符"></textarea>
             </div>
         </div>
 
@@ -128,6 +130,26 @@
         form.verify({
             feedername: [/.*[0-9]{4,}.*/, '会员名格式:姓名+手机号后四位'],
             fosterprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '价格必须为正整数或者2位小数'],
+            pettype: function (value) {
+                if (value.length < 2) {
+                    return '宠物类型至少得2个字符';
+                }
+                if (value.length > 20) {
+                    return '宠物类型不得超过20个字符';
+                }
+            }, petcage: function (value) {
+                if (value.length < 2) {
+                    return '笼子编号至少得2个字符';
+                }
+                if (value.length > 10) {
+                    return '笼子编号不得超过10个字符';
+                }
+            },
+            fosterremark: function (value) {
+                if (value.length > 100) {
+                    return '备注不允许超过100个字符';
+                }
+            }
         });
         //执行一个laydate实例
         laydate.render({

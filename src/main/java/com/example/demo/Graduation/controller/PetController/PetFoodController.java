@@ -1,5 +1,6 @@
 package com.example.demo.Graduation.controller.PetController;
 
+import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.entity.Activity;
 import com.example.demo.Graduation.entity.PetfoodEntity;
 import com.example.demo.Graduation.entity.PetfosterEntity;
@@ -7,6 +8,7 @@ import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.service.MemberService.ActivityService;
 import com.example.demo.Graduation.service.PetService.PetFoodService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//宠物食品管理
 @Controller
 @RequestMapping("/PetFoodinfo")
 public class PetFoodController {
@@ -50,6 +53,8 @@ public class PetFoodController {
 
 
     //添加食品信息
+    @LogAop("添加食品信息")
+    @RequiresPermissions("petfood:add")
     @PostMapping(value = "/AddPetFood")
     @ResponseBody
     public Result AddPetFood(PetfoodEntity petfoodEntity) {
@@ -59,6 +64,8 @@ public class PetFoodController {
 
 
     //删除食品信息
+    @LogAop("删除食品信息")
+    @RequiresPermissions("petfood:delete")
     @PostMapping(value = "/DeletePetFood")
     @ResponseBody
     public Result DeletePetFood(@RequestParam("id") String id) {
@@ -87,6 +94,8 @@ public class PetFoodController {
 
 
     //添加库存
+    @LogAop("添加食品库存")
+    @RequiresPermissions("petfood:increasestock")
     @PostMapping(value = "/IncreaseStock")
     @ResponseBody
     public Result IncreaseStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number) {
@@ -95,10 +104,12 @@ public class PetFoodController {
     }
 
     //减少库存
+    @LogAop("减少食品库存")
+    @RequiresPermissions("petfood:reducestock")
     @PostMapping(value = "/ReduceStock")
     @ResponseBody
-    public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number,@RequestParam("member_name") String member_name,@RequestParam("activityid") String activityid) {
-        Result result = petFoodService.ReduceStock(id, number,member_name,activityid);
+    public Result ReduceStock(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number, @RequestParam("member_name") String member_name, @RequestParam("activityid") String activityid) {
+        Result result = petFoodService.ReduceStock(id, number, member_name, activityid);
         return result;
     }
 
@@ -111,6 +122,8 @@ public class PetFoodController {
     }
 
     //报废库存
+    @LogAop("食品报废")
+    @RequiresPermissions("petfood:scrap")
     @PostMapping(value = "/Scrap")
     @ResponseBody
     public Result Scrap(@RequestParam("id") String id, @RequestParam("IncreasNumber") int number) {
@@ -128,14 +141,14 @@ public class PetFoodController {
     }
 
     //修改食品信息
+    @LogAop("修改食品信息")
+    @RequiresPermissions("petfood:update")
     @PostMapping(value = "/UpdatePetFood")
     @ResponseBody
     public Result UpdatePetFood(PetfoodEntity petfoodEntity) {
         Result result = petFoodService.UpdatePetFood(petfoodEntity);
         return result;
     }
-
-
 
 
 }

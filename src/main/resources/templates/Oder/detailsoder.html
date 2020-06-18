@@ -90,6 +90,28 @@
 
 
     <div class="layui-form-item">
+        <label for="activity" class="layui-form-label">
+            <span class="x-red">*</span>参加的活动
+        </label>
+        <div class="layui-input-inline" style="width: 50%">
+            <input type="text" id="activity" name="activity"
+                   autocomplete="off" class="layui-input" readonly th:value="${oder.oderi.activityname}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label for="activity_discount" class="layui-form-label">
+            <span class="x-red">*</span>活动折扣
+        </label>
+        <div class="layui-input-inline" style="width: 50%">
+            <input type="text" id="activity_discount" name="activity_discount"
+                   autocomplete="off" class="layui-input" readonly th:value="${activity.activity_discount}">
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
         <label for="discount" class="layui-form-label">
             <span class="x-red">*</span>折扣
         </label>

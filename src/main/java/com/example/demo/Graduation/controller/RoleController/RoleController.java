@@ -9,6 +9,7 @@ import com.example.demo.Graduation.entity.RoleResourcesEntity;
 import com.example.demo.Graduation.service.MenuService.MenuService;
 import com.example.demo.Graduation.service.RoleService.RoleService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +46,7 @@ public class RoleController {
     //添加角色
     @LogAop("添加角色信息")
     @PostMapping(value = "/AddRoleinfo")
+    @RequiresPermissions("sys:role:add")
     @ResponseBody
     public Result AddRoleinfo(RoleEntity roleEntity, @RequestParam("ztree") String ztree) {
         Result result = roleService.AddRoleinfo(roleEntity, ztree);
@@ -74,6 +76,7 @@ public class RoleController {
     //修改角色信息
     @LogAop("修改角色信息")
     @PostMapping(value = "/UpdateRoleInfo")
+    @RequiresPermissions("sys:role:update")
     @ResponseBody
     public Result UpdateRoleInfo(RoleEntity roleEntity, @RequestParam("ztree") String ztree) {
         Result result = roleService.UpdateRoleInfo(roleEntity, ztree);
@@ -83,6 +86,7 @@ public class RoleController {
     //删除角色信息
     @LogAop("删除角色信息")
     @PostMapping(value = "/DeleteRoleInfo")
+    @RequiresPermissions("sys:role:delete")
     @ResponseBody
     public Result DeleteRoleInfo(@RequestParam("id") String id) {
         Result result = roleService.DeleteRoleInfo(id);

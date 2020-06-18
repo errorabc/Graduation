@@ -30,7 +30,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="AddVip()"><i
+        <button class="layui-btn" onclick="AddVip()" shiro:hasPermission="vip:add"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -51,10 +51,10 @@
             <td th:text="${vip.discount}"></td>
             <td th:text="${vip.miconsumption}"></td>
             <td class="td-manage">
-                <a title="修改" th:onclick="updatevip([[${vip.id}]])">
+                <a title="修改" th:onclick="updatevip([[${vip.id}]])" shiro:hasPermission="vip:update">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" th:onclick="deletevip([[${vip.id}]])">
+                <a title="删除" th:onclick="deletevip([[${vip.id}]])" shiro:hasPermission="vip:delete">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>

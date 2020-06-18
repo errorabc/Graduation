@@ -34,7 +34,8 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="foodname" name="foodname"
-                       autocomplete="off" class="layui-input"  th:value="${petfood.foodname}">
+                       autocomplete="off" class="layui-input" th:value="${petfood.foodname}" placeholder="2-20个字符"
+                       lay-verify="required|foodname">
             </div>
         </div>
 
@@ -45,7 +46,7 @@
             <div>
                 <div class="layui-input-inline" style="width: 50%">
                     <input type="text" id="foodtype" name="foodtype"
-                           autocomplete="off" class="layui-input" th:value="${petfood.foodtype}">
+                           autocomplete="off" class="layui-input" th:value="${petfood.foodtype}" lay-verify="required|foodtype" placeholder="2-20个字符">
                 </div>
             </div>
         </div>
@@ -69,7 +70,7 @@
         </div>
 
         <div class="layui-form-item" style="margin-left: 30%">
-            <button class="layui-btn" lay-filter="update" lay-submit="" .>修改</button>
+            <button class="layui-btn" lay-filter="update" lay-submit="">修改</button>
         </div>
     </form>
 </div>
@@ -80,7 +81,22 @@
             layer = layui.layer;
         //自定义验证规则
         form.verify({
-            foodprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数']
+            foodprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数'],
+            foodname: function (value) {
+                if (value.length < 2) {
+                    return '食品名称至少得2个字符';
+                }
+                if (value.length > 20) {
+                    return '食品名称不得超过20个字符';
+                }
+            }, foodtype: function (value) {
+                if (value.length < 2) {
+                    return '食品类型至少得2个字符';
+                }
+                if (value.length > 20) {
+                    return '食品类型不得超过20个字符';
+                }
+            }
         });
 
 

@@ -34,7 +34,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="petjewelryname" name="petjewelryname"
-                       autocomplete="off" class="layui-input" th:value="${petjewelry.petjewelryname}">
+                       autocomplete="off" class="layui-input" th:value="${petjewelry.petjewelryname}" placeholder="2-20个字符">
             </div>
         </div>
 
@@ -45,7 +45,7 @@
             <div>
                 <div class="layui-input-inline" style="width: 50%">
                     <input type="text" id="petjewelrytype" name="petjewelrytype"
-                           autocomplete="off" class="layui-input" th:value="${petjewelry.petjewelrytype}">
+                           autocomplete="off" class="layui-input" th:value="${petjewelry.petjewelrytype}" placeholder="2-20个字符">
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="layui-form-item" style="margin-left: 30%">
-            <button class="layui-btn" lay-filter="update" lay-submit="" .>修改</button>
+            <button class="layui-btn" lay-filter="update" lay-submit="">修改</button>
         </div>
     </form>
 </div>
@@ -81,7 +81,23 @@
             layer = layui.layer;
         //自定义验证规则
         form.verify({
-            petjewelryprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数']
+            petjewelryprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数'],
+            petjewelryname: function (value) {
+                if (value.length < 2) {
+                    return '饰品名称至少得2个字符';
+                }
+                if (value.length > 20) {
+                    return '饰品名称不得超过20个字符';
+                }
+            },
+            petjewelrytype:function (value) {
+                if (value.length < 2) {
+                    return '饰品类型至少得2个字符';
+                }
+                if (value.length > 20) {
+                    return '饰品类型不得超过20个字符';
+                }
+            }
         });
 
 

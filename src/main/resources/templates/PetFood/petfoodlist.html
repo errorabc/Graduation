@@ -35,7 +35,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="AddPetFood()"><i
+        <button class="layui-btn" onclick="AddPetFood()" shiro:hasPermission="petfood:add"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -59,15 +59,15 @@
             <td th:text="${petfood.foodnumber}"></td>
             <td th:text="${petfood.foodprice}"></td>
             <td>
-                <button type="button" class="layui-btn" th:onclick="IncreaseStock([[${petfood.id}]])">加库存</button>
-                <button type="button" class="layui-btn" th:onclick="ReduceStock([[${petfood.id}]])">减库存</button>
-                <button type="button" class="layui-btn" th:onclick="Scrap([[${petfood.id}]])">报废库存</button>
+                <button type="button" class="layui-btn" th:onclick="IncreaseStock([[${petfood.id}]])" shiro:hasPermission="petfood:increasestock" >加库存</button>
+                <button type="button" class="layui-btn" th:onclick="ReduceStock([[${petfood.id}]])" shiro:hasPermission="petfood:reducestock">减库存</button>
+                <button type="button" class="layui-btn" th:onclick="Scrap([[${petfood.id}]])" shiro:hasPermission="petfood:scrap">报废库存</button>
             </td>
             <td class="td-manage">
-                <a title="修改" th:onclick="updatepetfood([[${petfood.id}]])">
+                <a title="修改" th:onclick="updatepetfood([[${petfood.id}]])" shiro:hasPermission="petfood:update">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" th:onclick="deletepetfood([[${petfood.id}]])">
+                <a title="删除" th:onclick="deletepetfood([[${petfood.id}]])" shiro:hasPermission="petfood:delete">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>

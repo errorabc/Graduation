@@ -78,7 +78,7 @@
             </label>
             <div class="layui-input-inline" style="width:50%">
                 <input type="text" id="AddNumber" name="AddNumber" lay-verify="required|AddNumber"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" placeholder="只能为正整数">
             </div>
         </div>
 
@@ -95,7 +95,7 @@
             layer = layui.layer;
         //自定义验证规则
         form.verify({
-            AddNumber: [/^[0-9]+$/, '数量必须为正整数'],
+            AddNumber: [/^[1-9]+$/, '数量必须为正整数'],
         });
 
 

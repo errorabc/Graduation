@@ -79,8 +79,8 @@
                 anys: false,
                 type: 'post',
                 data: {
-                    id: data.field.id,
-                    name: data.field.name,
+                    id: data.field.id.replace(/\s*/g, ""),
+                    name: data.field.name.replace(/\s*/g, ""),
                     content: editor.txt.html()
                 }, success: function (result) {
                     if (result.code == '1') {

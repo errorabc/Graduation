@@ -76,10 +76,8 @@
     var viplist = [[${viplist}]];
     var member = [[${member}]];
     var vipid = member.vip.id;
-    console.log(member);
-    console.log(vipid);
     $.each(viplist, function (index, item) {
-        $('#vipgrade').append(" <input type='radio' name='vip'   lay-verify='otherReq'    id=" + item['id'] + " value=" + item['id'] + " title=" + item['name'] + ">")
+        $('#vipgrade').append(" <input type='radio' name='vip'   lay-verify='required|otherReq'    id=" + item['id'] + " value=" + item['id'] + " title=" + item['name'] + ">")
     })
     $("input[name='vip'][value=" + vipid + "]").attr("checked", true);
 </script>
@@ -91,6 +89,12 @@
         //自定义验证规则
         form.verify({
             membername: [/.*[0-9]{4,}.*/, '会员名格式:姓名+手机号后四位'],
+            otherReq: function (value, item) {
+                var val = $("input:radio[name='vip']:checked").val();
+                if (val == '' || val == undefined) {
+                    return "请选择vip";
+                }
+            }
         });
 
         //监听提交

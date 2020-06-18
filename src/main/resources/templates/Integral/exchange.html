@@ -73,7 +73,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="exchangenumber" name="exchangenumber"
-                       autocomplete="off" class="layui-input" lay-verify="required|reducenumber">
+                       autocomplete="off" class="layui-input" lay-verify="required|reducenumber" placeholder="只能为正整数">
             </div>
         </div>
 
@@ -83,12 +83,12 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="exchangemember" name="exchangemember"
-                       autocomplete="off" class="layui-input" lay-verify="required|exchangemember">
+                       autocomplete="off" class="layui-input" lay-verify="required|exchangemember" placeholder="姓名+手机号后四位">
             </div>
         </div>
 
         <div class="layui-form-item" style="margin-left: 100px">
-            <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+            <button class="layui-btn" lay-filter="add" lay-submit="">兑换</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </form>
@@ -102,7 +102,7 @@
         //自定义验证规则
         form.verify({
             reducenumber: [/(^[1-9]\d*$)/, '数量只能为正整数'],
-            reducemember: [/.*[0-9]{1,}.*/, '会员名中要带有数字']
+            reducemember: [/.*[0-9]{4,}.*/, '兑换人格式:姓名+手机号后四位']
         });
 
         //监听提交

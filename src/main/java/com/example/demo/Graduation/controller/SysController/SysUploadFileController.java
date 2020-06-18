@@ -1,9 +1,11 @@
 package com.example.demo.Graduation.controller.SysController;
 
+import com.example.demo.Graduation.Annotation.LogAop;
 import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.entity.SysUploadEntity;
 import com.example.demo.Graduation.service.SysNoticeService.SysUploadService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -36,7 +38,9 @@ public class SysUploadFileController {
 
 
     //上传资源
+    @LogAop(value = "上传资源")
     @PostMapping(value = "/uploads")
+    @RequiresPermissions("resources:add")
     @ResponseBody
     public Result uploads(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) throws Exception {
         if (file.isEmpty()) {
@@ -74,7 +78,9 @@ public class SysUploadFileController {
     }
 
     //删除资源
+    @LogAop(value = "删除资源")
     @PostMapping(value = "/DeleteUploads")
+    @RequiresPermissions("resources:delete")
     @ResponseBody
     public Result DeleteUploads(@RequestParam("id") String id) {
         Result QNresult = sysUploadService.DeleteQiNiuResource(id);//删除七牛云数据
@@ -90,7 +96,8 @@ public class SysUploadFileController {
         }
     }
 
-    //修改资源
+    //跳转到修改资源界面
+
     @GetMapping(value = "/GetUpdateUploads")
     public String UpdateUploads(@RequestParam("id") String id, Model model) {
         SysUploadEntity sysUploadEntity = sysUploadService.IdFindUploadInfo(id);
@@ -99,7 +106,9 @@ public class SysUploadFileController {
     }
 
 
-    //上传资源
+    //修改资源、
+    @LogAop(value = "修改资源")
+    @RequiresPermissions("resources:update")
     @PostMapping(value = "/UpdateUploads")
     @ResponseBody
     public Result UpdateUploads(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,@RequestParam("id") String id) throws Exception {

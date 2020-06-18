@@ -118,7 +118,7 @@
     BootstrapTreeTable.prototype.initToolbar = function () {
         var self = this;
         var $toolbar = $("<div class='treetable-bars'></div>");
-        var $addbutton = $("<button type='button' class='btn btn-info' onclick='AddContents()'>添加目录</button>")
+        var $addbutton = $("<button type='button' class='btn btn-info' onclick='AddContents()' shiro:hasPermission='menu:add'>添加目录</button>")
         if (self.options.toolbar) {
             $(self.options.toolbar).addClass('tool-left');
             $toolbar.append($(self.options.toolbar));

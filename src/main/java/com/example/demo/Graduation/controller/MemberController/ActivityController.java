@@ -6,11 +6,13 @@ import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.service.MemberService.ActivityService;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+//活动管理
 @Controller
 @RequestMapping(value = "/activity")
 public class ActivityController {
@@ -33,6 +35,8 @@ public class ActivityController {
     }
 
     //停止活动
+    @LogAop(value = "停止活动")
+    @RequiresPermissions("activity:stop")
     @PostMapping(value = "/StopActivity")
     @ResponseBody
     public Result StopActivity(@RequestParam("id") String id) {
@@ -42,6 +46,7 @@ public class ActivityController {
 
     //添加活动
     @LogAop("添加活动")
+    @RequiresPermissions("activity:add")
     @PostMapping(value = "/AddActivity")
     @ResponseBody
     public Result AddActivity(Activity activity) throws Exception {
@@ -50,6 +55,8 @@ public class ActivityController {
     }
 
     //删除活动
+    @LogAop("删除活动")
+    @RequiresPermissions("activity:delete")
     @PostMapping(value = "/DeleteActivity")
     @ResponseBody
     public Result DeleteActivity(@RequestParam("id") String id) {
@@ -74,9 +81,11 @@ public class ActivityController {
     }
 
     //修改活动
+    @LogAop("修改活动")
+    @RequiresPermissions("activity:update")
     @PostMapping(value = "/UpdateActivity")
     @ResponseBody
-    public Result UpdateActivity(Activity activity) throws  Exception{
+    public Result UpdateActivity(Activity activity) throws Exception {
         Result result = activityService.UpdateActivity(activity);
         return result;
     }

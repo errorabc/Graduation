@@ -7,6 +7,7 @@ import com.example.demo.Graduation.service.MemberService.MemberSerice;
 import com.example.demo.Graduation.service.OderService.OderService;
 import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,6 +51,8 @@ public class OderController {
 
 
     //处理订单
+    @LogAop("处理订单")
+    @RequiresPermissions("oderinfo:handleoder")
     @PostMapping(value = "/HandleOder")
     @ResponseBody
     public Result HandleOder(OderEntity oderEntity) {
@@ -68,13 +71,17 @@ public class OderController {
     public String GetDetailsOder(@RequestParam("id") String id, Model model) {
         OderEntity oderEntity = oderService.IdFindOderInfo(id);
         VipinfoEntity vipinfoEntity = memberSerice.NameFindMemberInfo(oderEntity.getMember_name().trim());
+        Activity activity=activityService.NameFindActivityInfo(oderEntity.getActivityname());
         model.addAttribute("oder", oderEntity);
         model.addAttribute("vip", vipinfoEntity);
+        model.addAttribute("activity", activity);
         return "Oder/detailsoder";
     }
 
 
     //删除订单
+    @LogAop("删除订单")
+    @RequiresPermissions("oderinfo:delete")
     @PostMapping(value = "/DeleteOder")
     @ResponseBody
     public Result DeleteOder(@RequestParam("oder_no") String oder_no) {
@@ -93,7 +100,9 @@ public class OderController {
         return "Oder/refund";
     }
 
+    //退款申请
     @LogAop("退款申请")
+    @RequiresPermissions("oderinfo:refund")
     @PostMapping(value = "/ReFund")
     @ResponseBody
     public Result ReFund(OderEntity oderEntity) {

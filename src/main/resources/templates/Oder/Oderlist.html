@@ -94,11 +94,10 @@
                         th:onclick="HandleOder([[${oder.oder_no}]],[[${oder.status}]])">支付成功
                 </button>
                 <button type="button" class="layui-btn layui-btn-danger" th:if="${oder.status} eq 1  "
-                        th:onclick="ReFund([[${oder.oder_no}]],[[${oder.status}]])">申请退款
+                        th:onclick="ReFund([[${oder.oder_no}]],[[${oder.status}]])" shiro:hasPermission="oderinfo:refund">申请退款
                 </button>
                 <button type="button" class="layui-btn layui-btn-normal" th:if="${oder.status} eq 3  ">退款成功
                 </button>
-
             </td>
             <td th:text="${oder.final_payment}"></td>
             <td th:text="${oder.refundmoney}"></td>
@@ -106,7 +105,7 @@
                 <a title="查看" th:onclick="DetailsOder([[${oder.oder_no}]])">
                     <i class="layui-icon">&#xe63c;</i>
                 </a>
-                <a title="删除" th:onclick="DeleteOder([[${oder.oder_no}]])">
+                <a title="删除" th:onclick="DeleteOder([[${oder.oder_no}]])" shiro:hasPermission="oderinfo:delete">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>

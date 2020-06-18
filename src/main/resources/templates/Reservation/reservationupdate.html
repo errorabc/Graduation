@@ -67,8 +67,9 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input class="layui-input" placeholder="预约时间" name="reservation_time" id="reservation_time"
-                       autocomplete="off" lay-verify="required" th:value="${#dates.format(reservation.reservation_time,'yyyy-MM-dd')}"
-                >
+                       autocomplete="off" lay-verify="required" th:value="${#dates.format(reservation.reservation_time,'yyyy-MM-dd')}">
+                <input type="text" class="layui-input" id="starttime_time" name="starttime_time" placeholder="HH:mm:ss"
+                       lay-verify="required" autocomplete="off" th:value="${#dates.format(reservation.reservation_time,'HH:mm:ss')}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -101,6 +102,10 @@
         laydate.render({
             elem: '#reservation_time'
         });
+        laydate.render({
+            elem: '#starttime_time'
+            , type: 'time'
+        });
 
         form.verify({
             reservation_name: function (value) {
@@ -127,7 +132,7 @@
                 data: {
                     id: data.field.reservation_id.replace(/\s*/g, ""),
                     reservation_name: data.field.reservation_name.replace(/\s*/g, ""),
-                    time: data.field.reservation_time.replace(/\s*/g, ""),
+                    time: data.field.reservation_time.replace(/\s*/g, "")+" "+data.field.starttime_time.replace(/\s*/g, ""),
                     reservation_type: data.field.reservation_type.replace(/\s*/g, ""),
                     reservation_content: data.field.reservation_content.replace(/\s*/g, ""),
                     phone: data.field.phone.replace(/\s*/g, "")

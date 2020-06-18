@@ -22,7 +22,7 @@
                 <span class="x-red">*</span>食品名称
             </label>
             <div class="layui-input-inline" style="width: 50%">
-                <input type="text" id="foodname" name="foodname" lay-verify="required"
+                <input type="text" id="foodname" name="foodname" lay-verify="required|foodname" placeholder="2-20个字符"
                        autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
@@ -36,7 +36,7 @@
             </label>
             <div>
                 <div class="layui-input-inline" style="width: 50%">
-                    <input type="text" id="foodtype" name="foodtype" lay-verify="required"
+                    <input type="text" id="foodtype" name="foodtype" lay-verify="required|foodtype" placeholder="2-20个字符"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 <span class="x-red">*</span>食品数量
             </label>
             <div class="layui-input-inline" style="width:50%">
-                <input type="text" id="foodnumber" name="foodnumber" lay-verify="required|foodnumber"
+                <input type="text" id="foodnumber" name="foodnumber" lay-verify="required|foodnumber" placeholder="只能为正整数"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -74,8 +74,24 @@
             layer = layui.layer;
         //自定义验证规则
         form.verify({
-            foodnumber: [/^[0-9]+$/, '数量必须为正整数'],
-            foodprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数']
+            foodnumber: [/^[1-9]+$/, '数量必须为正整数'],
+            foodprice: [/^([0-9]+|0)(\.(([0-9][0-9])|[0-9]{1,2})){0,1}$/, '单价必须为正整数或者2位小数'],
+            foodname: function (value) {
+                if (value.length < 2) {
+                    return '食品名称至少得2个字符';
+                }
+                if (value.length > 20) {
+                    return '食品名称不得超过20个字符';
+                }
+            },
+            foodtype:function (value) {
+                if (value.length < 2) {
+                    return '食品类型至少得2个字符';
+                }
+                if (value.length > 20) {
+                    return '食品类型不得超过20个字符';
+                }
+            }
         });
 
 

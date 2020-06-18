@@ -32,7 +32,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" onclick="AddRole()"><i
+        <button class="layui-btn" onclick="AddRole()" shiro:hasPermission="sys:role:add"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -54,10 +54,10 @@
             <td th:text="${#dates.format(role.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${#dates.format(role.updatetime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td class="td-manage">
-                <a title="编辑" href="javascript:;" th:onclick="updaterole([[${role.id}]])">
+                <a title="编辑" href="javascript:;" th:onclick="updaterole([[${role.id}]])" shiro:hasPermission="sys:role:update">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" href="javascript:;" th:onclick="deleterole([[${role.id}]])">
+                <a title="删除" href="javascript:;" th:onclick="deleterole([[${role.id}]])" shiro:hasPermission="sys:role:delete">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>

@@ -71,7 +71,7 @@ public class ReservationService {
 
     //修改
     public Result UpdateReservation(Reservation reservation) throws Exception {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         Reservation re = reservationDao.IdFindReservation(reservation.getId());
         reservation.setReservation_time(df.parse(reservation.getTime()));
         if (null != re) {

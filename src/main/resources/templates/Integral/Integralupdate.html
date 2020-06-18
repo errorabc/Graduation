@@ -32,7 +32,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="name" name="name" lay-verify="required|name"
-                       autocomplete="off" class="layui-input" th:value="${integral.name}">
+                       autocomplete="off" class="layui-input" th:value="${integral.name}" placeholder="2-20到字符">
             </div>
         </div>
         <div class="layui-form-item">
@@ -52,7 +52,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input type="text" id="needredeem" name="needredeem" lay-verify="required|needredeem"
-                       autocomplete="off" class="layui-input" th:value="${integral.needredeem}">
+                       autocomplete="off" class="layui-input" th:value="${integral.needredeem}" placeholder="只能为正整数">
             </div>
         </div>
         <div class="layui-form-item">

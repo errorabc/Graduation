@@ -33,7 +33,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" th:onclick="AddReservation()"><i
+        <button class="layui-btn" th:onclick="AddReservation()" shiro:hasPermission="reservation:add"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -68,10 +68,10 @@
                 <a title="详情" th:onclick="detailsreservation([[${reservation.id}]])">
                     <i class="layui-icon"> &#xe63c;</i>
                 </a>
-                <a title="修改" th:onclick="updatereservation([[${reservation.id}]],[[${reservation.status}]])">
+                <a title="修改" th:onclick="updatereservation([[${reservation.id}]],[[${reservation.status}]])"   shiro:hasPermission="reservation:update">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" th:onclick="deletereservation([[${reservation.id}]])">
+                <a title="删除" th:onclick="deletereservation([[${reservation.id}]])"   shiro:hasPermission="reservation:delete">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>
@@ -152,7 +152,7 @@
     function updatereservation(id, status) {
         layer.open({
             type: 2 //Page层类型
-            , area: ['800px', '650px']
+            , area: ['800px', '700px']
             , title: '修改预约'
             , shade: 0.6 //遮罩透明度
             , maxmin: true //允许全屏最小化

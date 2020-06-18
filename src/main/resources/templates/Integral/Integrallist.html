@@ -39,7 +39,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" th:onclick="addintegral()"><i
+        <button class="layui-btn" th:onclick="addintegral()" shiro:hasPermission="integralexchange:add"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -63,19 +63,24 @@
             <td th:text="${integral.needredeem}"></td>
             <td th:text="${integral.number}"></td>
             <td>
-                <button type="button" class="layui-btn layui-btn-normal" th:onclick="addnumber([[${integral.id}]])">补仓
+                <button type="button" class="layui-btn layui-btn-normal" th:onclick="addnumber([[${integral.id}]])"
+                        shiro:hasPermission="integralexchange:addnumber">补仓
                 </button>
-                <button type="button" class="layui-btn layui-btn-normal" th:onclick="reducenumber([[${integral.id}]])">
+                <button type="button" class="layui-btn layui-btn-normal" th:onclick="reducenumber([[${integral.id}]])"
+                        shiro:hasPermission="integralexchange:reducenumber">
                     减仓
                 </button>
-                <button type="button" class="layui-btn layui-btn-normal" th:onclick="exchange([[${integral.id}]])">兑换
+                <button type="button" class="layui-btn layui-btn-normal" th:onclick="exchange([[${integral.id}]])"
+                        shiro:hasPermission="integralexchange:exchange">兑换
                 </button>
             </td>
             <td class="td-manage">
-                <a title="修改" th:onclick="updateintegral([[${integral.id}]])">
+                <a title="修改" th:onclick="updateintegral([[${integral.id}]])"
+                   shiro:hasPermission="integralexchange:update">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" th:onclick="deleteintegral([[${integral.id}]])">
+                <a title="删除" th:onclick="deleteintegral([[${integral.id}]])"
+                   shiro:hasPermission="integralexchange:delete">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>
@@ -95,7 +100,6 @@
     var integral = [[${integral}]];
     var name = $('#name').val().toString().trim();
     var type = [[${type}]];
-    console.log(type);
     $('#selectoder_type').find('option[value=' + type + ']').prop('selected', true);
     //翻页
     $("#page").paging({

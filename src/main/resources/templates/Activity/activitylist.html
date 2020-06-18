@@ -32,7 +32,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn" th:onclick="AddActivity()"><i
+        <button class="layui-btn" th:onclick="AddActivity()" shiro:hasPermission="activity:add"><i
                 class="layui-icon"></i>添加
         </button>
     </xblock>
@@ -67,13 +67,13 @@
                 </button>
             </td>
             <td>
-                <a title="详情" th:onclick="detailactivity([[${activity.id}]])">
+                <a title="详情" th:onclick="detailactivity([[${activity.id}]])" >
                     <i class="layui-icon"> &#xe63c;</i>
                 </a>
-                <a title="修改" th:onclick="updateactivity([[${activity.id}]],[[${activity.activity_status}]])">
+                <a title="修改" th:onclick="updateactivity([[${activity.id}]],[[${activity.activity_status}]])" shiro:hasPermission="activity:update">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" th:onclick="deleteactivity([[${activity.id}]])">
+                <a title="删除" th:onclick="deleteactivity([[${activity.id}]])" shiro:hasPermission="activity:delete">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>

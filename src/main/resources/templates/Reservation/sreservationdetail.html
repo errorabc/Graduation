@@ -62,7 +62,7 @@
             </label>
             <div class="layui-input-inline" style="width: 50%">
                 <input class="layui-input" placeholder="预约时间" name="reservation_time" id="reservation_time"
-                       autocomplete="off" th:value="${#dates.format(reservation.reservation_time,'yyyy-MM-dd')}" readonly
+                       autocomplete="off" th:value="${#dates.format(reservation.reservation_time,'yyyy-MM-dd HH:mm:ss')}" readonly
                 >
             </div>
         </div>
