@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.Graduation.Dao.SysNoticeDao.SysUploadDao">
+    <!--修改数据-->
+    <update id="UpdateUploadReource">
+        UPDATE sys_upload SET name=#{name},url=#{url} WHERE id=#{id}
+    </update>
     <!--删除-->
     <delete id="DeleteUploadReource">
         DELETE FROM sys_upload WHERE id=#{id}

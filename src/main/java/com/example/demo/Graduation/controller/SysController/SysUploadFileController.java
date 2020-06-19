@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
-
+//上传资源管理
 @Controller
 @RequestMapping("/uploadfile")
 public class SysUploadFileController {
@@ -83,17 +83,8 @@ public class SysUploadFileController {
     @RequiresPermissions("resources:delete")
     @ResponseBody
     public Result DeleteUploads(@RequestParam("id") String id) {
-        Result QNresult = sysUploadService.DeleteQiNiuResource(id);//删除七牛云数据
-        if (QNresult.getCode() == 1) {
-            Result Daresult = sysUploadService.DeleteResource(id);
-            if (Daresult.getCode() == 1) {
-                return Result.success(1, "删除成功");
-            } else {
-                return Result.error(0, "删除失败");
-            }
-        } else {
-            return Result.error(0, "删除失败");
-        }
+        Result result = sysUploadService.DeleteResource(id);
+        return result;
     }
 
     //跳转到修改资源界面
@@ -101,7 +92,7 @@ public class SysUploadFileController {
     @GetMapping(value = "/GetUpdateUploads")
     public String UpdateUploads(@RequestParam("id") String id, Model model) {
         SysUploadEntity sysUploadEntity = sysUploadService.IdFindUploadInfo(id);
-        model.addAttribute("sysUpload",sysUploadEntity);
+        model.addAttribute("sysUpload", sysUploadEntity);
         return "SysUpload/updateupload";
     }
 
@@ -111,10 +102,7 @@ public class SysUploadFileController {
     @RequiresPermissions("resources:update")
     @PostMapping(value = "/UpdateUploads")
     @ResponseBody
-    public Result UpdateUploads(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,@RequestParam("id") String id) throws Exception {
-        if (file.isEmpty()) {
-            return Result.error(0, "文件为空");
-        }
+    public Result UpdateUploads(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("id") String id) throws Exception {
         String fileName = file.getOriginalFilename();  // 文件名
         String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
         fileName = UUID.randomUUID().toString() + suffixName;
@@ -122,20 +110,15 @@ public class SysUploadFileController {
         File dest = new File(filePath + fileName);
         try {
             file.transferTo(dest);
-            Result result = sysUploadService.AddQiNiuResource(filePath + fileName, fileName);
+            Result result = sysUploadService.UpdateResource(id, filePath + fileName, fileName, name);
             if (result.getCode() == 1) {
-                Result resultUpload = sysUploadService.AddUploadReource(name, fileurl + fileName);
-                if (resultUpload.getCode() == 1) {
-                    return Result.success(1, "上传成功");
-                } else {
-                    return Result.error(0, "上传失败");
-                }
+                return Result.success(1, "修改成功");
             } else {
-                return Result.error(0, "上传失败");
+                return Result.error(0, "修改失败");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return Result.error(0, "上传失败");
+            return Result.error(0, "修改失败");
         }
     }
 

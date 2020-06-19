@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
+//角色管理
 @Controller
 @RequestMapping(value = "/roleinfo")
 public class RoleController {

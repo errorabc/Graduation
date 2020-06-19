@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//报表管理
 @Controller
 @RequestMapping(value = "/salesrecord")
 public class SaleSrecordController {
@@ -35,8 +36,6 @@ public class SaleSrecordController {
         System.out.println(jsonArray);
         return jsonArray;
     }
-
-
 
 
 }

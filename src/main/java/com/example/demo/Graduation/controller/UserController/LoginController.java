@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+//登陆、注销
 @Controller
 public class LoginController {
     @Autowired

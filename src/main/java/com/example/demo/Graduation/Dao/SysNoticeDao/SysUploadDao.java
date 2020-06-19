@@ -18,4 +18,7 @@ public interface SysUploadDao {
 
 
     boolean DeleteUploadReource(@Param("id") String id);
+
+
+    boolean UpdateUploadReource(@Param("id") String id,@Param("name") String name,@Param("url") String url);
 }

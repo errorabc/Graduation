@@ -22,7 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+//用户管理
 @Controller
 @RequestMapping("/userinfo")
 public class UserController {

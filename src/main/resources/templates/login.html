@@ -35,10 +35,10 @@
             return false;
         } else {
             if (username.length >= 6 && username.length <= 12 && password.length >= 6 && password.length <= 12) {
+                return true;
+            } else {
                 layer.msg('账号和密码必须为6-12为数字和字母', {icon: 2});
                 return false;
-            } else {
-                return true;
             }
         }
     }

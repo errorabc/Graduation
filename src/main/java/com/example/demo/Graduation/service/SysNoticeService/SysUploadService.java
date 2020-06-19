@@ -2,6 +2,7 @@ package com.example.demo.Graduation.service.SysNoticeService;
 
 import com.example.demo.Graduation.Dao.SysNoticeDao.SysUploadDao;
 import com.example.demo.Graduation.Tool.DateTime;
+import com.example.demo.Graduation.Tool.QnUpload;
 import com.example.demo.Graduation.entity.Result;
 import com.example.demo.Graduation.entity.SysNoticeEntity;
 import com.example.demo.Graduation.entity.SysUploadEntity;
@@ -39,6 +40,13 @@ public class SysUploadService {
     private String bucket;
     @Autowired
     private SysUploadDao sysUploadDao;
+    @Autowired
+    private QnUpload qnUpload;
+    @Value("${upload.path}")
+    private String uploadPath;
+    @Value("${fileurl}")
+    private String fileurl;
+
 
     //上传资源到七牛云服务器
     public Result AddQiNiuResource(String localFilePath, String filename) throws Exception {
@@ -94,39 +102,59 @@ public class SysUploadService {
     }
 
 
-    //删除七牛云的资源
-    public Result DeleteQiNiuResource(String id) {
-        SysUploadEntity sysUploadEntity = sysUploadDao.IdFindUploadInfo(id);
-        Configuration cfg = new Configuration(Region.region0());
-        Auth auth = Auth.create(AccessKey, SecretKey);
-        BucketManager bucketManager = new BucketManager(auth, cfg);
-        String key=sysUploadEntity.getUrl().substring(sysUploadEntity.getUrl().lastIndexOf('/'));
-        System.out.println(key);
-        try {
-            bucketManager.delete(bucket,key.replace("/",""));
-            return Result.success(1, "删除成功");
-        } catch (QiniuException ex) {
-            return Result.error(0, "删除失败");
-        }
-
-    }
-
-
     //删除
     public Result DeleteResource(String id) {
-        if (sysUploadDao.DeleteUploadReource(id)) {
-            return Result.success(1, "删除成功");
+        SysUploadEntity sysUploadEntity = sysUploadDao.IdFindUploadInfo(id);
+        Result result = qnUpload.DeleteQiNiuResource(id); //删除七牛云图片
+        if (result.getCode() == 1) {
+            if (sysUploadDao.DeleteUploadReource(id)) {//删除数据库数据
+                String key = sysUploadEntity.getUrl().substring(sysUploadEntity.getUrl().lastIndexOf('/'));
+                File file = new File(uploadPath + key);
+                if (file.exists()) {
+                    file.delete();  //删除本地资源
+                }
+                return Result.success(1, "删除成功");
+            } else {
+                return Result.error(0, "删除失败");
+            }
         } else {
-            return Result.error(0, "删除失败");
+            return Result.error(0, "七牛云删除失败");
         }
     }
+
+
 
 
     //Id查询信息
-    public SysUploadEntity IdFindUploadInfo(String id){
+    public SysUploadEntity IdFindUploadInfo(String id) {
         SysUploadEntity sysUploadEntity = sysUploadDao.IdFindUploadInfo(id);
         return sysUploadEntity;
     }
 
+
+    //修改七牛云资源,先删除本地图片，在删除七牛云图片，重新七牛云图片，在修改数据库信息
+    public Result UpdateResource(String id, String localFilePath, String filename, String name) throws Exception {
+        SysUploadEntity sysUploadEntity = sysUploadDao.IdFindUploadInfo(id);//查询要修改的信息
+        String key = sysUploadEntity.getUrl().substring(sysUploadEntity.getUrl().lastIndexOf('/'));
+        File file = new File(uploadPath + key);
+        if (file.exists()) {
+            file.delete();  //删除本地资源
+        }
+        Result result = qnUpload.DeleteQiNiuResource(id);//删除七牛云图片
+        if (result.getCode() == 1) {
+            Result addresult = qnUpload.AddQiNiuResource(localFilePath, filename);//添加数据到七牛云
+            if (addresult.getCode() == 1) {
+                if (sysUploadDao.UpdateUploadReource(id, name, fileurl + filename)) {
+                    return Result.success(1, "修改成功");
+                } else {
+                    return Result.error(0, "修改失败");
+                }
+            } else {
+                return Result.error(0, "添加到七牛云失败");
+            }
+        } else {
+            return Result.error(0, "七牛云数据删除失败");
+        }
+    }
 
 }
