@@ -18,8 +18,8 @@
     <div id="login_form" class="form">
         <form class="login-form" action="/loginin" method="post" onsubmit="return LoginFrom()">
             <h2>萌萌宠物店管理登录</h2>
-            <input type="text" placeholder="用户名" id="username" name="username" th:value="wuwen123456"/>
-            <input type="password" placeholder="密码" id="password" name="password" th:value="123456"/>
+            <input type="text" placeholder="账号必须为6-12为数字和字母" id="username" name="username" >
+            <input type="password" placeholder="密码必须为6-12为数字和字母" id="password" name="password">
             <input type="submit" value="登录" style="background-color: green;"/>
             <span th:text="${msg}" style="color: red;font-size: 18px"></span>
         </form>
@@ -28,15 +28,21 @@
 <script th:src="@{/css/jquery.min.js}"></script>
 <script type="text/javascript">
     function LoginFrom() {
-        var username = $("#username").val().toString().trim();
-        var password = $("#password").val().toString().trim();
+        var username = $("#username").val().toString().replace(/\s*/g, "");
+        var password = $("#password").val().toString().trim().replace(/\s*/g, "");
         if (username == "" || password == "") {
             layer.msg('账号密码不能为空', {icon: 2});
             return false;
         } else {
-            return true;
+            if (username.length >= 6 && username.length <= 12 && password.length >= 6 && password.length <= 12) {
+                layer.msg('账号和密码必须为6-12为数字和字母', {icon: 2});
+                return false;
+            } else {
+                return true;
+            }
         }
     }
+
 
 </script>
 </body>

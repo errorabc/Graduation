@@ -132,11 +132,8 @@ public class RoleService {
                 return Result.error(0, "有用户为当前角色，请先更改用户的角色信息");
             } else {
                 if (roleDao.DeleteRoleinfo(id)) { //删除角色信息
-                    if (roleDao.DeleteRoleResources(id)) {//删除角色菜单关联
-                        return Result.error(1, "删除成功");
-                    } else {
-                        return Result.error(0, "角色菜单关联删除失败");
-                    }
+                    roleDao.DeleteRoleResources(id);
+                    return Result.success(1, "删除成功");
                 } else {
                     return Result.error(0, "删除失败");
                 }
